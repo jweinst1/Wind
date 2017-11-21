@@ -20,13 +20,16 @@
 
 enum WindType
 {
-        WindType_In,
-        WindType_Out,
         WindType_Number,
-        WindType_Add
 };
 
 typedef enum WindType WindType;
+
+union WindValue
+{
+        int _int;
+        double _dbl;
+};
 
 struct WindObject
 {
