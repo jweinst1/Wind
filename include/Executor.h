@@ -6,6 +6,10 @@
 
 #define Executor_INS_SIZE 3000
 
+#define Executor_INS_SPACE(exec) (exec->insEnd - exec->insMark)
+
+#define Executor_OBJ_TYPE(exec) exec->object->type
+
 
 enum ExecutorState
 {
@@ -24,7 +28,7 @@ struct Executor
         char err[256];
         unsigned char* insMark;
         unsigned char* insEnd;
-        WindObject* current;
+        WindObject object;
         ExecutorState state;
 };
 

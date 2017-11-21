@@ -3,7 +3,8 @@
 
 enum WindInstruc
 {
-
+        WindInstruc_In,
+        WindInstruc_Out
 };
 
 typedef enum WindInstruc WindInstruc;
