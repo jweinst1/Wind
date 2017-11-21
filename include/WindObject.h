@@ -20,7 +20,8 @@
 
 enum WindType
 {
-        WindType_Int,
+        WindType_None, //None evaluates to zero
+        WindType_Int
 };
 
 typedef enum WindType WindType;
@@ -28,7 +29,6 @@ typedef enum WindType WindType;
 union WindValue
 {
         int _int;
-        double _dbl;
 };
 
 struct WindObject
