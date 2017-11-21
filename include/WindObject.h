@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 // base properties to ensure inheritance
-#define WindObject_BASE struct WindObject next*; \
+#define WindObject_BASE struct WindObject* next; \
         enum WindType type;
 
 // casts some typed wind object back to its base form.
