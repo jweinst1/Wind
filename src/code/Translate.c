@@ -58,7 +58,11 @@ void Translate_unit(WindExecutor* exec, char** srcCode)
                         *srcCode += 1;
                         break;
                 case '-':
-                        if( *(*srcCode + 1) == '>') state = TransState_Off;
+                        if( *(*srcCode + 1) == '>')
+                        {
+                                state = TransState_Off;
+                                return;
+                        }
                 case '0':
                 case '1':
                 case '2':
@@ -81,7 +85,30 @@ void Translate_unit(WindExecutor* exec, char** srcCode)
                                 exec->insMark++;
                                 break;
                         default:
-                                sprintf(exec->err, "Syntax Error: Unexpected token 'i%c'.\n", **srcCode);
+                                sprintf(exec->err, "Syntax Error: Unexpected token 'i%c'.\n", *(*srcCode + 1));
+                                exec->errMode = ExecutorError_active;
+                                return;
+                        }
+                        break;
+                case 'o':
+                        switch( *(*srcCode + 1) )
+                        {
+                        case 'u':
+                                switch( *(*srcCode + 2) )
+                                {
+                                case 't':
+                                        *srcCode += 3;
+                                        *(exec->insMark) = WindInstruc_Out;
+                                        exec->insMark++;
+                                        break;
+                                default:
+                                        sprintf(exec->err, "Syntax Error: Unexpected token 'ou%c'.\n", *(*srcCode + 2));
+                                        exec->errMode = ExecutorError_active;
+                                        return;
+                                }
+                                break;
+                        default:
+                                sprintf(exec->err, "Syntax Error: Unexpected token 'o%c'.\n", *(*srcCode + 1));
                                 exec->errMode = ExecutorError_active;
                                 return;
                         }
