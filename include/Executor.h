@@ -15,6 +15,10 @@
 
 #define WindExecutor_OBJ_TYPE(exec) exec->object->type
 
+#define WindExecutor_DEREF_INS(exec, type) *((type*)(exec->insMark))
+
+#define WindExecutor_INC_IEND(exec, amount) exec->insMark += amount
+
 #define WindExecutor_INIT(name) \
         WindExecutor name; \
         name.insMark = name.instructions; \

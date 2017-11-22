@@ -11,6 +11,9 @@ typedef enum {
         TransState_On
 } TransState;
 
+//processes and prints a translation-time error
+void Translate_err(WindExecutor* exec);
+
 //function that finds the transition arrow and moves the src code there
 void Translate_arrow(WindExecutor* exec, char** srcCode);
 
