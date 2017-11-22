@@ -11,7 +11,10 @@ typedef enum {
         TransState_On
 } TransState;
 
+//function that finds the transition arrow and moves the src code there
+void Translate_arrow(WindExecutor* exec, char** srcCode);
 
-void Translate_conv(WindExecutor* exec, char* srcCode);
+//function that translates src code from a unit into instructions
+void Translate_unit(WindExecutor* exec, char** srcCode);
 
 #endif
