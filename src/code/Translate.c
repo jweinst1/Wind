@@ -73,6 +73,8 @@ void Translate_unit(WindExecutor* exec, char** srcCode)
                 case '7':
                 case '8':
                 case '9':
+                        *(exec->insMark) = WindInstruc_Int;
+                        exec->insMark++;
                         WindExecutor_DEREF_INS(exec, long) = strtol(*srcCode, srcCode, 10);
                         exec->insMark += sizeof(long);
                         break;
