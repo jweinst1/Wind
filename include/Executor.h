@@ -5,11 +5,19 @@
 #include "WindObject.h"
 #include "Instruction.h"
 
-#define Executor_INS_SIZE 3000
+#define WindExecutor_INS_SIZE 3000
 
-#define Executor_INS_SPACE(exec) (exec->insEnd - exec->insMark)
+#define WindExecutor_INS_SPACE(exec) (exec->insEnd - exec->insMark)
 
-#define Executor_OBJ_TYPE(exec) exec->object->type
+#define WindExecutor_OBJ_TYPE(exec) exec->object->type
+
+#define WindExecutor_INIT(name) \
+        WindExecutor name; \
+        name.insMark = name.instructions; \
+        name.insEnd = name.insMark + WindExecutor_INS_SIZE; \
+        name.object.type = WindType_None; \
+        name.state = ExecutorState_Unit; \
+        name.lastIns = WindInstruc_Nil;
 
 
 enum ExecutorState
@@ -25,7 +33,7 @@ typedef enum ExecutorState ExecutorState;
 // keeps track of the state of Wind execution, objects, and states
 struct WindExecutor
 {
-        unsigned char instructions[Executor_INS_SIZE];
+        unsigned char instructions[WindExecutor_INS_SIZE];
         char err[256];
         unsigned char* insMark;
         unsigned char* insEnd;
@@ -34,7 +42,7 @@ struct WindExecutor
         WindInstruc lastIns;
 };
 
-typedef struct WindExecutor Executor;
+typedef struct WindExecutor WindExecutor;
 
 
 

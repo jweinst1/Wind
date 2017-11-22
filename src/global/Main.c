@@ -1,17 +1,15 @@
 #include <stdio.h>
-#include "WindObject.h"
+#include "Executor.h"
 
 
 
-void dynoArr(int n)
-{
-        WindObject items[n];
-        printf("The type is %d\n", items[0].type);
 
-}
+
 
 int main(int argc, char const *argv[]) {
-        puts("Hello World!");
-        dynoArr(7);
+        WindExecutor_INIT(foo);
+        printf("The foo state is %d", foo.state);
         return 0;
+
+
 }

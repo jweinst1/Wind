@@ -34,7 +34,7 @@ union WindValue
 struct WindObject
 {
         WindType type;
-        union WindValue;
+        union WindValue value;
 };
 
 typedef struct WindObject WindObject;
