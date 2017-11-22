@@ -27,16 +27,19 @@ void Translate_unit(WindExecutor* exec, char** srcCode)
                         switch( *(*srcCode + 1) )
                         {
                         case 'n':
+                                *srcCode += 2;
                                 break;
                         default:
-                                exec->state = ExecutorState_Err;
+                                sprintf(exec->err, "Syntax Error: Unexpected token 'i%c'.\n", **srcCode);
+                                exec->errMode = ExecutorError_active;
                                 return;
                         }
                         break;
                 case 'o':
                         break;
                 default:
-                        exec->state = ExecutorState_Err;
+                        sprintf(exec->err, "Syntax Error: Unexpected token '%c'.\n", **srcCode);
+                        exec->errMode = ExecutorError_active;
                         return;
                 }
         }
