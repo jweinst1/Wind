@@ -10,7 +10,7 @@ int main(int argc, char const *argv[]) {
         WindExecutor_INIT(foo);
         printf("The foo state is %d\n", foo.state);
         WindExecutor* wePtr = &foo;
-        char* code = "  \n out 66 ->";
+        char* code = "  \n in \"hello\" ->";
         Translate_unit(wePtr, &code);
         for (size_t i = 0; i < 10; i++) {
                 printf("%u\n", foo.instructions[i]);

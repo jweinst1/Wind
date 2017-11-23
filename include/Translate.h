@@ -17,6 +17,9 @@ void Translate_err(WindExecutor* exec);
 //function that finds the transition arrow and moves the src code there
 void Translate_arrow(WindExecutor* exec, char** srcCode);
 
+// Helper function that gets length of string.
+size_t Translate_str_len(WindExecutor* exec, char** srcCode);
+
 //function that translates src code from a unit into instructions
 void Translate_unit(WindExecutor* exec, char** srcCode);
 
