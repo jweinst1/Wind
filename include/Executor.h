@@ -19,6 +19,8 @@
 
 #define WindExecutor_INC_IEND(exec, amount) exec->insMark += amount
 
+#define WindExecutor_RESET_INS(wExec) wExec->insMark = wExec->instructions
+
 #define WindExecutor_INIT(name) \
         WindExecutor name; \
         name.insMark = name.instructions; \

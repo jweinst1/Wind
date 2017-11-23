@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "Translate.h"
+#include "Exec.h"
 
 
 
@@ -10,12 +11,10 @@ int main(int argc, char const *argv[]) {
         WindExecutor_INIT(foo);
         printf("The foo state is %d\n", foo.state);
         WindExecutor* wePtr = &foo;
-        char* code = "  \n in \"hello\" ->";
+        char* code = "  \n in 7 ->";
         Translate_unit(wePtr, &code);
-        Translate_arrow(wePtr, &code);
-        for (size_t i = 0; i < 10; i++) {
-                printf("%u\n", foo.instructions[i]);
-        }
+        Exec_exec(wePtr);
+        printf("val of int is %d\n", foo.object.value._int);
         return 0;
 
 }

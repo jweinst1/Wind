@@ -1,5 +1,22 @@
 #include "Exec.h"
 
+void Exec_in(WindExecutor* wExec, unsigned char** ins)
+{
+        switch (**ins)
+        {
+        case WindInstruc_Int:
+                *ins +=1;
+                wExec->object.type = WindType_Int;
+                wExec->object.value._int = *((long*)(*ins));
+                *ins += sizeof(long);
+                return;
+        default:
+                wExec->errMode = ExecutorError_active;
+                sprintf(wExec->err, "Argument Error: Invalid argument for 'in'.\n");
+                return;
+        }
+}
+
 
 //top level executing function
 int Exec_exec(WindExecutor* wExec)
@@ -10,6 +27,8 @@ int Exec_exec(WindExecutor* wExec)
                 switch(*bytePtr)
                 {
                 case WindInstruc_In:
+                        bytePtr++;
+                        Exec_in(wExec, &bytePtr);
                         break;
                 default:
                         return 0; //error

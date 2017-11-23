@@ -9,6 +9,10 @@
 //resets instruction buffer for next translation
 #define Exec_RESET_INS(wExec) wExec->insMark = wExec->instructions
 
+//executes an in instruction
+void Exec_in(WindExecutor* wExec, unsigned char** ins);
+
+//main level exec function
 int Exec_exec(WindExecutor* wExec);
 
 
