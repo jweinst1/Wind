@@ -6,7 +6,10 @@
 #include "Executor.h"
 #include "Instruction.h"
 
-void Exec_exec(WindExecutor* wExec);
+//resets instruction buffer for next translation
+#define Exec_RESET_INS(wExec) wExec->insMark = wExec->instructions
+
+int Exec_exec(WindExecutor* wExec);
 
 
 #endif
