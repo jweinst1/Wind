@@ -53,7 +53,6 @@ size_t Translate_str_len(WindExecutor* exec, char** srcCode)
                 switch(*srcPtr)
                 {
                 case '"':
-                        *srcCode += total + 1;
                         return total;
                 case '\0':
                         sprintf(exec->err, "String Error: Unexpected null found in string.\n");
@@ -114,6 +113,7 @@ void Translate_unit(WindExecutor* exec, char** srcCode)
                         strSizeBlock = Translate_str_len(exec, srcCode);
                         if(exec->errMode) return;
                         memcpy(exec->insMark, *srcCode, strSizeBlock);
+                        *srcCode += strSizeBlock + 1;
                         exec->insMark += strSizeBlock;
                         *(exec->insMark) = '\0';
                         exec->insMark++;
