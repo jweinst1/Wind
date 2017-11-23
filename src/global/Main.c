@@ -12,6 +12,7 @@ int main(int argc, char const *argv[]) {
         WindExecutor* wePtr = &foo;
         char* code = "  \n in \"hello\" ->";
         Translate_unit(wePtr, &code);
+        Translate_arrow(wePtr, &code);
         for (size_t i = 0; i < 10; i++) {
                 printf("%u\n", foo.instructions[i]);
         }

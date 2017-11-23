@@ -25,6 +25,10 @@ void Translate_arrow(WindExecutor* exec, char** srcCode)
                         {
                                 // arrow found, state transition
                                 *srcCode += 2;
+                                //writes stop ins
+                                *(exec->insMark) = WindInstruc_Stop;
+                                exec->insMark++;
+
                                 exec->state = ExecutorState_Unit;
                                 state = TransState_Off;
                                 return;
@@ -113,6 +117,7 @@ void Translate_unit(WindExecutor* exec, char** srcCode)
                         strSizeBlock = Translate_str_len(exec, srcCode);
                         if(exec->errMode) return;
                         memcpy(exec->insMark, *srcCode, strSizeBlock);
+
                         *srcCode += strSizeBlock + 1;
                         exec->insMark += strSizeBlock;
                         *(exec->insMark) = '\0';
