@@ -6,6 +6,7 @@
 #include <ctype.h>
 #include "Executor.h"
 
+// helper
 typedef enum {
         TransState_Off,
         TransState_On
@@ -14,8 +15,8 @@ typedef enum {
 //processes and prints a translation-time error
 void Translate_err(WindExecutor* exec);
 
-//function that finds the transition arrow and moves the src code there
-void Translate_arrow(WindExecutor* exec, char** srcCode);
+//function responsible for transitioning to execution
+void Translate_transition(WindExecutor* exec, char** srcCode);
 
 // Helper function that gets length of string.
 size_t Translate_str_len(WindExecutor* exec, char** srcCode);

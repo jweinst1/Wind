@@ -7,44 +7,10 @@ void Translate_err(WindExecutor* exec)
         exec->errMode = ExecutorError_dead;
 }
 
-void Translate_arrow(WindExecutor* exec, char** srcCode)
+void Translate_transition(WindExecutor* exec, char** srcCode)
 {
-        TransState state = TransState_On;
-        while(state)
-        {
-                switch(**srcCode)
-                {
-                case ' ':
-                case '\n':
-                case '\t':
-                case '\v':
-                        *srcCode += 1;
-                        break;
-                case '-':
-                        if(*(*srcCode + 1) == '>')
-                        {
-                                // arrow found, state transition
-                                *srcCode += 2;
-                                //writes stop ins
-                                *(exec->insMark) = WindInstruc_Stop;
-                                exec->insMark++;
-
-                                exec->state = ExecutorState_Translation;
-                                state = TransState_Off;
-                                return;
-                        }
-                        else
-                        {
-                                exec->errMode = ExecutorError_active;
-                                sprintf(exec->err, "Syntax Error: Expected ->, found '-%c'.\n", **srcCode);
-                                return;
-                        }
-                default:
-                        exec->errMode = ExecutorError_active;
-                        sprintf(exec->err, "Syntax Error: Expected ->, found '%c'.\n", **srcCode);
-                        return;
-                }
-        }
+        if(exec->state == ExecutorState_Transition)
+                exec->state = ExecutorState_Execution;
 }
 
 size_t Translate_str_len(WindExecutor* exec, char** srcCode)
@@ -90,7 +56,15 @@ void Translate_unit(WindExecutor* exec, char** srcCode)
                 case '-':
                         if( *(*srcCode + 1) == '>')
                         {
+                                *srcCode += 2; //moves in front of arrow
+                                exec->state = ExecutorState_Transition;
                                 state = TransState_Off;
+                                return;
+                        }
+                        else
+                        {
+                                exec->errMode = ExecutorError_active;
+                                sprintf(exec->err, "Syntax Error: Expected ->, found '-%c'.\n", **srcCode);
                                 return;
                         }
                 // numbers
