@@ -26,9 +26,11 @@ enum WindType
 
 typedef enum WindType WindType;
 
+//main value container for Wind language
 union WindValue
 {
         int _int;
+        char* _str;
 };
 
 struct WindObject

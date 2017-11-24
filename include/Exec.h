@@ -12,6 +12,9 @@
 //executes an in instruction
 void Exec_in(WindExecutor* wExec, unsigned char** ins);
 
+//executes an out instruction
+void Exec_out(WindExecutor* wExec, unsigned char** ins);
+
 //main level exec function
 int Exec_exec(WindExecutor* wExec);
 

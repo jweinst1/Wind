@@ -17,6 +17,25 @@ void Exec_in(WindExecutor* wExec, unsigned char** ins)
         }
 }
 
+void Exec_out(WindExecutor* wExec, unsigned char** ins)
+{
+        switch(**ins)
+        {
+        //handling of optional arguments, reserved
+        default:
+                switch(wExec->object.type)
+                {
+                case WindType_None:
+                        puts("None");
+                        return;
+                case WindType_Int:
+                        printf("%d\n", wExec->object.value._int);
+                        return;
+                }
+                return;
+        }
+}
+
 
 //top level executing function
 int Exec_exec(WindExecutor* wExec)
@@ -30,7 +49,13 @@ int Exec_exec(WindExecutor* wExec)
                         bytePtr++;
                         Exec_in(wExec, &bytePtr);
                         break;
+                case WindInstruc_Out:
+                        bytePtr++;
+                        Exec_out(wExec, &bytePtr);
+                        break;
                 default:
+                        wExec->errMode = ExecutorError_active;
+                        sprintf(wExec->err, "Runtime Error: Invalid byte %u.\n", *bytePtr);
                         return 0; //error
                 }
         }
