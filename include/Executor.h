@@ -35,7 +35,8 @@ enum ExecutorState
 {
         ExecutorState_Translate,
         ExecutorState_Transition,
-        ExecutorState_Execution
+        ExecutorState_Execution,
+        ExecutorState_Done // for end of current source code reached
 };
 
 typedef enum ExecutorState ExecutorState;

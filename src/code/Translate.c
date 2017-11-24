@@ -7,10 +7,16 @@ void Translate_err(WindExecutor* exec)
         exec->errMode = ExecutorError_dead;
 }
 
+// will be handled in compile function
 void Translate_transition(WindExecutor* exec, char** srcCode)
 {
         if(exec->state == ExecutorState_Transition)
+        {
+                *(exec->insMark) = WindInstruc_Stop;
+                exec->insMark++;
                 exec->state = ExecutorState_Execution;
+        }
+
 }
 
 size_t Translate_str_len(WindExecutor* exec, char** srcCode)
@@ -135,7 +141,8 @@ void Translate_unit(WindExecutor* exec, char** srcCode)
                         }
                         break;
                 case '\0':
-                        //end of srcCode reached.
+                        //end of src code reached
+                        exec->state = ExecutorState_Done;
                         return;
                 default:
                         sprintf(exec->err, "Syntax Error: Unexpected token '%c'.\n", **srcCode);
