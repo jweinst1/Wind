@@ -29,7 +29,7 @@ void Translate_arrow(WindExecutor* exec, char** srcCode)
                                 *(exec->insMark) = WindInstruc_Stop;
                                 exec->insMark++;
 
-                                exec->state = ExecutorState_Unit;
+                                exec->state = ExecutorState_Translation;
                                 state = TransState_Off;
                                 return;
                         }

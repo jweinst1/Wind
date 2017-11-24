@@ -26,15 +26,16 @@
         name.insMark = name.instructions; \
         name.insEnd = name.insMark + WindExecutor_INS_SIZE; \
         name.object.type = WindType_None; \
-        name.state = ExecutorState_Unit; \
+        name.state = ExecutorState_Translation; \
         name.lastIns = WindInstruc_Nil; \
         name.errMode = ExecutorError_dead;
 
 
 enum ExecutorState
 {
-        ExecutorState_Unit,
-        ExecutorState_Arrow
+        ExecutorState_Translate,
+        ExecutorState_Transition,
+        ExecutorState_Execution
 };
 
 typedef enum ExecutorState ExecutorState;
