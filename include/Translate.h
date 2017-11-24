@@ -6,6 +6,8 @@
 #include <ctype.h>
 #include "Executor.h"
 
+#define Translate_BUF_CHECK(exec) exec->insMark > (exec->insEnd - 10)
+
 // helper
 typedef enum {
         TransState_Off,

@@ -5,7 +5,7 @@
 #include "WindObject.h"
 #include "Instruction.h"
 
-#define WindExecutor_INS_SIZE 3000
+#define WindExecutor_INS_SIZE 4000
 
 #define WindExecutor_INS_SPACE(exec) (exec->insEnd - exec->insMark)
 
@@ -26,7 +26,7 @@
         name.insMark = name.instructions; \
         name.insEnd = name.insMark + WindExecutor_INS_SIZE; \
         name.object.type = WindType_None; \
-        name.state = ExecutorState_Translation; \
+        name.state = ExecutorState_Translate; \
         name.lastIns = WindInstruc_Nil; \
         name.errMode = ExecutorError_dead;
 

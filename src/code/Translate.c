@@ -29,6 +29,13 @@ size_t Translate_str_len(WindExecutor* exec, char** srcCode)
                 switch(*srcPtr)
                 {
                 case '"':
+                        /*if(total > WindExecutor_INS_SIZE)
+                           {
+                                sprintf(exec->err, "String Error: String size of %lu too large as literal string.\n", total);
+                                exec->errMode = ExecutorError_active;
+                                state = 0;
+                                return 0;
+                           }*/
                         return total;
                 case '\0':
                         sprintf(exec->err, "String Error: Unexpected null found in string.\n");
@@ -49,6 +56,12 @@ void Translate_unit(WindExecutor* exec, char** srcCode)
         TransState state = TransState_On;
         while(state)
         {
+                /*if(Translate_BUF_CHECK(exec))
+                   {
+                        exec->state = ExecutorState_Transition;
+                        state = TransState_Off;
+                        return;
+                   }*/
                 switch(**srcCode)
                 {
                 case ' ':

@@ -53,6 +53,10 @@ int Exec_exec(WindExecutor* wExec)
                         bytePtr++;
                         Exec_out(wExec, &bytePtr);
                         break;
+                case WindInstruc_Stop:
+                        Exec_RESET_INS(wExec);
+                        return 1;
+                        break;
                 default:
                         wExec->errMode = ExecutorError_active;
                         sprintf(wExec->err, "Runtime Error: Invalid byte %u.\n", *bytePtr);
