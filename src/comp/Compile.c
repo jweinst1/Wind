@@ -12,7 +12,6 @@ int Compile_compile_all(char* srcCode)
         {
                 if(wExecP->errMode == ExecutorError_active)
                 {
-
                         Translate_err(wExecP);
                         return 0;
                 }
