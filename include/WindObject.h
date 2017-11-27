@@ -21,7 +21,8 @@
 enum WindType
 {
         WindType_None, //None evaluates to zero
-        WindType_Int
+        WindType_Int,
+        WindType_Str
 };
 
 typedef enum WindType WindType;

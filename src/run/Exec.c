@@ -1,4 +1,6 @@
 #include "Exec.h"
+#include <stdlib.h>
+#include <string.h>
 
 void Exec_in(WindExecutor* wExec, unsigned char** ins)
 {
@@ -10,6 +12,13 @@ void Exec_in(WindExecutor* wExec, unsigned char** ins)
                 wExec->object.value._int = *((long*)(*ins));
                 *ins += sizeof(long);
                 return;
+        /*case WindInstruc_Str:
+         * ins += 1;
+                wExec->object.type = WindType_Str;
+                wExec->object.value._str = malloc(*((size_t*)(*ins)));
+         * ins += sizeof(size_t);
+                memcpy(&(wExec->object.value._str), (*ins + *((size_t*)(*ins))), *((size_t*)(*ins)));
+         */
         default:
                 wExec->errMode = ExecutorError_active;
                 sprintf(wExec->err, "Argument Error: Invalid argument for 'in'.\n");
@@ -31,7 +40,23 @@ void Exec_out(WindExecutor* wExec, unsigned char** ins)
                 case WindType_Int:
                         printf("%d\n", wExec->object.value._int);
                         return;
+                case WindType_Str:
+                        printf("\"%s\"\n", wExec->object.value._str);
+                        return;
                 }
+                return;
+        }
+}
+
+
+void Exec_free(WindExecutor* wExec)
+{
+        switch(wExec->object.type)
+        {
+        case WindType_Str:
+                free(wExec->object.value._str);
+                break;
+        default:
                 return;
         }
 }
@@ -47,6 +72,7 @@ int Exec_exec(WindExecutor* wExec)
                 {
                 case WindInstruc_In:
                         bytePtr++;
+                        Exec_free(wExec);
                         Exec_in(wExec, &bytePtr);
                         break;
                 case WindInstruc_Out:

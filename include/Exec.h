@@ -15,6 +15,9 @@ void Exec_in(WindExecutor* wExec, unsigned char** ins);
 //executes an out instruction
 void Exec_out(WindExecutor* wExec, unsigned char** ins);
 
+// frees the current value
+void Exec_free(WindExecutor* wExec);
+
 //main level exec function
 int Exec_exec(WindExecutor* wExec);
 
