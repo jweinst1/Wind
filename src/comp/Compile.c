@@ -14,6 +14,7 @@ int Compile_compile_all(char* srcCode)
                 {
                         Translate_err(wExecP);
                         return 0;
+
                 }
                 wExecP->state = ExecutorState_Translate;
                 Translate_unit(wExecP, &codePtr);

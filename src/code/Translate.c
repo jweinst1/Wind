@@ -6,7 +6,6 @@ void Translate_err(WindExecutor* exec)
         fprintf(stderr, "%s", exec->err);
         exec->errMode = ExecutorError_dead;
 }
-
 // will be handled in compile function
 void Translate_transition(WindExecutor* exec, char** srcCode)
 {
@@ -107,22 +106,19 @@ void Translate_unit(WindExecutor* exec, char** srcCode)
                         *srcCode += 1;
                         *(exec->insMark) = WindInstruc_Str;
                         exec->insMark++;
-
                         strSizeBlock = Translate_str_len(exec, srcCode);
                         if(exec->errMode) return;
-
                         //writes size of string
                         memcpy(exec->insMark, &strSizeBlock, sizeof(size_t));
                         exec->insMark += sizeof(size_t);
-
                         //writes string data
                         memcpy(exec->insMark, *srcCode, strSizeBlock);
                         *srcCode += strSizeBlock + 1;
                         exec->insMark += strSizeBlock;
 
                         //writes null char
-                        *(exec->insMark) = '\0';
-                        exec->insMark++;
+                        /**(exec->insMark) = '\0';
+                           exec->insMark++;*/
                         break;
                 case 'i':
                         switch( *(*srcCode + 1) )

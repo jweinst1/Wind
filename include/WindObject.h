@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include "WindStr.h"
 
-
 enum WindType
 {
         WindType_None, //None evaluates to zero

@@ -15,7 +15,8 @@ int main(int argc, char const *argv[]) {
            Exec_exec(wePtr);
            printf("val of int is %d\n", foo.object.value._int);*/
 
-        printf("succes: %d\n", Compile_compile_all("in 5 -> out -> out -> out -> out ->\n\n\nout"));
+
+        printf("succes: %d\n", Compile_compile_all("in \"foo\" -> out -> in 6 -> out -> in \"barf\" -> out -> out ->\n\n\nout"));
         return 0;
 
 }
