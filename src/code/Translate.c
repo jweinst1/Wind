@@ -120,6 +120,11 @@ void Translate_unit(WindExecutor* exec, char** srcCode)
                         /**(exec->insMark) = '\0';
                            exec->insMark++;*/
                         break;
+                case '+':
+                        *srcCode += 1;
+                        *(exec->insMark) = WindInstruc_Str;
+                        exec->insMark++;
+                        break;
                 case 'i':
                         switch( *(*srcCode + 1) )
                         {

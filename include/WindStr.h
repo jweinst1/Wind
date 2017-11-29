@@ -15,6 +15,11 @@
                 wstr.end = wstr.begin + strSize; \
 } while(0)
 
+#define WindStr_RESIZE_L(wstr, strSize) do { \
+                SAFE_ALLOC_RE(wstr.begin, strSize); \
+                wstr.end = wstr.begin + strSize; \
+} while(0)
+
 //frees windstr
 #define WindStr_FREE(wstr) free(wstr->begin)
 

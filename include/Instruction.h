@@ -8,7 +8,8 @@ enum WindInstruc
         WindInstruc_In,
         WindInstruc_Out,
         WindInstruc_Int,
-        WindInstruc_Str
+        WindInstruc_Str,
+        WindInstruc_Add
 };
 
 typedef enum WindInstruc WindInstruc;

@@ -2,6 +2,40 @@
 #include <stdlib.h>
 #include <string.h>
 
+void Exec_add(WindExecutor* wExec, unsigned char** ins)
+{
+        unsigned char mode = 1;
+        unsigned char* addPtr = *ins;
+        size_t sizeHolder = 0;
+        while(mode)
+        {
+                switch(*addPtr)
+                {
+                case WindInstruc_Int:
+                        addPtr++;
+                        if(wExec->object.type != WindType_Int)
+                        {
+                                wExec->errMode = ExecutorError_active;
+                                sprintf(wExec->err, "Type Error: Invalid type for '+'.\n");
+                                return;
+                        }
+                        wExec->object.value._int += *((long*)(addPtr));
+                        addPtr += sizeof(long);
+                        break;
+                case WindInstruc_Str:
+                        addPtr++;
+                        sizeHolder = *(size_t*)addPtr;
+                        addPtr += sizeof(size_t);
+
+                        break;
+                default:
+                        wExec->errMode = ExecutorError_active;
+                        sprintf(wExec->err, "Type Error: Invalid type for '+'.\n");
+                        return;
+                }
+        }
+}
+
 void Exec_in(WindExecutor* wExec, unsigned char** ins)
 {
         // temp var to store size
@@ -86,6 +120,10 @@ int Exec_exec(WindExecutor* wExec)
                 case WindInstruc_Out:
                         bytePtr++;
                         Exec_out(wExec, &bytePtr);
+                        break;
+                case WindInstruc_Add:
+                        bytePtr++;
+                        Exec_add(wExec, &bytePtr);
                         break;
                 case WindInstruc_Stop:
                         Exec_RESET_INS(wExec);
