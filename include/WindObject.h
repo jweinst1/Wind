@@ -4,6 +4,11 @@
 #include <stdlib.h>
 #include "WindStr.h"
 
+// getter macro based on type
+#define WindObject_INT(wobj) wobj->value._int
+
+#define WindObject_STR(wobj) wobj->value._str.begin
+
 enum WindType
 {
         WindType_None, //None evaluates to zero
