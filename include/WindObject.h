@@ -16,7 +16,7 @@ typedef enum WindType WindType;
 //main value container for Wind language
 union WindValue
 {
-        int _int;
+        long _int;
         WindStr _str;
 };
 
