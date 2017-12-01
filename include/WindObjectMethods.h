@@ -20,7 +20,7 @@ WindObject_make_int(WindObject* wobj, long num)
 
 void WindObject_make_str(WindObject* wobj, unsigned char* string, size_t n);
 
-void WindObject_int_to_str(WindObject* wobj);
+void WindObject_concat(WindObject* wobj);
 
 void WindObject_add(WindObject* wobj1, WindObject* wobj2);
 

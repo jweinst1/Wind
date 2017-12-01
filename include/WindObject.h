@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include "WindStr.h"
+#include "WindError.h"
 
 // getter macro based on type
 #define WindObject_INT(wobj) wobj->value._int
@@ -27,8 +28,9 @@ union WindValue
 
 struct WindObject
 {
-        WindType type;
+        WindError error;
         union WindValue value;
+        WindType type;
 };
 
 typedef struct WindObject WindObject;
