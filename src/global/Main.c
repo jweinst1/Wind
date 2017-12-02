@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "WindObject.h"
+#include "LoadCode.h"
 
 
 
@@ -9,7 +10,9 @@
 int main(int argc, char const *argv[]) {
         WindObject_INIT(foo);
         WindObject* foop = &foo;
-        printf("space is %lu\n", WindObject_CB_SPACE(foop));
+        char* src = "foo -> foo -> d";
+        LoadCode_null(foop, src);
+        printf("space is %s\n", foop->code);
         return 0;
 
 }
