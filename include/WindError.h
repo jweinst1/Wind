@@ -12,6 +12,6 @@ struct WindError
         int active;
 };
 
-typdef struct WindError WindError;
+typedef struct WindError WindError;
 
 #endif

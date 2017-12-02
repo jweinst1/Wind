@@ -14,6 +14,16 @@
 //instruction buffer space
 #define WindObject_IB_SPACE(wobj) wobj->insEnd - wobj->insMark
 
+#define WindObject_INIT(name) \
+        WindObject name; \
+        name.codeMark = name.code; \
+        name.codeEnd = name.codeMark + WindObject_CODE_SIZE; \
+        name.insMark = name.instructions; \
+        name.insEnd = name.insMark + WindObject_INS_SIZE; \
+        name.type = WindType_None; \
+        name.state = WindState_Translate; \
+        name.error.active = 0;
+
 enum WindState
 {
         WindState_Translate,
@@ -44,7 +54,7 @@ typedef union WindValue WindValue;
 
 struct WindObject
 {
-        unsigned char instructions[WindExecutor_INS_SIZE];
+        unsigned char instructions[WindObject_INS_SIZE];
         char code[WindObject_CODE_SIZE];
         WindError error;
         union WindValue value;
@@ -57,5 +67,25 @@ struct WindObject
 };
 
 typedef struct WindObject WindObject;
+
+//variably size windobject, used for other architectures and specific environments
+struct VarWindObject
+{
+        unsigned char* instructions;
+        char* code;
+        size_t insCap;
+        size_t codeCap;
+        WindError error;
+        union WindValue value;
+        unsigned char* insMark;
+        unsigned char* insEnd;
+        char* codeMark;
+        char* codeEnd;
+        WindState state;
+        WindType type;
+};
+
+typedef struct VarWindObject VarWindObject;
+
 
 #endif
