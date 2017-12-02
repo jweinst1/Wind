@@ -8,10 +8,11 @@
 #define WindObject_INS_SIZE 4000
 #define WindObject_CODE_SIZE 1000
 
-// getter macro based on type
-#define WindObject_INT(wobj) wobj->value._int
+//code buffer space
+#define WindObject_CB_SPACE(wobj) wobj->codeEnd - wobj->codeMark
 
-#define WindObject_STR(wobj) wobj->value._str.begin
+//instruction buffer space
+#define WindObject_IB_SPACE(wobj) wobj->insEnd - wobj->insMark
 
 enum WindState
 {
@@ -39,13 +40,18 @@ union WindValue
         WindStr _str;
 };
 
+typedef union WindValue WindValue;
+
 struct WindObject
 {
         unsigned char instructions[WindExecutor_INS_SIZE];
+        char code[WindObject_CODE_SIZE];
         WindError error;
         union WindValue value;
         unsigned char* insMark;
         unsigned char* insEnd;
+        char* codeMark;
+        char* codeEnd;
         WindState state;
         WindType type;
 };
