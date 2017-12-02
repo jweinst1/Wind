@@ -2,6 +2,7 @@
 #define WIND_OBJECT_H
 
 #include <stdlib.h>
+#include "Instruction.h"
 #include "WindStr.h"
 #include "WindError.h"
 
@@ -11,8 +12,12 @@
 //code buffer space
 #define WindObject_CB_SPACE(wobj) wobj->codeEnd - wobj->codeMark
 
+#define WindObject_CB_FULL(wobj) (wobj->codeEnd - wobj->codeMark) == 0
+
 //instruction buffer space
 #define WindObject_IB_SPACE(wobj) wobj->insEnd - wobj->insMark
+
+#define WindObject_IB_FULL(wobj) (wobj->insEnd - wobj->insMark) == 0
 
 #define WindObject_INIT(name) \
         WindObject name; \
@@ -22,7 +27,8 @@
         name.insEnd = name.insMark + WindObject_INS_SIZE; \
         name.type = WindType_None; \
         name.state = WindState_Translate; \
-        name.error.active = 0;
+        name.error.active = 0; \
+        name.curIns = WindInstruc_Nil;
 
 enum WindState
 {
@@ -62,6 +68,7 @@ struct WindObject
         unsigned char* insEnd;
         char* codeMark;
         char* codeEnd;
+        WindInstruc curIns;
         WindState state;
         WindType type;
 };
@@ -81,6 +88,7 @@ struct VarWindObject
         unsigned char* insEnd;
         char* codeMark;
         char* codeEnd;
+        WindInstruc curIns;
         WindState state;
         WindType type;
 };
