@@ -1,8 +1,8 @@
 #include "Compile.h"
 #include "Executor.h"
 
-int Compile_compile_all(char* srcCode)
-{
+/*int Compile_compile_all(char* srcCode)
+   {
         WindExecutor_INIT(compExec);
 
         WindExecutor* wExecP = &compExec;
@@ -27,4 +27,4 @@ int Compile_compile_all(char* srcCode)
                 Exec_exec(wExecP);
         }
         return 1; //successful
-}
+   }*/

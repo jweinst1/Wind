@@ -4,9 +4,9 @@
 
 #include <stdlib.h>
 #include <ctype.h>
-#include "Executor.h"
+#include "WindObject.h"
 
-#define Translate_BUF_CHECK(exec) exec->insMark > (exec->insEnd - 10)
+#define Translate_BUF_CHECK(wobj) wobj->insMark > (wobj->insEnd - 10)
 
 // helper
 typedef enum {
@@ -15,15 +15,16 @@ typedef enum {
 } TransState;
 
 //processes and prints a translation-time error
-void Translate_err(WindExecutor* exec);
+void Translate_err(WindObject* wobj);
 
 //function responsible for transitioning to execution
-void Translate_transition(WindExecutor* exec, char** srcCode);
+void Translate_transition(WindObject* wobj, char** srcCode);
 
 // Helper function that gets length of string.
-size_t Translate_str_len(WindExecutor* exec, char** srcCode);
+size_t Translate_str_len(WindObject* wobj, char** srcCode);
 
-//function that translates src code from a unit into instructions
-void Translate_unit(WindExecutor* exec, char** srcCode);
+
+
+void Translate_cmd(WindObject* wobj, char** srcCode);
 
 #endif

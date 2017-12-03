@@ -7,7 +7,7 @@
 #include "WindError.h"
 
 #define WindObject_INS_SIZE 4000
-#define WindObject_CODE_SIZE 1000
+#define WindObject_CODE_SIZE 500
 
 //code buffer space
 #define WindObject_CB_SPACE(wobj) wobj->codeEnd - wobj->codeMark

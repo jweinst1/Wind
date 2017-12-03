@@ -7,6 +7,6 @@
 #include "Exec.h"
 
 //compiles all src code in string.
-int Compile_compile_all(char* srcCode);
+//int Compile_compile_all(char* srcCode);
 
 #endif
