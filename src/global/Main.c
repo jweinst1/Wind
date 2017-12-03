@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "WindObject.h"
 #include "Translate.h"
+#include "Debug.h"
 
 
 
@@ -14,10 +14,7 @@ int main(int argc, char const *argv[]) {
         char* codeSrc = src;
         Translate_cmd(foop, &codeSrc);
         Translate_transition(foop, &codeSrc);
-        printf("%s\n", codeSrc);
-        for (size_t i = 0; i < 30; i++) {
-                printf("%u\n", foop->instructions[i]);
-        }
+        Debug_obj(foop);
         return 0;
 
 }
