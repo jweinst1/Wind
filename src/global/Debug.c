@@ -6,6 +6,24 @@ void Debug_obj(WindObject* wobj)
         puts("Error: ");
         if(wobj->error.active) printf("%s\n", wobj->error.mes);
         else puts("No Error");
+
+        puts("Current State: ");
+        switch(wobj->state)
+        {
+        case WindState_Transition:
+                puts("-> Transition");
+                break;
+        case WindState_Execution:
+                puts("-> Execution");
+                break;
+        case WindState_Translate:
+                puts("-> Translation");
+                break;
+        case WindState_Done:
+                puts("-> Done");
+                break;
+        }
+        puts("...................");
         puts("Instructions: ");
         puts("{");
         unsigned char* insPtr = wobj->instructions;
@@ -47,6 +65,19 @@ void Debug_obj(WindObject* wobj)
                         printf("Invalid Instruction: %u;\n", *insPtr++);
                 }
         }
-        puts("}");
+        puts("}\n................");
+        puts("Object: ");
+        switch(wobj->type)
+        {
+        case WindType_None:
+                printf("Type = None;\n");
+                break;
+        case WindType_Str:
+                printf("Type = Str;\n");
+                break;
+        case WindType_Int:
+                printf("Type = Int;\n");
+                break;
+        }
         Debug_END;
 }

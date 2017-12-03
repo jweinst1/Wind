@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void Exec_add(WindExecutor* wExec, unsigned char** ins)
+void Exec_add(WindObject* wobj, unsigned char** ins)
 {
         unsigned char mode = 1;
         unsigned char* addPtr = *ins;
@@ -13,30 +13,36 @@ void Exec_add(WindExecutor* wExec, unsigned char** ins)
                 {
                 case WindInstruc_Int:
                         addPtr++;
-                        if(wExec->object.type != WindType_Int)
+                        if(wobj->type != WindType_Int)
                         {
-                                wExec->errMode = ExecutorError_active;
-                                sprintf(wExec->err, "Type Error: Invalid type for '+'.\n");
+                                wobj->error.active = 1;
+                                sprintf(wobj->error.mes, "Type Error: Invalid type for '+'.\n");
                                 return;
                         }
-                        wExec->object.value._int += *((long*)(addPtr));
+                        wobj->value._int += *((long*)(addPtr));
                         addPtr += sizeof(long);
                         break;
                 case WindInstruc_Str:
+                        if(wobj->type != WindType_Int)
+                        {
+                                wobj->error.active = 1;
+                                sprintf(wobj->error.mes, "Type Error: Invalid type for '+'.\n");
+                                return;
+                        }
                         addPtr++;
                         sizeHolder = *(size_t*)addPtr;
                         addPtr += sizeof(size_t);
 
                         break;
                 default:
-                        wExec->errMode = ExecutorError_active;
-                        sprintf(wExec->err, "Type Error: Invalid type for '+'.\n");
+                        wobj->error.active = 1;
+                        sprintf(wobj->error.mes, "Type Error: Invalid type for '+'.\n");
                         return;
                 }
         }
 }
 
-void Exec_in(WindExecutor* wExec, unsigned char** ins)
+void Exec_in(WindObject* wobj, unsigned char** ins)
 {
         // temp var to store size
         size_t inSizeVal = 0;
@@ -44,46 +50,46 @@ void Exec_in(WindExecutor* wExec, unsigned char** ins)
         {
         case WindInstruc_Int:
                 *ins +=1;
-                wExec->object.type = WindType_Int;
-                wExec->object.value._int = *((long*)(*ins));
+                wobj->type = WindType_Int;
+                wobj->value._int = *((long*)(*ins));
                 *ins += sizeof(long);
                 return;
         case WindInstruc_Str:
                 *ins += 1;
                 inSizeVal = *((size_t*)(*ins));
                 *ins += sizeof(size_t);
-                WindStr_INIT_L(wExec->object.value._str, inSizeVal);
+                WindStr_INIT_L(wobj->value._str, inSizeVal);
 
                 // copies instruction bytes to windstr
-                memcpy(wExec->object.value._str.begin, *ins, inSizeVal);
+                memcpy(wobj->value._str.begin, *ins, inSizeVal);
                 *ins += inSizeVal;
                 inSizeVal = 0;
 
-                wExec->object.type = WindType_Str;
+                wobj->type = WindType_Str;
                 break;
         default:
-                wExec->errMode = ExecutorError_active;
-                sprintf(wExec->err, "Argument Error: Invalid argument for 'in'.\n");
+                wobj->error.active = 1;
+                sprintf(wobj->error.mes, "Argument Error: Invalid argument for 'in'.\n");
                 return;
         }
 }
 
-void Exec_out(WindExecutor* wExec, unsigned char** ins)
+void Exec_out(WindObject* wobj, unsigned char** ins)
 {
         switch(**ins)
         {
         //handling of optional arguments, reserved
         default:
-                switch(wExec->object.type)
+                switch(wobj->type)
                 {
                 case WindType_None:
                         puts("None");
                         return;
                 case WindType_Int:
-                        printf("%d\n", wExec->object.value._int);
+                        printf("%ld\n", wobj->value._int);
                         return;
                 case WindType_Str:
-                        printf("\"%.*s\"\n", (int)WindStr_LEN_L(wExec->object.value._str), wExec->object.value._str.begin);
+                        printf("\"%.*s\"\n", (int)WindStr_LEN_L(wobj->value._str), wobj->value._str.begin);
                         return;
                 }
                 return;
@@ -91,12 +97,12 @@ void Exec_out(WindExecutor* wExec, unsigned char** ins)
 }
 
 
-void Exec_free(WindExecutor* wExec)
+void Exec_free(WindObject* wobj)
 {
-        switch(wExec->object.type)
+        switch(wobj->type)
         {
         case WindType_Str:
-                WindStr_FREE_L(wExec->object.value._str);
+                WindStr_FREE_L(wobj->value._str);
                 break;
         default:
                 return;
@@ -105,37 +111,37 @@ void Exec_free(WindExecutor* wExec)
 
 
 //top level executing function
-int Exec_exec(WindExecutor* wExec)
+int Exec_exec(WindObject* wobj)
 {
-        unsigned char* bytePtr = wExec->instructions;
-        while(bytePtr != wExec->insEnd)
+        unsigned char* bytePtr = wobj->instructions;
+        while(bytePtr != wobj->insEnd)
         {
                 switch(*bytePtr)
                 {
                 case WindInstruc_In:
                         bytePtr++;
-                        Exec_free(wExec);
-                        Exec_in(wExec, &bytePtr);
+                        Exec_free(wobj);
+                        Exec_in(wobj, &bytePtr);
                         break;
                 case WindInstruc_Out:
                         bytePtr++;
-                        Exec_out(wExec, &bytePtr);
+                        Exec_out(wobj, &bytePtr);
                         break;
                 case WindInstruc_Add:
                         bytePtr++;
-                        Exec_add(wExec, &bytePtr);
+                        Exec_add(wobj, &bytePtr);
                         break;
                 case WindInstruc_Stop:
-                        Exec_RESET_INS(wExec);
+                        Exec_RESET_INS(wobj);
                         return 1;
                         break;
                 default:
-                        wExec->errMode = ExecutorError_active;
-                        sprintf(wExec->err, "Runtime Error: Invalid byte %u.\n", *bytePtr);
+                        wobj->error.active = 1;
+                        sprintf(wobj->error.mes, "Runtime Error: Invalid byte %u.\n", *bytePtr);
                         return 0; //error
                 }
         }
         //resets instruction buffer for next translation
-        Exec_RESET_INS(wExec);
+        Exec_RESET_INS(wobj);
         return 1;
 }
