@@ -1,24 +1,24 @@
 #include "Translate.h"
 #include <string.h>
 
-void Translate_err(WindExecutor* exec)
+void Translate_err(WindObject* wobj)
 {
-        fprintf(stderr, "%s", exec->err);
-        exec->errMode = ExecutorError_dead;
+        fprintf(stderr, "%s", wobj->error.mes);
+        wobj->error.active = 0;
 }
 // will be handled in compile function
-void Translate_transition(WindExecutor* exec, char** srcCode)
+void Translate_transition(WindObject* wobj, char** srcCode)
 {
-        if(exec->state == ExecutorState_Transition)
+        if(wobj->state == WindState_Transition)
         {
-                *(exec->insMark) = WindInstruc_Stop;
-                exec->insMark++;
-                exec->state = ExecutorState_Execution;
+                *(wobj->insMark) = WindInstruc_Stop;
+                wobj->insMark++;
+                wobj->state = WindState_Execution;
         }
 
 }
 
-size_t Translate_str_len(WindExecutor* exec, char** srcCode)
+size_t Translate_str_len(WindObject* wobj, char** srcCode)
 {
         size_t total = 0;
         unsigned char state = 1;
@@ -28,17 +28,17 @@ size_t Translate_str_len(WindExecutor* exec, char** srcCode)
                 switch(*srcPtr)
                 {
                 case '"':
-                        if(total > WindExecutor_INS_SIZE)
+                        if(total > WindObject_INS_SIZE)
                         {
-                                sprintf(exec->err, "String Error: String size of %lu too large as literal string.\n", total);
-                                exec->errMode = ExecutorError_active;
+                                sprintf(wobj->error.mes, "String Error: String size of %lu too large as literal string.\n", total);
+                                wobj->error.active = 1;
                                 state = 0;
                                 return 0;
                         }
                         return total;
                 case '\0':
-                        sprintf(exec->err, "String Error: Unexpected null found in string.\n");
-                        exec->errMode = ExecutorError_active;
+                        sprintf(wobj->error.mes, "String Error: Unexpected null found in string.\n");
+                        wobj->error.active = 1;
                         state = 0;
                         return 0;
                 default:
@@ -49,15 +49,15 @@ size_t Translate_str_len(WindExecutor* exec, char** srcCode)
         return 0;
 }
 
-void Translate_unit(WindExecutor* exec, char** srcCode)
+void Translate_cmd(WindObject* wobj, char** srcCode)
 {
         size_t strSizeBlock = 0;
         TransState state = TransState_On;
         while(state)
         {
-                if(Translate_BUF_CHECK(exec))
+                if(Translate_BUF_CHECK(wobj))
                 {
-                        exec->state = ExecutorState_Transition;
+                        wobj->state = WindState_Transition;
                         state = TransState_Off;
                         return;
                 }
@@ -75,14 +75,14 @@ void Translate_unit(WindExecutor* exec, char** srcCode)
                         if( *(*srcCode + 1) == '>')
                         {
                                 *srcCode += 2; //moves in front of arrow
-                                exec->state = ExecutorState_Transition;
+                                wobj->state = WindState_Transition;
                                 state = TransState_Off;
                                 return;
                         }
                         else
                         {
-                                exec->errMode = ExecutorError_active;
-                                sprintf(exec->err, "Syntax Error: Expected ->, found '-%c'.\n", **srcCode);
+                                wobj->error.active = 1;
+                                sprintf(wobj->error.mes, "Syntax Error: Expected ->, found '-%c'.\n", **srcCode);
                                 return;
                         }
                 // numbers
@@ -96,46 +96,46 @@ void Translate_unit(WindExecutor* exec, char** srcCode)
                 case '7':
                 case '8':
                 case '9':
-                        *(exec->insMark) = WindInstruc_Int;
-                        exec->insMark++;
-                        WindExecutor_DEREF_INS(exec, long) = strtol(*srcCode, srcCode, 10);
-                        exec->insMark += sizeof(long);
+                        *(wobj->insMark) = WindInstruc_Int;
+                        wobj->insMark++;
+                        *(long*)(wobj->insMark) = strtol(*srcCode, srcCode, 10);
+                        wobj->insMark += sizeof(long);
                         break;
                 case '"':
                         // for string translation
                         *srcCode += 1;
-                        *(exec->insMark) = WindInstruc_Str;
-                        exec->insMark++;
-                        strSizeBlock = Translate_str_len(exec, srcCode);
-                        if(exec->errMode) return;
+                        *(wobj->insMark) = WindInstruc_Str;
+                        wobj->insMark++;
+                        strSizeBlock = Translate_str_len(wobj, srcCode);
+                        if(wobj->error.active) return;
                         //writes size of string
-                        memcpy(exec->insMark, &strSizeBlock, sizeof(size_t));
-                        exec->insMark += sizeof(size_t);
+                        memcpy(wobj->insMark, &strSizeBlock, sizeof(size_t));
+                        wobj->insMark += sizeof(size_t);
                         //writes string data
-                        memcpy(exec->insMark, *srcCode, strSizeBlock);
+                        memcpy(wobj->insMark, *srcCode, strSizeBlock);
                         *srcCode += strSizeBlock + 1;
-                        exec->insMark += strSizeBlock;
+                        wobj->insMark += strSizeBlock;
 
                         //writes null char
-                        /**(exec->insMark) = '\0';
-                           exec->insMark++;*/
+                        /**(wobj->insMark) = '\0';
+                           wobj->insMark++;*/
                         break;
                 case '+':
                         *srcCode += 1;
-                        *(exec->insMark) = WindInstruc_Str;
-                        exec->insMark++;
+                        *(wobj->insMark) = WindInstruc_Str;
+                        wobj->insMark++;
                         break;
                 case 'i':
                         switch( *(*srcCode + 1) )
                         {
                         case 'n':
                                 *srcCode += 2;
-                                *(exec->insMark) = WindInstruc_In;
-                                exec->insMark++;
+                                *(wobj->insMark) = WindInstruc_In;
+                                wobj->insMark++;
                                 break;
                         default:
-                                sprintf(exec->err, "Syntax Error: Unexpected token 'i%c'.\n", *(*srcCode + 1));
-                                exec->errMode = ExecutorError_active;
+                                sprintf(wobj->error.mes, "Syntax Error: Unexpected token 'i%c'.\n", *(*srcCode + 1));
+                                wobj->error.active = 1;
                                 return;
                         }
                         break;
@@ -147,28 +147,28 @@ void Translate_unit(WindExecutor* exec, char** srcCode)
                                 {
                                 case 't':
                                         *srcCode += 3;
-                                        *(exec->insMark) = WindInstruc_Out;
-                                        exec->insMark++;
+                                        *(wobj->insMark) = WindInstruc_Out;
+                                        wobj->insMark++;
                                         break;
                                 default:
-                                        sprintf(exec->err, "Syntax Error: Unexpected token 'ou%c'.\n", *(*srcCode + 2));
-                                        exec->errMode = ExecutorError_active;
+                                        sprintf(wobj->error.mes, "Syntax Error: Unexpected token 'ou%c'.\n", *(*srcCode + 2));
+                                        wobj->error.active = 1;
                                         return;
                                 }
                                 break;
                         default:
-                                sprintf(exec->err, "Syntax Error: Unexpected token 'o%c'.\n", *(*srcCode + 1));
-                                exec->errMode = ExecutorError_active;
+                                sprintf(wobj->error.mes, "Syntax Error: Unexpected token 'o%c'.\n", *(*srcCode + 1));
+                                wobj->error.active = 1;
                                 return;
                         }
                         break;
                 case '\0':
                         //end of src code reached
-                        exec->state = ExecutorState_Done;
+                        wobj->state = WindState_Done;
                         return;
                 default:
-                        sprintf(exec->err, "Syntax Error: Unexpected token '%c'.\n", **srcCode);
-                        exec->errMode = ExecutorError_active;
+                        sprintf(wobj->error.mes, "Syntax Error: Unexpected token '%c'.\n", **srcCode);
+                        wobj->error.active = 1;
                         return;
                 }
         }

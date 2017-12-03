@@ -11,8 +11,6 @@
 
 #define WindExecutor_HAS_SPACE(exec, space) (exec->insEnd - exec->insMark) > space
 
-#define WindExecutor_HAS_ERR(exec) exec->state == ExecutorState_Err;
-
 #define WindExecutor_OBJ_TYPE(exec) exec->object->type
 
 #define WindExecutor_DEREF_INS(exec, type) *((type*)(exec->insMark))
