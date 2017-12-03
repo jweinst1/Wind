@@ -10,7 +10,7 @@
 int main(int argc, char const *argv[]) {
         WindObject_INIT(foo);
         WindObject* foop = &foo;
-        char* src = "in \"food\" -> foo -> d";
+        char* src = "in \"foooooood\" -> foo -> d";
         char* codeSrc = src;
         Translate_cmd(foop, &codeSrc);
         Translate_transition(foop, &codeSrc);
