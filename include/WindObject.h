@@ -58,6 +58,19 @@ union WindValue
 
 typedef union WindValue WindValue;
 
+// smaller version of windobject with no compile
+
+struct WindElement
+{
+        WindType type;
+        WindValue value;
+};
+
+typedef struct WindElement WindElement;
+
+
+//main windobject, capable of executing instructions on itself
+// similar to an objected oriented state machine
 struct WindObject
 {
         unsigned char instructions[WindObject_INS_SIZE];
