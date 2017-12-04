@@ -11,7 +11,7 @@ CC_FLAGS := -c -Wall -I$(INC_DIR)
 
 all: bin/Wind
 
-bin/Wind: $(OBJ_FILES) ; $(CC) $(LD_FLAGS) -o $@ $^
+bin/Wind: $(OBJ_FILES) ; $(CC) $(LD_FLAGS) -o $@ $^ | mkdir -p bin
 
 lib/%.o: src/%.c
 	    mkdir -p $(dir $@)
