@@ -76,6 +76,7 @@ void Debug_obj(WindObject* wobj)
         case WindType_Str:
                 printf("Type = Str;\n");
                 printf("str: \"%.*s\";\n", (int)(wobj->value._str.end - wobj->value._str.begin), wobj->value._str.begin);
+                printf("size: %lu;\n", (wobj->value._str.end - wobj->value._str.begin));
                 break;
         case WindType_Int:
                 printf("Type = Int;\n");

@@ -6,6 +6,7 @@
 void Exec_add(WindObject* wobj, unsigned char** ins)
 {
         unsigned char mode = 1;
+        size_t sizeHolder = 0;
         while(mode)
         {
                 switch(**ins)
@@ -21,21 +22,23 @@ void Exec_add(WindObject* wobj, unsigned char** ins)
                         wobj->value._int += *((long*)(*ins));
                         *ins += sizeof(long);
                         break;
-                /*  case WindInstruc_Str:
-                          if(wobj->type != WindType_Str)
-                          {
-                                  wobj->error.active = 1;
-                                  sprintf(wobj->error.mes, "Type Error: Invalid type for '+'.\n");
-                                  return;
-                          }
-                          addPtr++;
-                          sizeHolder = *(size_t*)addPtr;
-                          sizeHolder += (wobj->value._str.end - wobj->value._str.begin);
-                          addPtr += sizeof(size_t);
-                          SAFE_ALLOC_RE(wobj->value._str.begin, sizeHolder);
-                          wobj->value._str.end = wobj->value._str.begin + sizeHolder;
+                case WindInstruc_Str:
+                        if(wobj->type != WindType_Str)
+                        {
+                                wobj->error.active = 1;
+                                sprintf(wobj->error.mes, "Type Error: Invalid type for '+'.\n");
+                                return;
+                        }
+                        *ins += 1;
+                        sizeHolder = *(size_t*)(*ins);
+                        *ins += sizeof(size_t);
+                        SAFE_ALLOC_RE(wobj->value._str.begin, (sizeHolder + (wobj->value._str.end - wobj->value._str.begin)));
+                        // sets larger string's end ptr to new size offset
+                        wobj->value._str.end = wobj->value._str.begin + (sizeHolder + (wobj->value._str.end - wobj->value._str.begin));
+                        memcpy(wobj->value._str.end - sizeHolder, *ins, sizeHolder);
+                        *ins += sizeHolder;
 
-                          break;*/
+                        break;
                 case WindInstruc_Stop:
                         return;
                 default:

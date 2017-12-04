@@ -39,4 +39,6 @@ struct WindStr
 
 typedef struct WindStr WindStr;
 
+void WindStr_concat(WindStr* ws1, WindStr* ws2);
+
 #endif
