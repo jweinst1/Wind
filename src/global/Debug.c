@@ -4,8 +4,8 @@ void Debug_obj(WindObject* wobj)
 {
         Debug_START;
         puts("Error: ");
-        if(wobj->error.active) printf("%s\n", wobj->error.mes);
-        else puts("No Error");
+        if(wobj->error.active) printf("-> %s\n", wobj->error.mes);
+        else puts(" -> No Error");
 
         puts("Current State: ");
         switch(wobj->state)
@@ -74,9 +74,11 @@ void Debug_obj(WindObject* wobj)
                 break;
         case WindType_Str:
                 printf("Type = Str;\n");
+                printf("str: \"%.*s\";\n", (int)(wobj->value._str.end - wobj->value._str.begin), wobj->value._str.begin);
                 break;
         case WindType_Int:
                 printf("Type = Int;\n");
+                printf("Value = %ld;\n", wobj->value._int);
                 break;
         }
         Debug_END;
