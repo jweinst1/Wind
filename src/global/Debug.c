@@ -24,6 +24,7 @@ void Debug_obj(WindObject* wobj)
                 break;
         }
         puts("...................");
+        printf("Ins Buffer Space = %lu;\n", WindObject_IB_SPACE(wobj));
         puts("Instructions: ");
         puts("{");
         unsigned char* insPtr = wobj->instructions;

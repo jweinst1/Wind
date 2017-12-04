@@ -1,39 +1,43 @@
 #include "Exec.h"
 #include <stdlib.h>
 #include <string.h>
+#include "SafeAlloc.h"
 
 void Exec_add(WindObject* wobj, unsigned char** ins)
 {
         unsigned char mode = 1;
-        unsigned char* addPtr = *ins;
-        size_t sizeHolder = 0;
         while(mode)
         {
-                switch(*addPtr)
+                switch(**ins)
                 {
                 case WindInstruc_Int:
-                        addPtr++;
+                        *ins += 1;
                         if(wobj->type != WindType_Int)
                         {
                                 wobj->error.active = 1;
                                 sprintf(wobj->error.mes, "Type Error: Invalid type for '+'.\n");
                                 return;
                         }
-                        wobj->value._int += *((long*)(addPtr));
-                        addPtr += sizeof(long);
+                        wobj->value._int += *((long*)(*ins));
+                        *ins += sizeof(long);
                         break;
-                case WindInstruc_Str:
-                        if(wobj->type != WindType_Int)
-                        {
-                                wobj->error.active = 1;
-                                sprintf(wobj->error.mes, "Type Error: Invalid type for '+'.\n");
-                                return;
-                        }
-                        addPtr++;
-                        sizeHolder = *(size_t*)addPtr;
-                        addPtr += sizeof(size_t);
+                /*  case WindInstruc_Str:
+                          if(wobj->type != WindType_Str)
+                          {
+                                  wobj->error.active = 1;
+                                  sprintf(wobj->error.mes, "Type Error: Invalid type for '+'.\n");
+                                  return;
+                          }
+                          addPtr++;
+                          sizeHolder = *(size_t*)addPtr;
+                          sizeHolder += (wobj->value._str.end - wobj->value._str.begin);
+                          addPtr += sizeof(size_t);
+                          SAFE_ALLOC_RE(wobj->value._str.begin, sizeHolder);
+                          wobj->value._str.end = wobj->value._str.begin + sizeHolder;
 
-                        break;
+                          break;*/
+                case WindInstruc_Stop:
+                        return;
                 default:
                         wobj->error.active = 1;
                         sprintf(wobj->error.mes, "Type Error: Invalid type for '+'.\n");
@@ -137,7 +141,7 @@ int Exec_exec(WindObject* wobj)
                         break;
                 default:
                         wobj->error.active = 1;
-                        sprintf(wobj->error.mes, "Runtime Error: Invalid byte %u.\n", *bytePtr);
+                        sprintf(wobj->error.mes, "Runtime Error: Invalid byte at exec %u.\n", *bytePtr);
                         return 0; //error
                 }
         }
