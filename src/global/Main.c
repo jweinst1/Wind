@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "Translate.h"
 #include "Debug.h"
+#include "Exec.h"
 
 
 
@@ -10,10 +11,17 @@
 int main(int argc, char const *argv[]) {
         WindObject_INIT(foo);
         WindObject* foop = &foo;
-        char* src = "in \"foooooood\" -> foo -> d";
+        char* src = "in 44 -> * 55 -> d";
         char* codeSrc = src;
-        Translate_cmd(foop, &codeSrc);
-        Translate_transition(foop, &codeSrc);
+        char** srcad = &codeSrc;
+        Translate_cmd(foop, srcad);
+        Translate_transition(foop, srcad);
+        Exec_exec(foop);
+        foop->state = WindState_Translate;
+        Translate_cmd(foop, srcad);
+        Translate_transition(foop, srcad);
+        Debug_obj(foop);
+        Exec_exec(foop);
         Debug_obj(foop);
         return 0;
 
