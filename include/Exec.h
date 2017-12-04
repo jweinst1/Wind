@@ -12,6 +12,9 @@
 //executes an add instruction
 void Exec_add(WindObject* wobj, unsigned char** ins);
 
+//executes a mul (multiply) instruction
+void Exec_mul(WindObject* wobj, unsigned char** ins);
+
 //executes an in instruction
 void Exec_in(WindObject* wobj, unsigned char** ins);
 

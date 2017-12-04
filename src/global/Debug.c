@@ -52,6 +52,10 @@ void Debug_obj(WindObject* wobj)
                         puts("+;");
                         insPtr++;
                         break;
+                case WindInstruc_Mul:
+                        puts("*;");
+                        insPtr++;
+                        break;
                 case WindInstruc_Int:
                         insPtr++;
                         printf("int: %ld;\n", *(long*)insPtr);
