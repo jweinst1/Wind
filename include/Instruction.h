@@ -10,6 +10,7 @@ enum WindInstruc
         WindInstruc_Int,
         WindInstruc_Str,
         WindInstruc_Add,
+        WindInstruc_Sub,
         WindInstruc_Mul
 };
 

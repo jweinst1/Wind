@@ -52,6 +52,10 @@ void Debug_obj(WindObject* wobj)
                         puts("+;");
                         insPtr++;
                         break;
+                case WindInstruc_Sub:
+                        puts("-;");
+                        insPtr++;
+                        break;
                 case WindInstruc_Mul:
                         puts("*;");
                         insPtr++;

@@ -11,7 +11,7 @@
 int main(int argc, char const *argv[]) {
         WindObject_INIT(foo);
         WindObject* foop = &foo;
-        char* src = "in 44 -> * 55 -> d";
+        char* src = "in 56 -> - 55 -> d";
         char* codeSrc = src;
         char** srcad = &codeSrc;
         Translate_cmd(foop, srcad);

@@ -58,7 +58,7 @@ union WindValue
 
 typedef union WindValue WindValue;
 
-// smaller version of windobject with no compile
+// smaller version of windobject with no compile abilities
 
 struct WindElement
 {
@@ -67,6 +67,15 @@ struct WindElement
 };
 
 typedef struct WindElement WindElement;
+
+struct WindList
+{
+        WindElement* begin;
+        WindElement* mark;
+        WindElement* end;
+};
+
+typedef struct WindList WindList;
 
 
 //main windobject, capable of executing instructions on itself

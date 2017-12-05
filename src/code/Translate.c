@@ -81,9 +81,10 @@ void Translate_cmd(WindObject* wobj, char** srcCode)
                         }
                         else
                         {
-                                wobj->error.active = 1;
-                                sprintf(wobj->error.mes, "Syntax Error: Expected ->, found '-%c'.\n", **srcCode);
-                                return;
+                                *srcCode += 1;
+                                *(wobj->insMark) = WindInstruc_Sub;
+                                wobj->insMark++;
+                                break;
                         }
                 // numbers
                 case '0':
