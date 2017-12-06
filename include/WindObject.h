@@ -17,8 +17,6 @@
 
 #define WindObject_INIT(name) \
         WindObject name; \
-        name.codeMark = name.code; \
-        name.codeEnd = name.codeMark + WindObject_CODE_SIZE; \
         name.insMark = name.instructions; \
         name.insEnd = name.insMark + WindObject_INS_SIZE; \
         name.type = WindType_None; \
@@ -54,24 +52,13 @@ union WindValue
 
 typedef union WindValue WindValue;
 
-// smaller version of windobject with no compile abilities
-
-struct WindElement
+struct WindItem
 {
         WindType type;
         WindValue value;
 };
 
-typedef struct WindElement WindElement;
-
-struct WindList
-{
-        WindElement* begin;
-        WindElement* mark;
-        WindElement* end;
-};
-
-typedef struct WindList WindList;
+typedef struct WindItem WindItem;
 
 
 //main windobject, capable of executing instructions on itself

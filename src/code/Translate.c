@@ -6,6 +6,7 @@ void Translate_err(WindObject* wobj)
         fprintf(stderr, "%s", wobj->error.mes);
         wobj->error.active = 0;
 }
+
 // will be handled in compile function
 void Translate_transition(WindObject* wobj, char** srcCode)
 {
@@ -129,6 +130,11 @@ void Translate_cmd(WindObject* wobj, char** srcCode)
                 case '*':
                         *srcCode += 1;
                         *(wobj->insMark) = WindInstruc_Mul;
+                        wobj->insMark++;
+                        break;
+                case '/':
+                        *srcCode += 1;
+                        *(wobj->insMark) = WindInstruc_Div;
                         wobj->insMark++;
                         break;
                 case 'i':

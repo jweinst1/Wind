@@ -10,6 +10,7 @@ ByteBuf* ByteBuf_new(size_t bufSize)
         return newbuf;
 }
 
+
 void ByteBuf_write(ByteBuf* buf, unsigned char* data, size_t amount)
 {
         if(amount > ByteBuf_SPACE(buf))

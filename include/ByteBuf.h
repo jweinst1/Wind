@@ -27,6 +27,12 @@ ByteBuf* ByteBuf_new(size_t bufSize);
 //writes to, and expands existing byte buffer if neccesary
 void ByteBuf_write(ByteBuf* buf, unsigned char* data, size_t amount);
 
+inline void
+ByteBuf_copy_to(ByteBuf* buf, unsigned char* dst)
+{
+        memcpy(dst, buf->begin, ByteBuf_LEN(buf));
+}
+
 //frees a byte buffer
 inline void
 ByteBuf_free(ByteBuf* buf)

@@ -107,6 +107,35 @@ void Exec_mul(WindObject* wobj, unsigned char** ins)
         }
 }
 
+void Exec_div(WindObject* wobj, unsigned char** ins)
+{
+        unsigned char mode = 1;
+        //size_t sizeHolder = 0;
+        while(mode)
+        {
+                switch(**ins)
+                {
+                case WindInstruc_Int:
+                        *ins += 1;
+                        if(wobj->type != WindType_Int)
+                        {
+                                wobj->error.active = 1;
+                                sprintf(wobj->error.mes, "Type Error: Invalid type for '*'.\n");
+                                return;
+                        }
+                        wobj->value._int /= *((long*)(*ins)) == 0 ? 1 : *((long*)(*ins));
+                        *ins += sizeof(long);
+                        break;
+                case WindInstruc_Stop:
+                        return;
+                default:
+                        wobj->error.active = 1;
+                        sprintf(wobj->error.mes, "Type Error: Invalid type for '*'.\n");
+                        return;
+                }
+        }
+}
+
 void Exec_in(WindObject* wobj, unsigned char** ins)
 {
         // temp var to store size
@@ -174,7 +203,6 @@ void Exec_free(WindObject* wobj)
         }
 }
 
-
 //top level executing function
 int Exec_exec(WindObject* wobj)
 {
@@ -203,6 +231,10 @@ int Exec_exec(WindObject* wobj)
                 case WindInstruc_Mul:
                         bytePtr++;
                         Exec_mul(wobj, &bytePtr);
+                        break;
+                case WindInstruc_Div:
+                        bytePtr++;
+                        Exec_div(wobj, &bytePtr);
                         break;
                 case WindInstruc_Stop:
                         Exec_RESET_INS(wobj);
