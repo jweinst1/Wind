@@ -137,6 +137,11 @@ void Translate_cmd(WindObject* wobj, char** srcCode)
                         *(wobj->insMark) = WindInstruc_Div;
                         wobj->insMark++;
                         break;
+                case '[':
+                        *srcCode += 1;
+                        *(wobj->insMark) = WindInstruc_List;
+                        wobj->insMark++;
+                        break;
                 case 'i':
                         switch( *(*srcCode + 1) )
                         {

@@ -14,13 +14,9 @@
                 wlst->end = wlst->mark + listSize; \
 } while(0)
 
-inline void
-WindList_free(WindList* wlst) {
-        free(wlst->begin);
-        free(wlst);
-}
+void WindList_free(WindList* wlst);
 
-WindList* WindList_new(WindList* lst, size_t listSize);
+WindList* WindList_new(size_t listSize);
 
 
 #endif
