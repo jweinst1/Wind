@@ -38,7 +38,8 @@ enum WindType
 {
         WindType_None, //None evaluates to zero
         WindType_Int,
-        WindType_Str
+        WindType_Str,
+        WindType_List
 };
 
 typedef enum WindType WindType;
@@ -48,6 +49,7 @@ union WindValue
 {
         long _int;
         WindStr _str;
+        struct WindList* _lst;
 };
 
 typedef union WindValue WindValue;
@@ -59,6 +61,15 @@ struct WindItem
 };
 
 typedef struct WindItem WindItem;
+
+struct WindList
+{
+        WindItem* begin;
+        WindItem* mark;
+        WindItem* end;
+};
+
+typedef struct WindList WindList;
 
 
 //main windobject, capable of executing instructions on itself
