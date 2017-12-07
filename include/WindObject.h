@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include "Instruction.h"
+#include "SafeAlloc.h"
 #include "WindStr.h"
 #include "WindError.h"
 
@@ -15,14 +16,45 @@
 
 #define WindObject_IB_FULL(wobj) (wobj->insEnd - wobj->insMark) == 0
 
+//checks if some size can fit on the instruction buffer
+#define WindObject_FITS(wobj, addSize) (wobj->insEnd - wobj->insMark) > addSize
+
 #define WindObject_INIT(name) \
         WindObject name; \
+        SAFE_ALLOC_M(name.instructions, WindObject_INS_SIZE); \
         name.insMark = name.instructions; \
         name.insEnd = name.insMark + WindObject_INS_SIZE; \
         name.type = WindType_None; \
         name.state = WindState_Translate; \
         name.error.active = 0; \
         name.curIns = WindInstruc_Nil;
+
+#define WindObject_INIT_VAR(name, insSize) \
+        WindObject name; \
+        SAFE_ALLOC_M(name.instructions, insSize); \
+        name.insMark = name.instructions; \
+        name.insEnd = name.insMark + insSize; \
+        name.type = WindType_None; \
+        name.state = WindState_Translate; \
+        name.error.active = 0; \
+        name.curIns = WindInstruc_Nil;
+
+
+// expands the instruction buffer by some growSize
+#define WindObject_EXPAND(wobj, growSize) do { \
+                size_t oldLen = wobj->insMark - wobj->instructions; \
+                size_t newCap = (wobj->insEnd - wobj->instructions) + growSize; \
+                SAFE_ALLOC_RE(wobj->instructions, newCap); \
+                wobj->insMark = wobj->instructions + oldLen; \
+                wobj->insEnd = wobj->instructions + newCap; \
+} while(0)
+
+//works for a scoped, literal WindObject
+#define WindObject_DELETE(wobj) do { \
+                free(wobj.instructions); \
+                wobj.insMark = NULL; \
+                wobj.insEnd = NULL; \
+} while(0)
 
 enum WindState
 {
@@ -54,6 +86,7 @@ union WindValue
 
 typedef union WindValue WindValue;
 
+// functions as a form of WindObject but no executing capability.
 struct WindItem
 {
         WindType type;
@@ -76,7 +109,7 @@ typedef struct WindList WindList;
 // similar to an objected oriented state machine
 struct WindObject
 {
-        unsigned char instructions[WindObject_INS_SIZE];
+        unsigned char* instructions;
         WindError error;
         union WindValue value;
         unsigned char* insMark;
@@ -87,26 +120,6 @@ struct WindObject
 };
 
 typedef struct WindObject WindObject;
-
-//variably size windobject, used for other architectures and specific environments
-struct VarWindObject
-{
-        unsigned char* instructions;
-        char* code;
-        size_t insCap;
-        size_t codeCap;
-        WindError error;
-        union WindValue value;
-        unsigned char* insMark;
-        unsigned char* insEnd;
-        char* codeMark;
-        char* codeEnd;
-        WindInstruc curIns;
-        WindState state;
-        WindType type;
-};
-
-typedef struct VarWindObject VarWindObject;
 
 
 #endif

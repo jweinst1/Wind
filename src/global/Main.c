@@ -3,10 +3,11 @@
 #include "Debug.h"
 #include "Exec.h"
 #include "WindList.h"
+
 int main(int argc, char const *argv[]) {
-        /*WindObject_INIT(foo);
-           WindObject* foop = &foo;
-           char* src = "in 50 -> / 5 -> d";
+        WindObject_INIT(foo);
+        WindObject* foop = &foo;
+        /*char* src = "in 50 -> / 5 -> d";
            char* codeSrc = src;
            char** srcad = &codeSrc;
            Translate_cmd(foop, srcad);
@@ -19,8 +20,7 @@ int main(int argc, char const *argv[]) {
            Exec_exec(foop);
            Debug_obj(foop);*/
 
-        WindList* lst = WindList_new(6);
-        printf("mark is set as beg %d\n", lst->begin == lst->mark);
-        WindList_free(lst);
+        WindObject_EXPAND(foop, 3000);
+        printf("The object length is now %lu\n", WindObject_IB_SPACE(foop));
         return 0;
 }
