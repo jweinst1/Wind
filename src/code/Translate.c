@@ -50,6 +50,33 @@ size_t Translate_str_len(WindObject* wobj, char** srcCode)
         return 0;
 }
 
+void Translate_list(WindObject* wobj, char** srcCode)
+{
+        unsigned char* startIns = wobj->insMark;
+        char* startSrc = *srcCode;
+        TransState state = TransState_On;
+        while(state)
+        {
+                if(Translate_BUF_CHECK(wobj))
+                {
+                        sprintf(wobj->error.mes, "List Error: Size of literal list is too large.\n");
+                        wobj->error.active = 1;
+                        // resets ins pointer if list is too large
+                        wobj->insMark = startIns;
+                        *srcCode = startSrc;
+                        return;
+                }
+                switch(**srcCode)
+                {
+                default:
+                        sprintf(wobj->error.mes, "Syntax Error: Unexpected token '%c'.\n", **srcCode);
+                        wobj->error.active = 1;
+                        wobj->insMark = startIns;
+                        *srcCode = startSrc;
+                }
+        }
+}
+
 void Translate_cmd(WindObject* wobj, char** srcCode)
 {
         size_t strSizeBlock = 0;
@@ -141,6 +168,7 @@ void Translate_cmd(WindObject* wobj, char** srcCode)
                         *srcCode += 1;
                         *(wobj->insMark) = WindInstruc_List;
                         wobj->insMark++;
+                        //not complete
                         break;
                 case 'i':
                         switch( *(*srcCode + 1) )
