@@ -29,13 +29,7 @@ size_t Translate_str_len(WindObject* wobj, char** srcCode)
                 switch(*srcPtr)
                 {
                 case '"':
-                        if(total > WindObject_INS_SIZE)
-                        {
-                                sprintf(wobj->error.mes, "String Error: String size of %lu too large as literal string.\n", total);
-                                wobj->error.active = 1;
-                                state = 0;
-                                return 0;
-                        }
+                        WindObject_EXPAND_IF(wobj, total);
                         return total;
                 case '\0':
                         sprintf(wobj->error.mes, "String Error: Unexpected null found in string.\n");
@@ -85,9 +79,7 @@ void Translate_cmd(WindObject* wobj, char** srcCode)
         {
                 if(Translate_BUF_CHECK(wobj))
                 {
-                        wobj->state = WindState_Transition;
-                        state = TransState_Off;
-                        return;
+                        WindObject_EXPAND_2(wobj);
                 }
                 switch(**srcCode)
                 {

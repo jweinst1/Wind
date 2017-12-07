@@ -2,12 +2,13 @@
 #define WIND_OBJECT_H
 
 #include <stdlib.h>
+#include <string.h>
 #include "Instruction.h"
 #include "SafeAlloc.h"
 #include "WindStr.h"
 #include "WindError.h"
 
-#define WindObject_INS_SIZE 4000
+#define WindObject_INS_SIZE 5000
 
 
 
@@ -17,7 +18,7 @@
 #define WindObject_IB_FULL(wobj) (wobj->insEnd - wobj->insMark) == 0
 
 //checks if some size can fit on the instruction buffer
-#define WindObject_FITS(wobj, addSize) (wobj->insEnd - wobj->insMark) > addSize
+#define WindObject_FITS(wobj, addSize) ((wobj->insEnd - wobj->insMark) > addSize)
 
 #define WindObject_INIT(name) \
         WindObject name; \
@@ -48,6 +49,24 @@
                 wobj->insMark = wobj->instructions + oldLen; \
                 wobj->insEnd = wobj->instructions + newCap; \
 } while(0)
+
+// Doubles size of instruction buffer
+#define WindObject_EXPAND_2(wobj) do { \
+                size_t oldLen = wobj->insMark - wobj->instructions; \
+                size_t newCap = (wobj->insEnd - wobj->instructions) * 2; \
+                SAFE_ALLOC_RE(wobj->instructions, newCap); \
+                wobj->insMark = wobj->instructions + oldLen; \
+                wobj->insEnd = wobj->instructions + newCap; \
+} while(0)
+
+#define WindObject_EXPAND_IF(wobj, addSize) if (!WindObject_FITS(wobj, addSize)) WindObject_EXPAND(wobj, addSize)
+
+#define WindObject_EXPAND_IF2(wobj, addSize) if (!WindObject_FITS(wobj, addSize)) WindObject_EXPAND_2(wobj)
+
+#define WindObject_RESET_INS(wobj) wobj->insMark = wobj->instructions
+
+#define WindObject_ERR_MES(wobj) wobj->error.mes
+
 
 //works for a scoped, literal WindObject
 #define WindObject_DELETE(wobj) do { \

@@ -20,7 +20,7 @@ int main(int argc, char const *argv[]) {
            Exec_exec(foop);
            Debug_obj(foop);*/
 
-        WindObject_EXPAND(foop, 3000);
+        WindObject_EXPAND_IF(foop, 5000);
         printf("The object length is now %lu\n", WindObject_IB_SPACE(foop));
         return 0;
 }
