@@ -83,6 +83,10 @@ void Debug_obj(WindObject* wobj)
                         puts("ListEnd;");
                         insPtr++;
                         break;
+                case WindInstruc_Put:
+                        puts("Put;");
+                        insPtr++;
+                        break;
                 default:
                         printf("Invalid Instruction: %u;\n", *insPtr++);
                 }

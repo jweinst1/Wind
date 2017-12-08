@@ -201,6 +201,25 @@ void Exec_out(WindObject* wobj, unsigned char** ins)
         }
 }
 
+void Exec_put(WindObject* wobj, unsigned char** ins)
+{
+        while(**ins != WindInstruc_Stop)
+        {
+                switch(**ins)
+                {
+                case WindInstruc_Int:
+                        *ins += 1;
+                        printf("%ld\n", *((long*)(*ins)));
+                        *ins += sizeof(long);
+                        break;
+                default:
+                        wobj->error.active = 1;
+                        sprintf(wobj->error.mes, "Argument Error: Invalid argument for 'put'.\n");
+                        return;
+                }
+        }
+}
+
 
 void Exec_free(WindObject* wobj)
 {
@@ -229,6 +248,10 @@ int Exec_exec(WindObject* wobj)
                         bytePtr++;
                         Exec_free(wobj);
                         Exec_in(wobj, &bytePtr);
+                        break;
+                case WindInstruc_Put:
+                        bytePtr++;
+                        Exec_put(wobj, &bytePtr);
                         break;
                 case WindInstruc_Out:
                         bytePtr++;

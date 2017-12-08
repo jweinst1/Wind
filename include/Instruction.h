@@ -14,7 +14,8 @@ enum WindInstruc
         WindInstruc_Add,
         WindInstruc_Sub,
         WindInstruc_Mul,
-        WindInstruc_Div
+        WindInstruc_Div,
+        WindInstruc_Put
 };
 
 typedef enum WindInstruc WindInstruc;

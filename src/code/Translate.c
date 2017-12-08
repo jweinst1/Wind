@@ -159,6 +159,29 @@ void Translate_cmd(WindObject* wobj, char** srcCode)
                                 return;
                         }
                         break;
+                case 'p':
+                        switch( *(*srcCode + 1) )
+                        {
+                        case 'u':
+                                switch( *(*srcCode + 2) )
+                                {
+                                case 't':
+                                        *srcCode += 3;
+                                        *(wobj->insMark) = WindInstruc_Put;
+                                        wobj->insMark++;
+                                        break;
+                                default:
+                                        sprintf(wobj->error.mes, "Syntax Error: Unexpected token 'pu%c'.\n", *(*srcCode + 2));
+                                        wobj->error.active = 1;
+                                        return;
+                                }
+                                break;
+                        default:
+                                sprintf(wobj->error.mes, "Syntax Error: Unexpected token 'p%c'.\n", *(*srcCode + 1));
+                                wobj->error.active = 1;
+                                return;
+                        }
+                        break;
                 case 'o':
                         switch( *(*srcCode + 1) )
                         {

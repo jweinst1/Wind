@@ -28,6 +28,8 @@ void Exec_in(WindObject* wobj, unsigned char** ins);
 //executes an out instruction
 void Exec_out(WindObject* wobj, unsigned char** ins);
 
+void Exec_put(WindObject* wobj, unsigned char** ins);
+
 // frees the current value
 void Exec_free(WindObject* wobj);
 
