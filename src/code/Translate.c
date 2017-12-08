@@ -6,6 +6,7 @@ void Translate_err(WindObject* wobj)
         fprintf(stderr, "%s", wobj->error.mes);
         wobj->error.active = 0;
 }
+
 // will be handled in compile function
 void Translate_transition(WindObject* wobj, char** srcCode)
 {
@@ -28,13 +29,7 @@ size_t Translate_str_len(WindObject* wobj, char** srcCode)
                 switch(*srcPtr)
                 {
                 case '"':
-                        if(total > WindObject_INS_SIZE)
-                        {
-                                sprintf(wobj->error.mes, "String Error: String size of %lu too large as literal string.\n", total);
-                                wobj->error.active = 1;
-                                state = 0;
-                                return 0;
-                        }
+                        WindObject_EXPAND_IF(wobj, total);
                         return total;
                 case '\0':
                         sprintf(wobj->error.mes, "String Error: Unexpected null found in string.\n");
@@ -49,6 +44,7 @@ size_t Translate_str_len(WindObject* wobj, char** srcCode)
         return 0;
 }
 
+
 void Translate_cmd(WindObject* wobj, char** srcCode)
 {
         size_t strSizeBlock = 0;
@@ -57,9 +53,7 @@ void Translate_cmd(WindObject* wobj, char** srcCode)
         {
                 if(Translate_BUF_CHECK(wobj))
                 {
-                        wobj->state = WindState_Transition;
-                        state = TransState_Off;
-                        return;
+                        WindObject_EXPAND_2(wobj);
                 }
                 switch(**srcCode)
                 {
@@ -70,6 +64,11 @@ void Translate_cmd(WindObject* wobj, char** srcCode)
                         //white space
                         *srcCode += 1;
                         break;
+                case '|':
+                        *srcCode += 1; //moves in front of pipe
+                        wobj->state = WindState_Transition;
+                        state = TransState_Off;
+                        return;
                 // number or stop
                 case '-':
                         if( *(*srcCode + 1) == '>')
@@ -81,9 +80,10 @@ void Translate_cmd(WindObject* wobj, char** srcCode)
                         }
                         else
                         {
-                                wobj->error.active = 1;
-                                sprintf(wobj->error.mes, "Syntax Error: Expected ->, found '-%c'.\n", **srcCode);
-                                return;
+                                *srcCode += 1;
+                                *(wobj->insMark) = WindInstruc_Sub;
+                                wobj->insMark++;
+                                break;
                         }
                 // numbers
                 case '0':
@@ -128,6 +128,21 @@ void Translate_cmd(WindObject* wobj, char** srcCode)
                 case '*':
                         *srcCode += 1;
                         *(wobj->insMark) = WindInstruc_Mul;
+                        wobj->insMark++;
+                        break;
+                case '/':
+                        *srcCode += 1;
+                        *(wobj->insMark) = WindInstruc_Div;
+                        wobj->insMark++;
+                        break;
+                case '[':
+                        *srcCode += 1;
+                        *(wobj->insMark) = WindInstruc_List;
+                        wobj->insMark++;
+                        break;
+                case ']':
+                        *srcCode += 1;
+                        *(wobj->insMark) = WindInstruc_ListEnd;
                         wobj->insMark++;
                         break;
                 case 'i':

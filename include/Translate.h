@@ -6,7 +6,7 @@
 #include <ctype.h>
 #include "WindObject.h"
 
-#define Translate_BUF_CHECK(wobj) wobj->insMark > (wobj->insEnd - 10)
+#define Translate_BUF_CHECK(wobj) wobj->insMark > (wobj->insEnd - 16)
 
 // helper
 typedef enum {
@@ -24,7 +24,7 @@ void Translate_transition(WindObject* wobj, char** srcCode);
 size_t Translate_str_len(WindObject* wobj, char** srcCode);
 
 
-
+//translates single cmd in wind
 void Translate_cmd(WindObject* wobj, char** srcCode);
 
 #endif

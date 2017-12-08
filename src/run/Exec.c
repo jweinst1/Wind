@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "SafeAlloc.h"
+#include "ExecLoad.h"
 
 void Exec_add(WindObject* wobj, unsigned char** ins)
 {
@@ -49,6 +50,35 @@ void Exec_add(WindObject* wobj, unsigned char** ins)
         }
 }
 
+void Exec_sub(WindObject* wobj, unsigned char** ins)
+{
+        unsigned char mode = 1;
+        //size_t sizeHolder = 0;
+        while(mode)
+        {
+                switch(**ins)
+                {
+                case WindInstruc_Int:
+                        *ins += 1;
+                        if(wobj->type != WindType_Int)
+                        {
+                                wobj->error.active = 1;
+                                sprintf(wobj->error.mes, "Type Error: Invalid type for '-'.\n");
+                                return;
+                        }
+                        wobj->value._int -= *((long*)(*ins));
+                        *ins += sizeof(long);
+                        break;
+                case WindInstruc_Stop:
+                        return;
+                default:
+                        wobj->error.active = 1;
+                        sprintf(wobj->error.mes, "Type Error: Invalid type for '-'.\n");
+                        return;
+                }
+        }
+}
+
 void Exec_mul(WindObject* wobj, unsigned char** ins)
 {
         unsigned char mode = 1;
@@ -78,10 +108,40 @@ void Exec_mul(WindObject* wobj, unsigned char** ins)
         }
 }
 
+void Exec_div(WindObject* wobj, unsigned char** ins)
+{
+        unsigned char mode = 1;
+        //size_t sizeHolder = 0;
+        while(mode)
+        {
+                switch(**ins)
+                {
+                case WindInstruc_Int:
+                        *ins += 1;
+                        if(wobj->type != WindType_Int)
+                        {
+                                wobj->error.active = 1;
+                                sprintf(wobj->error.mes, "Type Error: Invalid type for '*'.\n");
+                                return;
+                        }
+                        wobj->value._int /= *((long*)(*ins)) == 0 ? 1 : *((long*)(*ins));
+                        *ins += sizeof(long);
+                        break;
+                case WindInstruc_Stop:
+                        return;
+                default:
+                        wobj->error.active = 1;
+                        sprintf(wobj->error.mes, "Type Error: Invalid type for '*'.\n");
+                        return;
+                }
+        }
+}
+
 void Exec_in(WindObject* wobj, unsigned char** ins)
 {
         // temp var to store size
         size_t inSizeVal = 0;
+        Exec_free(wobj);
         switch (**ins)
         {
         case WindInstruc_Int:
@@ -102,6 +162,12 @@ void Exec_in(WindObject* wobj, unsigned char** ins)
                 inSizeVal = 0;
 
                 wobj->type = WindType_Str;
+                break;
+        case WindInstruc_List:
+                *ins += 1;
+                WindList_INIT(wobj->value._lst, WindList_DF_SIZE);
+                wobj->type = WindType_List;
+                ExecLoad_list(wobj, ins);
                 break;
         default:
                 wobj->error.active = 1;
@@ -127,6 +193,9 @@ void Exec_out(WindObject* wobj, unsigned char** ins)
                 case WindType_Str:
                         printf("\"%.*s\"\n", (int)WindStr_LEN_L(wobj->value._str), wobj->value._str.begin);
                         return;
+                case WindType_List:
+                        WindList_print(wobj->value._lst);
+                        return;
                 }
                 return;
         }
@@ -140,11 +209,13 @@ void Exec_free(WindObject* wobj)
         case WindType_Str:
                 WindStr_FREE_L(wobj->value._str);
                 break;
+        case WindType_List:
+                WindList_free(wobj->value._lst);
+                break;
         default:
                 return;
         }
 }
-
 
 //top level executing function
 int Exec_exec(WindObject* wobj)
@@ -167,9 +238,17 @@ int Exec_exec(WindObject* wobj)
                         bytePtr++;
                         Exec_add(wobj, &bytePtr);
                         break;
+                case WindInstruc_Sub:
+                        bytePtr++;
+                        Exec_sub(wobj, &bytePtr);
+                        break;
                 case WindInstruc_Mul:
                         bytePtr++;
                         Exec_mul(wobj, &bytePtr);
+                        break;
+                case WindInstruc_Div:
+                        bytePtr++;
+                        Exec_div(wobj, &bytePtr);
                         break;
                 case WindInstruc_Stop:
                         Exec_RESET_INS(wobj);

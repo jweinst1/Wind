@@ -1,4 +1,5 @@
 #include "Debug.h"
+#include "WindList.h"
 
 void Debug_obj(WindObject* wobj)
 {
@@ -52,8 +53,16 @@ void Debug_obj(WindObject* wobj)
                         puts("+;");
                         insPtr++;
                         break;
+                case WindInstruc_Sub:
+                        puts("-;");
+                        insPtr++;
+                        break;
                 case WindInstruc_Mul:
                         puts("*;");
+                        insPtr++;
+                        break;
+                case WindInstruc_Div:
+                        puts("/;");
                         insPtr++;
                         break;
                 case WindInstruc_Int:
@@ -65,6 +74,14 @@ void Debug_obj(WindObject* wobj)
                         insPtr++;
                         printf("str: \"%.*s\";\n", (int)(*(size_t*)insPtr), (insPtr + sizeof(size_t)));
                         insPtr += (*(size_t*)insPtr) + sizeof(size_t);
+                        break;
+                case WindInstruc_List:
+                        puts("List;");
+                        insPtr++;
+                        break;
+                case WindInstruc_ListEnd:
+                        puts("ListEnd;");
+                        insPtr++;
                         break;
                 default:
                         printf("Invalid Instruction: %u;\n", *insPtr++);
@@ -86,6 +103,12 @@ void Debug_obj(WindObject* wobj)
                 printf("Type = Int;\n");
                 printf("Value = %ld;\n", wobj->value._int);
                 break;
+
+        case WindType_List:
+                printf("Type = List;\n");
+                WindList_print(wobj->value._lst);
+                break;
         }
         Debug_END;
+
 }
