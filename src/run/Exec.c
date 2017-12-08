@@ -161,6 +161,9 @@ void Exec_in(WindObject* wobj, unsigned char** ins)
 
                 wobj->type = WindType_Str;
                 break;
+        case WindInstruc_List:
+                *ins += 1;
+                break;
         default:
                 wobj->error.active = 1;
                 sprintf(wobj->error.mes, "Argument Error: Invalid argument for 'in'.\n");
@@ -184,6 +187,10 @@ void Exec_out(WindObject* wobj, unsigned char** ins)
                         return;
                 case WindType_Str:
                         printf("\"%.*s\"\n", (int)WindStr_LEN_L(wobj->value._str), wobj->value._str.begin);
+                        return;
+                case WindType_List:
+                        puts("[]");
+                        // not done
                         return;
                 }
                 return;

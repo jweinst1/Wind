@@ -23,7 +23,6 @@ void Translate_transition(WindObject* wobj, char** srcCode);
 // Helper function that gets length of string.
 size_t Translate_str_len(WindObject* wobj, char** srcCode);
 
-void Translate_list(WindObject* wobj, char** srcCode);
 
 //translates single cmd in wind
 void Translate_cmd(WindObject* wobj, char** srcCode);

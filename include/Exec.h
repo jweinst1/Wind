@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "WindObject.h"
 #include "Instruction.h"
+#include "WindList.h"
 
 //resets instruction buffer for next translation
 #define Exec_RESET_INS(wobj) wobj->insMark = wobj->instructions

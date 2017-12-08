@@ -74,6 +74,14 @@ void Debug_obj(WindObject* wobj)
                         printf("str: \"%.*s\";\n", (int)(*(size_t*)insPtr), (insPtr + sizeof(size_t)));
                         insPtr += (*(size_t*)insPtr) + sizeof(size_t);
                         break;
+                case WindInstruc_List:
+                        puts("List;");
+                        insPtr++;
+                        break;
+                case WindInstruc_ListEnd:
+                        puts("ListEnd;");
+                        insPtr++;
+                        break;
                 default:
                         printf("Invalid Instruction: %u;\n", *insPtr++);
                 }
@@ -93,6 +101,11 @@ void Debug_obj(WindObject* wobj)
         case WindType_Int:
                 printf("Type = Int;\n");
                 printf("Value = %ld;\n", wobj->value._int);
+                break;
+
+        case WindType_List:
+                printf("Type = Int;\n");
+                // not done
                 break;
         }
         Debug_END;
