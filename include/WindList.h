@@ -4,6 +4,7 @@
 
 #include "WindObject.h"
 #include "SafeAlloc.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 #define WindList_DF_SIZE 10
@@ -40,7 +41,7 @@ void WindList_free(WindList* wlst);
 
 WindList* WindList_new(size_t listSize);
 
-WindItem* WindList_get(WindList* wlst, size_t index);
+void WindList_print(WindList* wlst);
 
 
 #endif

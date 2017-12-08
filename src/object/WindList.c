@@ -13,7 +13,28 @@ WindList* WindList_new(size_t listSize)
         return wlst;
 }
 
-WindItem* WindList_get(WindList* wlst, size_t index)
+void WindList_print(WindList* wlst)
 {
-        return wlst->begin + index;
+        WindItem* witem;
+        printf("[ ");
+        for(witem = wlst->begin; witem != wlst->end; witem++)
+        {
+                switch(witem->type)
+                {
+                case WindType_Int:
+                        printf("%ld ", witem->value._int);
+                        break;
+                case WindType_None:
+                        printf("None ");
+                        break;
+                case WindType_Str:
+                        printf("\"%.*s\" ", (int)(witem->value._str.end - witem->value._str.begin), witem->value._str.begin);
+                        break;
+                case WindType_List:
+                        // recursive call for nested lists
+                        WindList_print(witem->value._lst);
+                        break;
+                }
+        }
+        puts("]");
 }

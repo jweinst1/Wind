@@ -1,4 +1,5 @@
 #include "Debug.h"
+#include "WindList.h"
 
 void Debug_obj(WindObject* wobj)
 {
@@ -104,8 +105,8 @@ void Debug_obj(WindObject* wobj)
                 break;
 
         case WindType_List:
-                printf("Type = Int;\n");
-                // not done
+                printf("Type = List;\n");
+                WindList_print(wobj->value._lst);
                 break;
         }
         Debug_END;

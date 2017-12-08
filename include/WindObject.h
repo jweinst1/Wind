@@ -106,6 +106,7 @@ union WindValue
 typedef union WindValue WindValue;
 
 // functions as a form of WindObject but no executing capability.
+// allows for iteration for(witem = wlst->begin; witem != wlst->end; witem++)
 struct WindItem
 {
         WindType type;

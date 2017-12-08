@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "SafeAlloc.h"
+#include "ExecLoad.h"
 
 void Exec_add(WindObject* wobj, unsigned char** ins)
 {
@@ -166,7 +167,7 @@ void Exec_in(WindObject* wobj, unsigned char** ins)
                 *ins += 1;
                 WindList_INIT(wobj->value._lst, WindList_DF_SIZE);
                 wobj->type = WindType_List;
-
+                ExecLoad_list(wobj, ins);
                 break;
         default:
                 wobj->error.active = 1;
