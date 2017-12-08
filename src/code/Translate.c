@@ -44,30 +44,6 @@ size_t Translate_str_len(WindObject* wobj, char** srcCode)
         return 0;
 }
 
-/*void Translate_list(WindObject* wobj, char** srcCode)
-   {
-        unsigned char* startIns = wobj->insMark;
-        char* startSrc = *srcCode;
-        // counts the size of the entire list
-        size_t totalSize = 0;
-        TransState state = TransState_On;
-        while(state)
-        {
-                if(Translate_BUF_CHECK(wobj))
-                {
-                        WindObject_EXPAND_2(wobj);
-                }
-                switch(**srcCode)
-                {
-                default:
-                        sprintf(wobj->error.mes, "Syntax Error: Unexpected token '%c'.\n", **srcCode);
-                        wobj->error.active = 1;
-                        // resets due to error
-                        wobj->insMark = startIns;
- * srcCode = startSrc;
-                }
-        }
-   }*/
 
 void Translate_cmd(WindObject* wobj, char** srcCode)
 {
@@ -88,6 +64,11 @@ void Translate_cmd(WindObject* wobj, char** srcCode)
                         //white space
                         *srcCode += 1;
                         break;
+                case '|':
+                        *srcCode += 1; //moves in front of pipe
+                        wobj->state = WindState_Transition;
+                        state = TransState_Off;
+                        return;
                 // number or stop
                 case '-':
                         if( *(*srcCode + 1) == '>')

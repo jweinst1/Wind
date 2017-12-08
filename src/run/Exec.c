@@ -194,8 +194,7 @@ void Exec_out(WindObject* wobj, unsigned char** ins)
                         printf("\"%.*s\"\n", (int)WindStr_LEN_L(wobj->value._str), wobj->value._str.begin);
                         return;
                 case WindType_List:
-                        puts("[]");
-                        // not done
+                        WindList_print(wobj->value._lst);
                         return;
                 }
                 return;

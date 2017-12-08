@@ -17,7 +17,7 @@ void WindList_print(WindList* wlst)
 {
         WindItem* witem;
         printf("[ ");
-        for(witem = wlst->begin; witem != wlst->end; witem++)
+        for(witem = wlst->begin; witem != wlst->mark; witem++)
         {
                 switch(witem->type)
                 {

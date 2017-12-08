@@ -7,6 +7,7 @@ void ExecLoad_list(WindObject* wobj, unsigned char** ins)
         size_t inSizeVal = 0;
         WindList* wlst = wobj->value._lst;
         WindItem* curItem = wlst->mark;
+        //todo make to for loop
         while(state)
         {
                 if(curItem == wlst->end)
