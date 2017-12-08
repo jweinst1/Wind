@@ -7,7 +7,7 @@
 int main(int argc, char const *argv[]) {
         WindObject_INIT(foo);
         WindObject* foop = &foo;
-        char* src = "in [ \"gggggggggg\" ] -> + \"rrr\" -> d";
+        char* src = "in [ 1 2 3 4 5 6 7 8 9 10 11 ] -> + \"rrr\" -> d";
         char* codeSrc = src;
         char** srcad = &codeSrc;
         Translate_cmd(foop, srcad);

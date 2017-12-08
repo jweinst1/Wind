@@ -9,7 +9,12 @@ void ExecLoad_list(WindObject* wobj, unsigned char** ins)
         WindItem* curItem = wlst->mark;
         while(state)
         {
-                if(curItem == wlst->end) WindList_EXPAND_2(wlst);
+                if(curItem == wlst->end)
+                {
+                        wlst->mark = curItem;
+                        WindList_EXPAND_2(wlst);
+                        curItem = wlst->mark;
+                }
                 switch(**ins)
                 {
                 case WindInstruc_ListEnd:
