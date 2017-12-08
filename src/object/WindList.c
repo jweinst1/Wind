@@ -12,3 +12,8 @@ WindList* WindList_new(size_t listSize)
         WindList_INIT(wlst, listSize);
         return wlst;
 }
+
+WindItem* WindList_get(WindList* wlst, size_t index)
+{
+        return wlst->begin + index;
+}

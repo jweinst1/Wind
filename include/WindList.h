@@ -6,6 +6,8 @@
 #include "SafeAlloc.h"
 #include <stdlib.h>
 
+#define WindList_DF_SIZE 10
+
 //initializes a WindList*
 #define WindList_INIT(wlst, listSize) do { \
                 SAFE_ALLOC_M(wlst, sizeof(WindList)); \
@@ -29,10 +31,16 @@
 
 #define WindList_SIZE(wlst) (wlst->end - wlst->begin)
 
+#define WindList_FULL(wlst) (wlst->end == wlst->mark)
+
+#define WindList_BOUNDS(wlst, index) (index >= 0 && index < (wlst->mark - wlst->begin))
+
 
 void WindList_free(WindList* wlst);
 
 WindList* WindList_new(size_t listSize);
+
+WindItem* WindList_get(WindList* wlst, size_t index);
 
 
 #endif

@@ -140,6 +140,7 @@ void Exec_in(WindObject* wobj, unsigned char** ins)
 {
         // temp var to store size
         size_t inSizeVal = 0;
+        Exec_free(wobj);
         switch (**ins)
         {
         case WindInstruc_Int:
@@ -163,6 +164,9 @@ void Exec_in(WindObject* wobj, unsigned char** ins)
                 break;
         case WindInstruc_List:
                 *ins += 1;
+                WindList_INIT(wobj->value._lst, WindList_DF_SIZE);
+                wobj->type = WindType_List;
+
                 break;
         default:
                 wobj->error.active = 1;
@@ -204,6 +208,9 @@ void Exec_free(WindObject* wobj)
         {
         case WindType_Str:
                 WindStr_FREE_L(wobj->value._str);
+                break;
+        case WindType_List:
+                WindList_free(wobj->value._lst);
                 break;
         default:
                 return;
