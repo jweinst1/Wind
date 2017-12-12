@@ -6,6 +6,7 @@
 typedef struct
 {
         char* begin;
+        char* mark;
         char* end;
 } WindStr;
 

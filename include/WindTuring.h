@@ -5,6 +5,8 @@
 
 #define WindTuring_CELL_SIZE 4000
 
-static WindObject WindTuring_CELLS[WindTuring_CELL_SIZE];
+WindObject* WindTuring_begin(void);
+WindObject* WindTuring_end(void);
+
 
 #endif
