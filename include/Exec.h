@@ -6,5 +6,14 @@
 #include "ByteBuf.h"
 
 
+typedef enum
+{
+        ExecState_Stop,
+        ExecState_Go,
+        ExecState_Err
+} ExecState;
+
+void Exec_code(unsigned char* begin, unsigned char* end);
+
 
 #endif
