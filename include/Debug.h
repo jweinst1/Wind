@@ -1,14 +1,18 @@
 #ifndef WIND_DEBUG_H
 #define WIND_DEBUG_H
-//has a debug function for debugging a windobject
+//contains the debug function
 
 #include <stdio.h>
-#include "WindObject.h"
+#include "Instruction.h"
 
-#define Debug_START puts("_____WindObject________")
+#define Debug_HEADER puts("---Wind--Translate---Debug----")
 
-#define Debug_END puts("_____Debug_End________")
+#define Debug_FOOTER puts("-------------end--------------")
 
-void Debug_obj(WindObject* wobj);
+/** Debug Printing Function
+ * - prints out readable version of Translated Wind Instructions
+ *
+ */
+void Debug_print(unsigned char* start, unsigned char* end);
 
 #endif
