@@ -6,7 +6,10 @@
 #define WindTuring_CELL_SIZE 4000
 
 WindObject* WindTuring_begin(void);
-WindObject* WindTuring_end(void);
+const WindObject* WindTuring_end(void);
+
+void WindTuring_head_up(void);
+void WindTuring_head_down(void);
 
 
 #endif
