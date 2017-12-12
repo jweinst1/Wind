@@ -13,6 +13,8 @@ typedef enum
         ExecState_Err
 } ExecState;
 
+int Exec_load_ins(WindCell* cell, unsigned char* data);
+
 void Exec_code(unsigned char* begin, unsigned char* end);
 
 
