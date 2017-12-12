@@ -8,6 +8,7 @@ typedef enum
         WindInstruc_Continue,
         WindInstruc_Apply,
         WindInstruc_Int,
+        WindInstruc_Add,
         WindInstruc_ExpStart,
         WindInstruc_ExpEnd,
         WindInstruc_ListStart,

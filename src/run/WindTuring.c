@@ -1,5 +1,6 @@
 #include "WindTuring.h"
 
+
 // Cells, the main storage container of the turing machine
 static WindCell WindTuring_CELLS[WindTuring_CELL_SIZE];
 
@@ -30,6 +31,12 @@ void WindTuring_head_up(void)
 void WindTuring_head_down(void)
 {
         if(!(WindTuring_HEAD == WindTuring_CELLS)) WindTuring_HEAD--;
+}
+
+WindCell* WindTuring_last_move(void)
+{
+        if(!(WindTuring_HEAD == WindTuring_END)) return WindTuring_HEAD++;
+        else return NULL;
 }
 
 int WindTuring_full(void)

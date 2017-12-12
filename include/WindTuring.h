@@ -3,16 +3,12 @@
 
 #include "WindObject.h"
 #include "Instruction.h"
+#include <stdlib.h>
 
 // Size of tape for machine.
 // Limits the maximum nested depth that can be computed.
 #define WindTuring_CELL_SIZE 3000
 
-#define WindCell_MAKE(cell, object, inst, state) do { \
-                cell->obj = object; \
-                cell->ins = inst; \
-                cell->active = state; \
-} while(0)
 
 
 // Structure for the machine's cells.
@@ -30,6 +26,8 @@ WindCell* WindTuring_head(void);
 
 void WindTuring_head_up(void);
 void WindTuring_head_down(void);
+
+WindCell* WindTuring_last_move(void);
 
 int WindTuring_full(void);
 

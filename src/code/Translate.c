@@ -72,6 +72,10 @@ ByteBuf* Translate_code(char* srcCode)
                         reader++;
                         ByteBuf_write_byte(insBuf, WindInstruc_Apply);
                         break;
+                case '+':
+                        reader++;
+                        ByteBuf_write_byte(insBuf, WindInstruc_Add);
+                        break;
 
                 default:
                         fprintf(stderr, "Syntax Error: Unexpected token: '%c'\n", *reader);
