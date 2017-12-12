@@ -17,8 +17,8 @@ typedef enum
 
 typedef union
 {
-        int _int;
-        WindStr* _str;
+        long _int;
+        struct WindStr* _str;
         struct WindList* _lst;
 
 } WindValue;
@@ -26,7 +26,7 @@ typedef union
 typedef struct
 {
         WindValue value;
-        WindType type : 8;
+        WindType type;
 } WindObject;
 
 typedef struct
