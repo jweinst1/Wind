@@ -43,6 +43,11 @@ int WindTuring_is_end(WindCell* cell)
         return cell == WindTuring_END;
 }
 
+int WindTuring_is_head(WindCell* cell)
+{
+        return cell == WindTuring_HEAD;
+}
+
 void WindTuring_clear(void)
 {
         unsigned char* cleaner = (unsigned char*)WindTuring_CELLS;

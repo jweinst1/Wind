@@ -9,12 +9,16 @@
 typedef enum
 {
         ExecState_Stop,
-        ExecState_Go,
-        ExecState_Next,
-        ExecState_Err
+        ExecState_Load,
+        ExecState_Exec,
+        ExecState_Adv,
+        ExecState_Done
 } ExecState;
 
-int Exec_load_ins(WindCell* cell, unsigned char* data);
+
+
+int Exec_load_ins(WindCell* cell, unsigned char** data);
+
 
 void Exec_code(unsigned char* begin, unsigned char* end);
 

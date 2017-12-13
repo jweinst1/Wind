@@ -26,6 +26,7 @@ WindCell* WindTuring_head(void);
 
 int WindTuring_is_begin(WindCell* cell);
 int WindTuring_is_end(WindCell* cell);
+int WindTuring_is_head(WindCell* cell);
 
 void WindTuring_head_up(void);
 void WindTuring_head_down(void);
