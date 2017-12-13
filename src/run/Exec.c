@@ -1,4 +1,5 @@
 #include "Exec.h"
+#include "WindInfo.h"
 
 int Exec_load_ins(WindCell* cell, unsigned char** data)
 {
@@ -22,6 +23,7 @@ int Exec_load_ins(WindCell* cell, unsigned char** data)
 
 void Exec_code(unsigned char* begin, unsigned char* end)
 {
+        WindInfo info;
         WindCell* curCell = WindTuring_head();
         unsigned char* reader = begin;
         ExecState state = ExecState_Load;
@@ -31,8 +33,15 @@ void Exec_code(unsigned char* begin, unsigned char* end)
                 {
                 case ExecState_Load:
                         Exec_load_ins(curCell, &reader);
+                        state = ExecState_NextIns;
                         break;
                 }
+                /*switch(state)
+                   {
+                   case ExecState_Load:
+
+                        break;
+                   }*/
                 /*{
                         fprintf(stderr, "%s\n", "Exec Error: Invalid instruction for op.");
                         exit(1);
