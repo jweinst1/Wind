@@ -24,10 +24,13 @@ WindCell* WindTuring_begin(void);
 const WindCell* WindTuring_end(void);
 WindCell* WindTuring_head(void);
 
+int WindTuring_is_begin(WindCell* cell);
+int WindTuring_is_end(WindCell* cell);
+
 void WindTuring_head_up(void);
 void WindTuring_head_down(void);
 
-WindCell* WindTuring_last_move(void);
+void WindTuring_clear(void);
 
 int WindTuring_full(void);
 

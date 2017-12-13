@@ -10,6 +10,7 @@ typedef enum
 {
         ExecState_Stop,
         ExecState_Go,
+        ExecState_Next,
         ExecState_Err
 } ExecState;
 

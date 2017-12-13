@@ -5,7 +5,6 @@
 typedef enum
 {
         WindInstruc_Stop,
-        WindInstruc_Continue,
         WindInstruc_Apply,
         WindInstruc_Int,
         WindInstruc_Add,

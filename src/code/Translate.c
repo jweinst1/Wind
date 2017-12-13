@@ -19,7 +19,7 @@ ByteBuf* Translate_code(char* srcCode)
                 case '-':
                         if(reader[1] == '>')
                         {
-                                ByteBuf_write_byte(insBuf, WindInstruc_Continue);
+                                ByteBuf_write_byte(insBuf, WindInstruc_Apply);
                                 reader += 2;
                                 break;
                         }

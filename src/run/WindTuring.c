@@ -33,10 +33,21 @@ void WindTuring_head_down(void)
         if(!(WindTuring_HEAD == WindTuring_CELLS)) WindTuring_HEAD--;
 }
 
-WindCell* WindTuring_last_move(void)
+int WindTuring_is_begin(WindCell* cell)
 {
-        if(!(WindTuring_HEAD == WindTuring_END)) return WindTuring_HEAD++;
-        else return NULL;
+        return cell == WindTuring_CELLS;
+}
+
+int WindTuring_is_end(WindCell* cell)
+{
+        return cell == WindTuring_END;
+}
+
+void WindTuring_clear(void)
+{
+        unsigned char* cleaner = (unsigned char*)WindTuring_CELLS;
+        unsigned char* cleanEnd = (unsigned char*)WindTuring_HEAD;
+        while(cleaner != cleanEnd) *cleaner++ = 0;
 }
 
 int WindTuring_full(void)

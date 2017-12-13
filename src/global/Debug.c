@@ -46,16 +46,12 @@ void Debug_print(unsigned char* start, unsigned char* end)
                         puts("';");
                         start++;
                         break;
-                case WindInstruc_Continue:
-                        puts("Continue: '->';");
-                        start++;
-                        break;
                 case WindInstruc_Add:
                         puts("Add: '+';");
                         start++;
                         break;
                 case WindInstruc_Apply:
-                        puts("Apply: '.';");
+                        puts("Apply: '., ->';");
                         start++;
                         break;
                 case WindInstruc_Int:
