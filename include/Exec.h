@@ -7,24 +7,9 @@
 #include "WindInfo.h"
 
 
-#define Exec_CELL_EVAL(cell, state, data) while (state) { \
-                switch(state) { \
-                default: \
-                } \
-}
 
-
-typedef enum
-{
-        ExecState_Stop,
-        ExecState_Load,
-        ExecState_NextIns,
-        ExecState_Exec,
-        ExecState_Adv,
-        ExecState_Done
-} ExecState;
-
-
+// Determines if the next instruction is nested or not.
+int Exec_is_nested(unsigned char* data);
 
 int Exec_load(WindCell* cell, unsigned char** data);
 

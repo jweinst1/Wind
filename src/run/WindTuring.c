@@ -59,3 +59,8 @@ int WindTuring_full(void)
 {
         return WindTuring_HEAD == WindTuring_END;
 }
+
+size_t WindTuring_from_begin(WindCell* cell)
+{
+        return cell - WindTuring_CELLS;
+}
