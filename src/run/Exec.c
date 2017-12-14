@@ -1,7 +1,6 @@
 #include "Exec.h"
-#include "WindInfo.h"
 
-int Exec_load_ins(WindCell* cell, unsigned char** data)
+int Exec_load(WindCell* cell, unsigned char** data)
 {
         switch(*data)
         {
@@ -12,6 +11,7 @@ int Exec_load_ins(WindCell* cell, unsigned char** data)
         case WindInstruc_Int:
                 cell->ins = WindInstruc_Int;
                 cell->obj.value._int = *(long*)(data + 1);
+                cell->obj.type = WindType_Int;
                 *data += 1 + sizeof(long);
                 return 1;
         default:
@@ -32,7 +32,7 @@ void Exec_code(unsigned char* begin, unsigned char* end)
                 switch(state)
                 {
                 case ExecState_Load:
-                        Exec_load_ins(curCell, &reader);
+                        Exec_load(curCell, &reader);
                         state = ExecState_NextIns;
                         break;
                 }

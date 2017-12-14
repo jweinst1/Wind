@@ -4,6 +4,14 @@
 
 #include "WindTuring.h"
 #include "ByteBuf.h"
+#include "WindInfo.h"
+
+
+#define Exec_CELL_EVAL(cell, state, data) while (state) { \
+                switch(state) { \
+                default: \
+                } \
+}
 
 
 typedef enum
@@ -18,7 +26,7 @@ typedef enum
 
 
 
-int Exec_load_ins(WindCell* cell, unsigned char** data);
+int Exec_load(WindCell* cell, unsigned char** data);
 
 
 void Exec_code(unsigned char* begin, unsigned char* end);
