@@ -1,5 +1,5 @@
-#ifndef WIND_EXEC_H
-#define WIND_EXEC_H
+#ifndef WIND_EVAL_H
+#define WIND_EVAL_H
 // header for executing code on WindTuring
 
 #include "WindObject.h"
@@ -14,9 +14,9 @@ typedef struct
 } WindError;
 
 
-void Exec_add(WindObject* obj, unsigned char** data);
+void Eval_add(WindObject* obj, unsigned char** data);
 
-void Exec_code(unsigned char* begin, unsigned char* end);
+void Eval_code(WindObject* target, unsigned char* begin, unsigned char* end)
 
 
 #endif
