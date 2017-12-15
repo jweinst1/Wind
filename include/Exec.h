@@ -2,17 +2,19 @@
 #define WIND_EXEC_H
 // header for executing code on WindTuring
 
-#include "WindTuring.h"
+#include "WindObject.h"
 #include "ByteBuf.h"
-#include "WindInfo.h"
+#include "Instruction.h"
+
+// Wind's Error Type.
+typedef struct
+{
+        char mes[256];
+        int active;
+} WindError;
 
 
-
-// Determines if the next instruction is nested or not.
-int Exec_is_nested(unsigned char* data);
-
-int Exec_load(WindCell* cell, unsigned char** data);
-
+void Exec_add(WindObject* obj, unsigned char** data);
 
 void Exec_code(unsigned char* begin, unsigned char* end);
 
