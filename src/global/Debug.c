@@ -50,6 +50,10 @@ void Debug_print(unsigned char* start, unsigned char* end)
                         puts("Add: '+';");
                         start++;
                         break;
+                case WindInstruc_Sub:
+                        puts("Sub: '-';");
+                        start++;
+                        break;
                 case WindInstruc_Print:
                         puts("Print: '$';");
                         start++;

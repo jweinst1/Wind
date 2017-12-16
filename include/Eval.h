@@ -13,6 +13,7 @@ typedef struct
         int active;
 } WindError;
 
+void Eval_sub(WindObject* obj, unsigned char** data);
 
 void Eval_add(WindObject* obj, unsigned char** data);
 

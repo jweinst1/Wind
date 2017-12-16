@@ -31,9 +31,9 @@ ByteBuf* Translate_code(char* srcCode)
                         }
                         else
                         {
-                                fprintf(stderr, "Syntax Error: Unexpected token: '-%c'\n", *(reader + 1));
-                                exit(1);
-                                return NULL;
+                                ByteBuf_write_byte(insBuf, WindInstruc_Sub);
+                                reader++;
+                                break;
                         }
                 case '0':
                 case '1':
