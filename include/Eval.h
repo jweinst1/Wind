@@ -16,7 +16,7 @@ typedef struct
 
 void Eval_add(WindObject* obj, unsigned char** data);
 
-void Eval_code(WindObject* target, unsigned char* begin, unsigned char* end)
+void Eval_code(WindObject* target, unsigned char* begin, unsigned char* end);
 
 
 #endif

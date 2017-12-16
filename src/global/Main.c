@@ -1,9 +1,17 @@
 #include <stdio.h>
-#include "WindObject.h"
+#include "Translate.h"
+#include "Debug.h"
+#include "ByteBuf.h"
+#include "Eval.h"
 
 
 int main(int argc, char const *argv[]) {
-        printf("The size of wind obj is %lu\n", sizeof(WindObject));
+        WindObject foo;
+        ByteBuf* insts = Translate_code("+(+(3 3 3 3 3) +(3 4))");
+        Debug_print(insts->begin, insts->mark);
+        Eval_code(&foo, insts->begin, insts->mark);
+        printf("The result is %ld\n", foo.value._int);
 
+        ByteBuf_del(insts);
         return 0;
 }
