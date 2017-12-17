@@ -1,45 +1,45 @@
-#ifndef WIND_BYTE_BUF_H
-#define WIND_BYTE_BUF_H
-//util byte buffer type
+#ifndef BYTEBUF_H
+#define BYTEBUF_H
 
-#include "SafeAlloc.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define ByteBuf_SPACE(bbuf) (bbuf->end - bbuf->mark)
+#define ByteBuf_SPACE(buf) (buf->end - buf->mark)
 
-#define ByteBuf_LEN(bbuf) (bbuf->mark - bbuf->begin)
+#define ByteBuf_CAP(buf) (buf->end - buf->begin)
 
-#define ByteBuf_CAP(bbuf) (bbuf->end - bbuf->begin)
+#define ByteBuf_LEN(buf) (buf->mark - buf->begin)
 
-struct ByteBuf
+#define ByteBuf_EMPTY(buf) (buf->begin == buf->mark)
+
+#define ByteBuf_FULL(buf) (buf->mark == buf->end)
+
+typedef struct
 {
         unsigned char* begin;
         unsigned char* mark;
         unsigned char* end;
-};
+} ByteBuf;
 
-typedef struct ByteBuf ByteBuf;
+ByteBuf* ByteBuf_new(size_t cap);
 
-//allocates a new byte buffer
-ByteBuf* ByteBuf_new(size_t bufSize);
+void ByteBuf_del(ByteBuf* buf);
 
-//writes to, and expands existing byte buffer if neccesary
-void ByteBuf_write(ByteBuf* buf, unsigned char* data, size_t amount);
+void ByteBuf_expand(ByteBuf* buf, int factor);
 
-inline void
-ByteBuf_copy_to(ByteBuf* buf, unsigned char* dst)
-{
-        memcpy(dst, buf->begin, ByteBuf_LEN(buf));
-}
+void ByteBuf_write_byte(ByteBuf* buf, unsigned char byte);
 
-//frees a byte buffer
-inline void
-ByteBuf_free(ByteBuf* buf)
-{
-        free(buf->begin);
-        free(buf);
-}
+void ByteBuf_write_long(ByteBuf* buf, long num);
+
+void ByteBuf_write_data(ByteBuf* buf, void* data, size_t amount);
+
+// writes all the chars until a " is found
+void ByteBuf_write_str(ByteBuf* buf, char** string, unsigned char bound);
+
+void ByteBuf_to_file(ByteBuf* buf, const char* name);
+
+
 
 
 #endif

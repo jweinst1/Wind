@@ -1,114 +1,75 @@
 #include "Debug.h"
-#include "WindList.h"
 
-void Debug_obj(WindObject* wobj)
+void Debug_print(unsigned char* start, unsigned char* end)
 {
-        Debug_START;
-        puts("Error: ");
-        if(wobj->error.active) printf("-> %s\n", wobj->error.mes);
-        else puts(" -> No Error");
+        Debug_HEADER;
 
-        puts("Current State: ");
-        switch(wobj->state)
+        puts("Literal Instructions:");
+        unsigned char* insPtr;
+        printf("[ ");
+        for(insPtr = start; insPtr != end; insPtr++)
         {
-        case WindState_Transition:
-                puts("-> Transition");
-                break;
-        case WindState_Execution:
-                puts("-> Execution");
-                break;
-        case WindState_Translate:
-                puts("-> Translation");
-                break;
-        case WindState_Done:
-                puts("-> Done");
-                break;
+                printf("%u ", *insPtr);
         }
-        puts("...................");
-        printf("Ins Buffer Space = %lu;\n", WindObject_IB_SPACE(wobj));
-        puts("Instructions: ");
-        puts("{");
-        unsigned char* insPtr = wobj->instructions;
-        while(insPtr != wobj->insMark)
+        puts("]");
+        while(start != end)
         {
-                switch(*insPtr)
+                switch(*start)
                 {
                 case WindInstruc_Stop:
                         puts("Stop;");
-                        insPtr++;
+                        start++;
                         break;
-                case WindInstruc_In:
-                        puts("In;");
-                        insPtr++;
+                case WindInstruc_ExpStart:
+                        puts("ExpStart: '(';");
+                        start++;
                         break;
-                case WindInstruc_Out:
-                        puts("Out;");
-                        insPtr++;
+                case WindInstruc_ExpEnd:
+                        puts("ExpEnd: ')';");
+                        start++;
                         break;
-                case WindInstruc_Nil:
-                        puts("Nil;");
-                        insPtr++;
-                        break;
-                case WindInstruc_Add:
-                        puts("+;");
-                        insPtr++;
-                        break;
-                case WindInstruc_Sub:
-                        puts("-;");
-                        insPtr++;
-                        break;
-                case WindInstruc_Mul:
-                        puts("*;");
-                        insPtr++;
-                        break;
-                case WindInstruc_Div:
-                        puts("/;");
-                        insPtr++;
-                        break;
-                case WindInstruc_Int:
-                        insPtr++;
-                        printf("int: %ld;\n", *(long*)insPtr);
-                        insPtr += sizeof(long);
-                        break;
-                case WindInstruc_Str:
-                        insPtr++;
-                        printf("str: \"%.*s\";\n", (int)(*(size_t*)insPtr), (insPtr + sizeof(size_t)));
-                        insPtr += (*(size_t*)insPtr) + sizeof(size_t);
-                        break;
-                case WindInstruc_List:
-                        puts("List;");
-                        insPtr++;
+                case WindInstruc_ListStart:
+                        puts("ListStart: '[';");
+                        start++;
                         break;
                 case WindInstruc_ListEnd:
-                        puts("ListEnd;");
-                        insPtr++;
+                        puts("ListEnd: ']';");
+                        start++;
+                        break;
+                case WindInstruc_String:
+                        start++;
+                        printf("String: '");
+                        while(*start != WindInstruc_String)
+                        {
+                                putc(*start++, stdout);
+                        }
+                        puts("';");
+                        start++;
+                        break;
+                case WindInstruc_Add:
+                        puts("Add: '+';");
+                        start++;
+                        break;
+                case WindInstruc_Sub:
+                        puts("Sub: '-';");
+                        start++;
+                        break;
+                case WindInstruc_Print:
+                        puts("Print: 'out';");
+                        start++;
+                        break;
+                case WindInstruc_Apply:
+                        puts("Apply: '., ->';");
+                        start++;
+                        break;
+                case WindInstruc_Int:
+                        start++;
+                        printf("Int: %ld;\n", *(long*)start);
+                        start += sizeof(long);
                         break;
                 default:
-                        printf("Invalid Instruction: %u;\n", *insPtr++);
+                        printf("Unrecognized Instruction: %u\n;", *start++);
                 }
         }
-        puts("}\n................");
-        puts("Object: ");
-        switch(wobj->type)
-        {
-        case WindType_None:
-                printf("Type = None;\n");
-                break;
-        case WindType_Str:
-                printf("Type = Str;\n");
-                printf("str: \"%.*s\";\n", (int)(wobj->value._str.end - wobj->value._str.begin), wobj->value._str.begin);
-                printf("size: %lu;\n", (wobj->value._str.end - wobj->value._str.begin));
-                break;
-        case WindType_Int:
-                printf("Type = Int;\n");
-                printf("Value = %ld;\n", wobj->value._int);
-                break;
-
-        case WindType_List:
-                printf("Type = List;\n");
-                WindList_print(wobj->value._lst);
-                break;
-        }
-        Debug_END;
-
+        Debug_FOOTER;
 }

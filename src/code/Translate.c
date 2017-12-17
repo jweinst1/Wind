@@ -1,91 +1,40 @@
 #include "Translate.h"
-#include <string.h>
+#include <ctype.h>
 
-void Translate_err(WindObject* wobj)
+ByteBuf* Translate_code(char* srcCode)
 {
-        fprintf(stderr, "%s", wobj->error.mes);
-        wobj->error.active = 0;
-}
-
-// will be handled in compile function
-void Translate_transition(WindObject* wobj, char** srcCode)
-{
-        if(wobj->state == WindState_Transition)
+        ByteBuf* insBuf = ByteBuf_new(TRANS_BUF_SIZE);
+        char* reader = srcCode;
+        while (*reader)
         {
-                *(wobj->insMark) = WindInstruc_Stop;
-                wobj->insMark++;
-                wobj->state = WindState_Execution;
-        }
-
-}
-
-size_t Translate_str_len(WindObject* wobj, char** srcCode)
-{
-        size_t total = 0;
-        unsigned char state = 1;
-        char* srcPtr = *srcCode;
-        while(state)
-        {
-                switch(*srcPtr)
+                switch(*reader)
                 {
-                case '"':
-                        WindObject_EXPAND_IF(wobj, total);
-                        return total;
-                case '\0':
-                        sprintf(wobj->error.mes, "String Error: Unexpected null found in string.\n");
-                        wobj->error.active = 1;
-                        state = 0;
-                        return 0;
-                default:
-                        total++;
-                        srcPtr++;
-                }
-        }
-        return 0;
-}
-
-
-void Translate_cmd(WindObject* wobj, char** srcCode)
-{
-        size_t strSizeBlock = 0;
-        TransState state = TransState_On;
-        while(state)
-        {
-                if(Translate_BUF_CHECK(wobj))
-                {
-                        WindObject_EXPAND_2(wobj);
-                }
-                switch(**srcCode)
-                {
+                // white space
                 case ' ':
                 case '\n':
                 case '\t':
                 case '\v':
-                        //white space
-                        *srcCode += 1;
+                        reader++;
                         break;
-                case '|':
-                        *srcCode += 1; //moves in front of pipe
-                        wobj->state = WindState_Transition;
-                        state = TransState_Off;
-                        return;
-                // number or stop
                 case '-':
-                        if( *(*srcCode + 1) == '>')
+                        if(reader[1] == '>')
                         {
-                                *srcCode += 2; //moves in front of arrow
-                                wobj->state = WindState_Transition;
-                                state = TransState_Off;
-                                return;
+                                ByteBuf_write_byte(insBuf, WindInstruc_Apply);
+                                reader += 2;
+                                break;
+                        }
+                        else if(isdigit(reader[1]))
+                        {
+                                ByteBuf_write_byte(insBuf, WindInstruc_Int);
+                                ByteBuf_write_long(insBuf, strtol(reader, &reader, 10));
+                                break;
                         }
                         else
                         {
-                                *srcCode += 1;
-                                *(wobj->insMark) = WindInstruc_Sub;
-                                wobj->insMark++;
+                                ByteBuf_write_byte(insBuf, WindInstruc_Sub);
+                                reader++;
                                 break;
                         }
-                // numbers
                 case '0':
                 case '1':
                 case '2':
@@ -96,100 +45,58 @@ void Translate_cmd(WindObject* wobj, char** srcCode)
                 case '7':
                 case '8':
                 case '9':
-                        *(wobj->insMark) = WindInstruc_Int;
-                        wobj->insMark++;
-                        *(long*)(wobj->insMark) = strtol(*srcCode, srcCode, 10);
-                        wobj->insMark += sizeof(long);
+                        ByteBuf_write_byte(insBuf, WindInstruc_Int);
+                        ByteBuf_write_long(insBuf, strtol(reader, &reader, 10));
                         break;
-                case '"':
-                        // for string translation
-                        *srcCode += 1;
-                        *(wobj->insMark) = WindInstruc_Str;
-                        wobj->insMark++;
-                        strSizeBlock = Translate_str_len(wobj, srcCode);
-                        if(wobj->error.active) return;
-                        //writes size of string
-                        memcpy(wobj->insMark, &strSizeBlock, sizeof(size_t));
-                        wobj->insMark += sizeof(size_t);
-                        //writes string data
-                        memcpy(wobj->insMark, *srcCode, strSizeBlock);
-                        *srcCode += strSizeBlock + 1;
-                        wobj->insMark += strSizeBlock;
-
-                        //writes null char
-                        /**(wobj->insMark) = '\0';
-                           wobj->insMark++;*/
+                case '(':
+                        ByteBuf_write_byte(insBuf, WindInstruc_ExpStart);
+                        reader++;
                         break;
-                case '+':
-                        *srcCode += 1;
-                        *(wobj->insMark) = WindInstruc_Add;
-                        wobj->insMark++;
-                        break;
-                case '*':
-                        *srcCode += 1;
-                        *(wobj->insMark) = WindInstruc_Mul;
-                        wobj->insMark++;
-                        break;
-                case '/':
-                        *srcCode += 1;
-                        *(wobj->insMark) = WindInstruc_Div;
-                        wobj->insMark++;
+                case ')':
+                        ByteBuf_write_byte(insBuf, WindInstruc_ExpEnd);
+                        reader++;
                         break;
                 case '[':
-                        *srcCode += 1;
-                        *(wobj->insMark) = WindInstruc_List;
-                        wobj->insMark++;
+                        ByteBuf_write_byte(insBuf, WindInstruc_ListStart);
+                        reader++;
                         break;
                 case ']':
-                        *srcCode += 1;
-                        *(wobj->insMark) = WindInstruc_ListEnd;
-                        wobj->insMark++;
+                        ByteBuf_write_byte(insBuf, WindInstruc_ListEnd);
+                        reader++;
                         break;
-                case 'i':
-                        switch( *(*srcCode + 1) )
-                        {
-                        case 'n':
-                                *srcCode += 2;
-                                *(wobj->insMark) = WindInstruc_In;
-                                wobj->insMark++;
-                                break;
-                        default:
-                                sprintf(wobj->error.mes, "Syntax Error: Unexpected token 'i%c'.\n", *(*srcCode + 1));
-                                wobj->error.active = 1;
-                                return;
-                        }
+                case '"':
+                        reader++;
+                        ByteBuf_write_str(insBuf, &reader, WindInstruc_String);
+                        break;
+                case '.':
+                        reader++;
+                        ByteBuf_write_byte(insBuf, WindInstruc_Apply);
+                        break;
+                case '+':
+                        reader++;
+                        ByteBuf_write_byte(insBuf, WindInstruc_Add);
                         break;
                 case 'o':
-                        switch( *(*srcCode + 1) )
+                        if(reader[1] == 'u' && reader[2] == 't')
                         {
-                        case 'u':
-                                switch( *(*srcCode + 2) )
-                                {
-                                case 't':
-                                        *srcCode += 3;
-                                        *(wobj->insMark) = WindInstruc_Out;
-                                        wobj->insMark++;
-                                        break;
-                                default:
-                                        sprintf(wobj->error.mes, "Syntax Error: Unexpected token 'ou%c'.\n", *(*srcCode + 2));
-                                        wobj->error.active = 1;
-                                        return;
-                                }
+                                reader += 3;
+                                ByteBuf_write_byte(insBuf, WindInstruc_Print);
                                 break;
-                        default:
-                                sprintf(wobj->error.mes, "Syntax Error: Unexpected token 'o%c'.\n", *(*srcCode + 1));
-                                wobj->error.active = 1;
-                                return;
+                        }
+                        else
+                        {
+                                fprintf(stderr, "Syntax Error: Unexpected token: '%c%c%c'\n", *reader, reader[1], reader[2]);
+                                exit(1);
+                                return NULL;
                         }
                         break;
-                case '\0':
-                        //end of src code reached
-                        wobj->state = WindState_Done;
-                        return;
+
                 default:
-                        sprintf(wobj->error.mes, "Syntax Error: Unexpected token '%c'.\n", **srcCode);
-                        wobj->error.active = 1;
-                        return;
+                        fprintf(stderr, "Syntax Error: Unexpected token: '%c'\n", *reader);
+                        exit(1);
+                        return NULL;
                 }
         }
+        ByteBuf_write_byte(insBuf, WindInstruc_Stop);
+        return insBuf;
 }
