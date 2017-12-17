@@ -61,6 +61,18 @@ LOAD_BRANCH:
                 }
                 *data += 1;         // moves past expend
                 return;
+        case WindInstruc_Div:
+                *data += 1;
+                Eval_validate_exp(data);
+                if(!applState) Eval_load(obj, data);
+                while(**data != WindInstruc_ExpEnd)
+                {
+                        Eval_load(&other, data);
+                        // prevents divide by zero
+                        obj->value._int /= (other.value._int == 0 ? 1 : other.value._int);
+                }
+                *data += 1;
+                return;
         case WindInstruc_Print:
                 // needs special object specific function for printing
                 // only works for ints now

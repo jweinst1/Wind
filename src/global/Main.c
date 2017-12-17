@@ -7,7 +7,7 @@
 
 int main(int argc, char const *argv[]) {
         WindObject foo;
-        ByteBuf* insts = Translate_code("*(3 +(3 3) 5).out().out()");
+        ByteBuf* insts = Translate_code("*(3 +(3 3) 5) -> /(2).out()");
         Debug_print(insts->begin, insts->mark);
 
 

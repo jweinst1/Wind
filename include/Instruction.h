@@ -1,4 +1,3 @@
-
 #ifndef WIND_INSTRUCTION_H
 #define WIND_INSTRUCTION_H
 
@@ -10,6 +9,7 @@ typedef enum
         WindInstruc_Add,
         WindInstruc_Sub,
         WindInstruc_Mul,
+        WindInstruc_Div,
         WindInstruc_Print,
         WindInstruc_ExpStart,
         WindInstruc_ExpEnd,

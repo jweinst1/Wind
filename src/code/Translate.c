@@ -80,6 +80,10 @@ ByteBuf* Translate_code(char* srcCode)
                         reader++;
                         ByteBuf_write_byte(insBuf, WindInstruc_Mul);
                         break;
+                case '/':
+                        reader++;
+                        ByteBuf_write_byte(insBuf, WindInstruc_Div);
+                        break;
                 case 'o':
                         if(reader[1] == 'u' && reader[2] == 't')
                         {
