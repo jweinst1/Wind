@@ -9,6 +9,7 @@ typedef enum
         WindInstruc_Int,
         WindInstruc_Add,
         WindInstruc_Sub,
+        WindInstruc_Mul,
         WindInstruc_Print,
         WindInstruc_ExpStart,
         WindInstruc_ExpEnd,

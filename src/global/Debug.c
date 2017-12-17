@@ -1,4 +1,5 @@
 #include "Debug.h"
+// Debugs or prints result of translation
 
 void Debug_print(unsigned char* start, unsigned char* end)
 {
@@ -52,6 +53,10 @@ void Debug_print(unsigned char* start, unsigned char* end)
                         break;
                 case WindInstruc_Sub:
                         puts("Sub: '-';");
+                        start++;
+                        break;
+                case WindInstruc_Mul:
+                        puts("Mul: '*';");
                         start++;
                         break;
                 case WindInstruc_Print:

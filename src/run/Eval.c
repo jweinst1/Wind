@@ -50,6 +50,17 @@ LOAD_BRANCH:
                 }
                 *data += 1; // moves past expend
                 return;
+        case WindInstruc_Mul:
+                *data += 1;
+                Eval_validate_exp(data);
+                if(!applState) Eval_load(obj, data);
+                while(**data != WindInstruc_ExpEnd)
+                {
+                        Eval_load(&other, data);
+                        obj->value._int *= other.value._int;
+                }
+                *data += 1;         // moves past expend
+                return;
         case WindInstruc_Print:
                 // needs special object specific function for printing
                 // only works for ints now
