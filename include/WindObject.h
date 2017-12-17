@@ -16,7 +16,7 @@ typedef enum
         WindType_Int
 } WindType;
 
-typedef union
+typedef struct
 {
         long _int;
         struct WindStr* _str;

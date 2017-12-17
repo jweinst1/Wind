@@ -10,9 +10,11 @@ int main(int argc, char const *argv[]) {
         ByteBuf* insts = Translate_code("+(3 4 5).out()");
         Debug_print(insts->begin, insts->mark);
 
+
         Eval_code(&foo, insts->begin, insts->mark);
         printf("The result is %ld\n", foo.value._int);
         printf("The result is %ld\n", foo.value._int);
+        printf("Sizeof windobj is %ld\n", sizeof(WindObject));
         ByteBuf_del(insts);
         return 0;
 }
