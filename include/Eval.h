@@ -6,16 +6,25 @@
 #include "ByteBuf.h"
 #include "Instruction.h"
 
-// Wind's Error Type.
-typedef struct
+
+
+
+
+// Enum bool to indicate whether or not the apply route is taken.
+typedef enum
 {
-        char mes[256];
-        int active;
-} WindError;
+        EvalApply_False,
+        EvalApply_True
+} EvalApply;
 
-void Eval_sub(WindObject* obj, unsigned char** data);
+// Validates start of expression call '()'
+void Eval_validate_exp(unsigned char** data);
 
-void Eval_add(WindObject* obj, unsigned char** data);
+/*void Eval_sub(WindObject* obj, unsigned char** data, EvalApply apply);
+
+   void Eval_add(WindObject* obj, unsigned char** data, EvalApply apply);*/
+
+void Eval_load(WindObject* obj, unsigned char** data);
 
 void Eval_code(WindObject* target, unsigned char* begin, unsigned char* end);
 

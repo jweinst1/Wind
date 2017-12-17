@@ -76,9 +76,19 @@ ByteBuf* Translate_code(char* srcCode)
                         reader++;
                         ByteBuf_write_byte(insBuf, WindInstruc_Add);
                         break;
-                case '$':
-                        reader++;
-                        ByteBuf_write_byte(insBuf, WindInstruc_Print);
+                case 'o':
+                        if(reader[1] == 'u' && reader[2] == 't')
+                        {
+                                reader += 3;
+                                ByteBuf_write_byte(insBuf, WindInstruc_Print);
+                                break;
+                        }
+                        else
+                        {
+                                fprintf(stderr, "Syntax Error: Unexpected token: '%c%c%c'\n", *reader, reader[1], reader[2]);
+                                exit(1);
+                                return NULL;
+                        }
                         break;
 
                 default:

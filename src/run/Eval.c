@@ -1,174 +1,84 @@
 #include "Eval.h"
 
-void Eval_sub(WindObject* obj, unsigned char** data)
+void Eval_validate_exp(unsigned char** data)
 {
-        WindObject other;
-        if(**data != WindInstruc_ExpStart) return; //needs error handling
-        *data += 1;
-        //loading
+        if(**data == WindInstruc_ExpStart) *data += 1;
+        else
+        {
+                fprintf(stderr, "Call Error: Symbol %c not followed by '('. ", *(*data - 1));
+                exit(1);
+        }
+}
 
+void Eval_load(WindObject* obj, unsigned char** data)
+{
+        EvalApply applState = EvalApply_False;
+        WindObject other; // used for computation
+        goto LOAD_BRANCH;
+LOAD_BRANCH:
         switch(**data)
         {
         case WindInstruc_Int:
-                obj->type = WindType_Int;
                 *data += 1;
                 obj->value._int = *(long*)(*data);
-                *data += sizeof(long);
-                goto _CALL;
-        case WindInstruc_Add:
-                *data += 1;
-                //evals the nested expression then loads it
-                Eval_add(&other, data);
-                goto _LOAD_OTHER;
-        case WindInstruc_Sub:
-                *data += 1;
-                //evals the nested expression then loads it
-                Eval_sub(&other, data);
-                goto _LOAD_OTHER;
-        default:
-                return; // needs error handling
-        }
-_LOAD_OTHER:
-        switch(other.type)
-        {
-        case WindType_Int:
-                obj->type = other.type;
-                obj->value._int = other.value._int;
-                goto _CALL;
-        default:
-                return;
-        }
-_CALL:
-        // needs to load the first int
-        while(**data != WindInstruc_ExpEnd)
-        {
-                switch(**data)
-                {
-                case WindInstruc_Int:
-                        *data += 1;
-                        obj->value._int -= *(long*)(*data);
-                        *data += sizeof(long);
-                        break;
-                case WindInstruc_Add:
-                        *data += 1;
-                        Eval_add(&other, data);
-                        obj->type = other.type;
-                        obj->value._int -= other.value._int;
-                        break;
-                case WindInstruc_Sub:
-                        *data += 1;
-                        Eval_sub(&other, data);
-                        obj->type = other.type;
-                        obj->value._int -= other.value._int;
-                        break;
-                default:
-                        return; // needs error handling.
-                }
-        }
-        *data += 1;
-        return;
-}
-
-
-void Eval_add(WindObject* obj, unsigned char** data)
-{
-        WindObject other;
-        if(**data != WindInstruc_ExpStart) return; //needs error handling
-        *data += 1;
-        //loading
-
-        switch(**data)
-        {
-        case WindInstruc_Int:
                 obj->type = WindType_Int;
-                *data += 1;
-                obj->value._int = *(long*)(*data);
                 *data += sizeof(long);
-                goto _CALL;
+                return;
         case WindInstruc_Add:
                 *data += 1;
-                //evals the nested expression then loads it
-                Eval_add(&other, data);
-                goto _LOAD_OTHER;
+                Eval_validate_exp(data);
+                // Loads first object into target if apply off
+                if(!applState) Eval_load(obj, data);
+                // Ensures nothing happens if no arguments to call.
+                while(**data != WindInstruc_ExpEnd)
+                {
+                        // loads nested data onto stack-allocated WindObject
+                        Eval_load(&other, data);
+                        // Needs a function to facilitate 1 to 1 Add.
+                        obj->value._int += other.value._int;
+                }
+                *data += 1;
+                return;
         case WindInstruc_Sub:
                 *data += 1;
-                //evals the nested expression then loads it
-                Eval_sub(&other, data);
-                goto _LOAD_OTHER;
-        default:
-                return; // needs error handling
-        }
-_LOAD_OTHER:
-        switch(other.type)
-        {
-        case WindType_Int:
-                obj->type = other.type;
-                obj->value._int = other.value._int;
-                goto _CALL;
-        default:
-                return;
-        }
-_CALL:
-        // needs to load the first int
-        while(**data != WindInstruc_ExpEnd)
-        {
-                switch(**data)
+                Eval_validate_exp(data);
+                // Loads first object into target if apply off
+                if(!applState) Eval_load(obj, data);
+                // Ensures nothing happens if no arguments to call.
+                while(**data != WindInstruc_ExpEnd)
                 {
-                case WindInstruc_Int:
-                        *data += 1;
-                        obj->value._int += *(long*)(*data);
-                        *data += sizeof(long);
-                        break;
-                case WindInstruc_Add:
-                        *data += 1;
-                        Eval_add(&other, data);
-                        obj->type = other.type;
-                        obj->value._int += other.value._int;
-                        break;
-                case WindInstruc_Sub:
-                        *data += 1;
-                        Eval_sub(&other, data);
-                        obj->type = other.type;
-                        obj->value._int += other.value._int;
-                        break;
-                default:
-                        return; // needs error handling.
+                        // loads nested data onto stack-allocated WindObject
+                        Eval_load(&other, data);
+                        // Needs a function to facilitate 1 to 1 Add.
+                        obj->value._int -= other.value._int;
                 }
-        }
-        *data += 1;
-        return;
-}
+                *data += 1; // moves past expend
+                return;
+        case WindInstruc_Apply:
+                *data += 1;
+                applState = EvalApply_True;
+                // Turns on apply for the duration of this load call.
+                goto LOAD_BRANCH;
+        case WindInstruc_Stop:
+                *data +=1;
+                return;
+        default:
+                fprintf(stderr, "Load Error: Unknown Instruction %u.\n", **data);
+                exit(1);
 
+        }
+}
 
 
 // Main function for eval/executing instructions
 
 void Eval_code(WindObject* target, unsigned char* begin, unsigned char* end)
 {
-        WindError err;
         target->type = WindType_None;
-
         unsigned char* reader = begin;
-        while(reader != end)
+        unsigned char** readHolder = &reader;
+        while(*readHolder != end)
         {
-                switch(*reader)
-                {
-                case WindInstruc_Add:
-                        reader++;
-                        Eval_add(target, &reader);
-                        break;
-                case WindInstruc_Sub:
-                        reader++;
-                        Eval_sub(target, &reader);
-                        break;
-                case WindInstruc_Stop:
-                        return;
-                default:
-                        sprintf(err.mes, "Instruc Error: Unknown instruction %u\n", *reader);
-                        goto EVAL_ERROR;
-                }
+                Eval_load(target, readHolder);
         }
-EVAL_ERROR:
-        fputs(err.mes, stderr);
-        exit(1);
 }

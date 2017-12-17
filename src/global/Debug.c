@@ -25,7 +25,7 @@ void Debug_print(unsigned char* start, unsigned char* end)
                         start++;
                         break;
                 case WindInstruc_ExpEnd:
-                        puts("ExpStart: ')';");
+                        puts("ExpEnd: ')';");
                         start++;
                         break;
                 case WindInstruc_ListStart:
@@ -55,7 +55,7 @@ void Debug_print(unsigned char* start, unsigned char* end)
                         start++;
                         break;
                 case WindInstruc_Print:
-                        puts("Print: '$';");
+                        puts("Print: 'out';");
                         start++;
                         break;
                 case WindInstruc_Apply:
