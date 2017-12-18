@@ -59,9 +59,11 @@ LOAD_BRANCH:
                         {
                         case WindType_Int:
                                 if(other.type == WindType_Int) obj->value._int += other.value._int;
+                                else ErrMessage_write("Type Error: Can only add int to to type int.");
                                 break; // needs error handle
                         case WindType_Str:
                                 if(other.type == WindType_Str) WindStr_append(obj, &other);
+                                else ErrMessage_write("Type Error: Can only add str to to type str.");
                                 break; // needs error handle
                         default:
                                 break;
@@ -144,6 +146,7 @@ void Eval_code(WindObject* target, unsigned char* begin, unsigned char* end)
         unsigned char** readHolder = &reader;
         while(*readHolder != end)
         {
+                if(ErrMessage_active()) ErrMessage_terminate();
                 Eval_load(target, readHolder);
         }
 }
