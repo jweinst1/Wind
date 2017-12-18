@@ -3,7 +3,6 @@
 #include "Debug.h"
 #include "ByteBuf.h"
 #include "Eval.h"
-#include "ErrMessage.h"
 
 int main(int argc, char const *argv[]) {
         WindObject foo;
@@ -12,8 +11,5 @@ int main(int argc, char const *argv[]) {
 
         Eval_code(&foo, insts->begin, insts->mark);
         ByteBuf_del(insts);
-        ErrMessage_on();
-        ErrMessage_write("Fooo is bad %d", 19);
-        ErrMessage_terminate();
         return 0;
 }

@@ -26,6 +26,7 @@ void ErrMessage_write(const char* fmt, ...)
         va_start(args, fmt);
         vsprintf(ErrMessage_BUFFER,fmt, args);
         va_end (args);
+        ErrMessage_STATE = 1;
 }
 
 const char* ErrMessage_buf(void)

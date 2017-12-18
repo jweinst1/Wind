@@ -14,7 +14,7 @@ int ErrMessage_active(void);
 void ErrMessage_on(void);
 // turns error off
 void ErrMessage_off(void);
-// writes message to error buffer
+// writes message to error buffer, and turns error on
 void ErrMessage_write(const char* fmt, ...);
 // returns pointer to error message buffer
 const char* ErrMessage_buf(void);
