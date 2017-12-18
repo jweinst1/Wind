@@ -18,6 +18,10 @@ void Eval_cleanup(WindObject* obj)
                 free(obj->value._str.begin);
                 obj->value._str.begin = NULL;
                 return;
+        case WindType_List:
+                free(obj->value._lst.begin);
+                obj->value._lst.begin = NULL;
+                return;
         default:
                 return;
         }
