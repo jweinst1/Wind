@@ -64,6 +64,10 @@ ByteBuf* Translate_code(char* srcCode)
                         ByteBuf_write_byte(insBuf, WindInstruc_ListEnd);
                         reader++;
                         break;
+                case '#': // comments
+                        reader++;
+                        while(*reader != '\n') reader++;
+                        break;
                 case '"':
                         reader++;
                         ByteBuf_write_str(insBuf, &reader, WindInstruc_String);
