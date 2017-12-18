@@ -55,8 +55,17 @@ LOAD_BRANCH:
                 {
                         // loads nested data onto stack-allocated WindObject
                         Eval_load(&other, data);
-                        // Needs a function to facilitate 1 to 1 Add.
-                        obj->value._int += other.value._int;
+                        switch(obj->type)
+                        {
+                        case WindType_Int:
+                                if(other.type == WindType_Int) obj->value._int += other.value._int;
+                                break; // needs error handle
+                        case WindType_Str:
+                                if(other.type == WindType_Str) WindStr_append(obj, &other);
+                                break; // needs error handle
+                        default:
+                                break;
+                        }
                 }
                 *data += 1;
                 return;

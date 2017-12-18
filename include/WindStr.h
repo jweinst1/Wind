@@ -8,6 +8,8 @@
 #include <stdlib.h>
 
 #define WindStr_DEF_CAP 30
+// Additional size added to reserve operations
+#define WindStr_ADRES 5
 
 #define WindStr_BEGIN(obj) (obj->value._str.begin)
 #define WindStr_MARK(obj) (obj->value._str.mark)
@@ -16,7 +18,7 @@
 #define WindStr_LEN(obj) (obj->value._str.mark - obj->value._str.begin)
 #define WindStr_SPACE(obj) (obj->value._str.end - obj->value._str.mark)
 #define WindStr_CAP(obj) (obj->value._str.end - obj->value._str.begin)
-#define WindStr_FITS(obj, size) ((obj->value._str.end - obj->value._str.mark) < size)
+#define WindStr_FITS(obj, size) ((obj->value._str.end - obj->value._str.mark) < size + 1)
 
 #define WindStr_INIT(obj) do { \
                 SAFE_ALLOC_M(obj->value._str.begin, WindStr_DEF_CAP); \
@@ -33,9 +35,20 @@
                 obj->value._str.mark = WindStr_BEGIN(obj) + oldLen; \
                 obj->value._str.end = WindStr_BEGIN(obj) + newCap; \
 }
+// Adds additional capacity to string to a specified size
+#define WindStr_RESERVE(obj, addSize) do { \
+                size_t oldLen = WindStr_LEN(obj); \
+                size_t newCap = oldLen + addSize + WindStr_ADRES; \
+                SAFE_ALLOC_RE(obj->value._str.begin, newCap); \
+                obj->value._str.mark = WindStr_BEGIN(obj) + oldLen; \
+                obj->value._str.end = WindStr_BEGIN(obj) + newCap; \
+} while(0)
 
 // Initalizes a string onto on object from instructions
 void WindStr_from_ins(WindObject* obj, unsigned char** data);
+
+// Appends one string to another
+void WindStr_append(WindObject* obj1, WindObject* obj2);
 
 
 

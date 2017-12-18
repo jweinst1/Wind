@@ -7,9 +7,8 @@
 
 int main(int argc, char const *argv[]) {
         WindObject foo;
-        ByteBuf* insts = Translate_code("\"foo\".out()");
+        ByteBuf* insts = Translate_code("\"Hello \" -> +(\"World!\").out()");
         Debug_print(insts->begin, insts->mark);
-
 
         Eval_code(&foo, insts->begin, insts->mark);
         ByteBuf_del(insts);
