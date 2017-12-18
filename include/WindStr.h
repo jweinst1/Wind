@@ -22,6 +22,7 @@
                 SAFE_ALLOC_M(obj->value._str.begin, WindStr_DEF_CAP); \
                 WindStr_MARK(obj) = WindStr_BEGIN(obj); \
                 WindStr_END(obj) = WindStr_BEGIN(obj) + WindStr_DEF_CAP; \
+                *WindStr_MARK(obj) = '\0'; \
 } while(0)
 
 // Expands the string to double the size if no space is left.

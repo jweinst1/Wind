@@ -10,5 +10,7 @@ void WindStr_from_ins(WindObject* obj, unsigned char** data)
                 *WindStr_MARK(obj)++ = **data;
                 *data += 1;
         }
+        // Appends null character
+        *WindStr_MARK(obj) = '\0';
         *data += 1; // moves past the other string ins.
 }

@@ -100,11 +100,11 @@ LOAD_BRANCH:
                 *data += 1;
                 Eval_validate_exp(data);
                 if(!applState) Eval_load(obj, data);
-                printf("%ld\n", obj->value._int); // receiving printed first due to apply possibility
+                WindIO_print(obj); // receiving printed first due to apply possibility
                 while(**data != WindInstruc_ExpEnd)
                 {
                         Eval_load(&other, data);
-                        printf("%ld\n", other.value._int);
+                        WindIO_print(&other);
                 }
                 *data += 1;         // moves past expend
                 return;
