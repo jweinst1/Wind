@@ -20,9 +20,7 @@ typedef enum
 // Validates start of expression call '()'
 void Eval_validate_exp(unsigned char** data);
 
-/*void Eval_sub(WindObject* obj, unsigned char** data, EvalApply apply);
-
-   void Eval_add(WindObject* obj, unsigned char** data, EvalApply apply);*/
+void Eval_cleanup(WindObject* obj);
 
 void Eval_load(WindObject* obj, unsigned char** data);
 

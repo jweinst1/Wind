@@ -3,23 +3,23 @@
 // contains windobject definition
 
 
-typedef struct
-{
-        char* begin;
-        char* mark;
-        char* end;
-} WindStr;
 
 typedef enum
 {
         WindType_None,
-        WindType_Int
+        WindType_Int,
+        WindType_Str
 } WindType;
 
 typedef struct
 {
         long _int;
-        struct WindStr* _str;
+        struct WindStr
+        {
+                char* begin;
+                char* mark;
+                char* end;
+        } _str;
         struct WindList* _lst;
 
 } WindValue;

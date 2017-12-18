@@ -10,6 +10,19 @@ void Eval_validate_exp(unsigned char** data)
         }
 }
 
+void Eval_cleanup(WindObject* obj)
+{
+        switch(obj->type)
+        {
+        case WindType_Str:
+                free(obj->value._str.begin);
+                obj->value._str.begin = NULL;
+                return;
+        default:
+                return;
+        }
+}
+
 void Eval_load(WindObject* obj, unsigned char** data)
 {
         EvalApply applState = EvalApply_False;
