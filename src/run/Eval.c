@@ -41,6 +41,10 @@ LOAD_BRANCH:
                 obj->type = WindType_Int;
                 *data += sizeof(long);
                 return;
+        case WindInstruc_String:
+                *data += 1;
+                WindStr_from_ins(obj, data);
+                return;
         case WindInstruc_Add:
                 *data += 1;
                 Eval_validate_exp(data);
@@ -117,6 +121,8 @@ LOAD_BRANCH:
                 exit(1);
 
         }
+        // Cleans up other object used for computation
+        Eval_cleanup(&other);
 }
 
 
