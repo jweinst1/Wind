@@ -115,7 +115,8 @@ LOAD_BRANCH:
                 while(**data != WindInstruc_ExpEnd)
                 {
                         Eval_load(&other, data);
-                        obj->value._int -= other.value._int;
+                        if(other.type == WindType_Int) obj->value._int -= other.value._int;
+                        else ErrMessage_write("Type Error: Can only call '-', sub on integers.");
                 }
                 *data += 1; // moves past expend
                 return;
@@ -126,7 +127,8 @@ LOAD_BRANCH:
                 while(**data != WindInstruc_ExpEnd)
                 {
                         Eval_load(&other, data);
-                        obj->value._int *= other.value._int;
+                        if(other.type == WindType_Int) obj->value._int *= other.value._int;
+                        else ErrMessage_write("Type Error: Can only call '*', mul on integers.");
                 }
                 *data += 1;         // moves past expend
                 return;
@@ -138,7 +140,8 @@ LOAD_BRANCH:
                 {
                         Eval_load(&other, data);
                         // prevents divide by zero
-                        obj->value._int /= (other.value._int == 0 ? 1 : other.value._int);
+                        if(other.type == WindType_Int) obj->value._int /= (other.value._int == 0 ? 1 : other.value._int);
+                        else ErrMessage_write("Type Error: Can only call '/', div on integers.");
                 }
                 *data += 1;
                 return;
