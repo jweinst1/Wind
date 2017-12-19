@@ -24,6 +24,8 @@ typedef enum
 void Eval_validate_exp(unsigned char** data);
 
 void Eval_cleanup(WindObject* obj);
+// copies obj2 into obj1.
+void Eval_copy(WindObject* obj1, WindObject* obj2);
 
 void Eval_load(WindObject* obj, unsigned char** data);
 

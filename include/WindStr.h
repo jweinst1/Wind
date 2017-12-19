@@ -6,6 +6,7 @@
 #include "SafeAlloc.h"
 #include "Instruction.h"
 #include <stdlib.h>
+#include <string.h>
 
 #define WindStr_DEF_CAP 30
 // Additional size added to reserve operations
@@ -44,8 +45,13 @@
                 obj->value._str.end = WindStr_BEGIN(obj) + newCap; \
 } while(0)
 
+void WindStr_over_write(WindObject* obj, char* string, size_t n);
+
 // Initalizes a string onto on object from instructions
 void WindStr_from_ins(WindObject* obj, unsigned char** data);
+
+// creates an epmty string of some size.
+void WindStr_from_size(WindObject* obj, size_t size);
 
 // Appends one string to another
 void WindStr_append(WindObject* obj1, WindObject* obj2);

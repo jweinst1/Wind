@@ -27,10 +27,29 @@ void Eval_cleanup(WindObject* obj)
         }
 }
 
+void Eval_copy(WindObject* obj1, WindObject* obj2)
+{
+        switch(obj2->type)
+        {
+        case WindType_Int:
+                obj1->type = WindType_Int;
+                obj1->value._int = obj2->value._int;
+                return;
+        case WindType_Str:
+                WindStr_from_size(obj1, WindStr_CAP(obj2));
+                WindStr_over_write(obj1, WindStr_BEGIN(obj2), WindStr_LEN(obj2) + 1);
+                return;
+        default:
+                return;
+        }
+}
+
 void Eval_load(WindObject* obj, unsigned char** data)
 {
         EvalApply applState = EvalApply_False;
         WindObject other; // used for computation
+        other.type = WindType_None;
+        other.parent = (struct WindObject*)obj;
         goto LOAD_BRANCH;
 LOAD_BRANCH:
         switch(**data)
@@ -118,6 +137,11 @@ LOAD_BRANCH:
                         WindIO_print(&other);
                 }
                 *data += 1;         // moves past expend
+                return;
+        case WindInstruc_Self:
+                *data += 1;
+                //*obj = *(obj->parent);
+                Eval_copy(obj, (WindObject*)obj->parent);
                 return;
         case WindInstruc_Apply:
                 *data += 1;

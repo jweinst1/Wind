@@ -34,6 +34,7 @@ typedef struct
 {
         WindValue value;
         WindType type;
+        struct WindObject* parent;
 } WindObject;
 
 #endif

@@ -6,7 +6,7 @@
 
 int main(int argc, char const *argv[]) {
         WindObject foo;
-        ByteBuf* insts = Translate_code("\"Hello \" # this is a comment\n -> +(\"Worffffggfgfgfgfgfgfggfgfgfgfgfgfgfggfgfgfggfgfgfgfgfgfggfgfgfgfgfggfgfld!\" \" My\" \" \nis charles!\").out().+(3)");
+        ByteBuf* insts = Translate_code("+(\"foo\" \"bar\").+(@).out()");
         Debug_print(insts->begin, insts->mark);
 
         Eval_code(&foo, insts->begin, insts->mark);

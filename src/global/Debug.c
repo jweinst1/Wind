@@ -59,12 +59,17 @@ void Debug_print(unsigned char* start, unsigned char* end)
                         puts("Mul: '*';");
                         start++;
                         break;
+
                 case WindInstruc_Div:
                         puts("Div: '/';");
                         start++;
                         break;
                 case WindInstruc_Print:
                         puts("Print: 'out';");
+                        start++;
+                        break;
+                case WindInstruc_Self:
+                        puts("Self: '@';");
                         start++;
                         break;
                 case WindInstruc_Apply:
