@@ -5,8 +5,8 @@
 #include "Eval.h"
 
 int main(int argc, char const *argv[]) {
-        WindObject foo;
-        ByteBuf* insts = Translate_code("+(\"foo\" \"bar\").+(@).out()");
+        WindObject_BASE(foo);
+        ByteBuf* insts = Translate_code("+(\"foo\" \"bar\").+(+(\"t\") +(\"aaaa\" \"aaaaa\" @)).out()");
         Debug_print(insts->begin, insts->mark);
 
         Eval_code(&foo, insts->begin, insts->mark);

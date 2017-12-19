@@ -2,6 +2,11 @@
 #define WIND_OBJECT_H
 // contains windobject definition
 
+// Initalizes a WindObject for the root of Wind evaluation
+#define WindObject_BASE(name) \
+        WindObject name; \
+        name.type = WindType_None; \
+        name.parent = NULL
 
 
 typedef enum

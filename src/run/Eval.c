@@ -44,6 +44,24 @@ void Eval_copy(WindObject* obj1, WindObject* obj2)
         }
 }
 
+void Eval_self(WindObject* obj1, WindObject* obj2)
+{
+        while(obj2->parent != NULL) obj2 = (WindObject*)obj2->parent;
+        switch(obj2->type)
+        {
+        case WindType_Int:
+                obj1->type = WindType_Int;
+                obj1->value._int = obj2->value._int;
+                return;
+        case WindType_Str:
+                WindStr_from_size(obj1, WindStr_CAP(obj2));
+                WindStr_over_write(obj1, WindStr_BEGIN(obj2), WindStr_LEN(obj2) + 1);
+                return;
+        default:
+                return;
+        }
+}
+
 void Eval_load(WindObject* obj, unsigned char** data)
 {
         EvalApply applState = EvalApply_False;
@@ -141,7 +159,7 @@ LOAD_BRANCH:
         case WindInstruc_Self:
                 *data += 1;
                 //*obj = *(obj->parent);
-                Eval_copy(obj, (WindObject*)obj->parent);
+                Eval_self(obj, (WindObject*)obj->parent);
                 return;
         case WindInstruc_Apply:
                 *data += 1;
@@ -165,7 +183,6 @@ LOAD_BRANCH:
 
 void Eval_code(WindObject* target, unsigned char* begin, unsigned char* end)
 {
-        target->type = WindType_None;
         unsigned char* reader = begin;
         unsigned char** readHolder = &reader;
         while(*readHolder != end)
