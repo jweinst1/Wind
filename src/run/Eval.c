@@ -107,7 +107,7 @@ LOAD_BRANCH:
                         }
                 }
                 *data += 1;
-                return;
+                break;
         case WindInstruc_Sub:
                 *data += 1;
                 Eval_validate_exp(data);
@@ -119,7 +119,7 @@ LOAD_BRANCH:
                         else ErrMessage_write("Type Error: Can only call '-', sub on integers.");
                 }
                 *data += 1; // moves past expend
-                return;
+                break;
         case WindInstruc_Mul:
                 *data += 1;
                 Eval_validate_exp(data);
@@ -131,7 +131,7 @@ LOAD_BRANCH:
                         else ErrMessage_write("Type Error: Can only call '*', mul on integers.");
                 }
                 *data += 1;         // moves past expend
-                return;
+                break;
         case WindInstruc_Div:
                 *data += 1;
                 Eval_validate_exp(data);
@@ -144,7 +144,7 @@ LOAD_BRANCH:
                         else ErrMessage_write("Type Error: Can only call '/', div on integers.");
                 }
                 *data += 1;
-                return;
+                break;
         case WindInstruc_Print:
                 // needs special object specific function for printing
                 // only works for ints now
@@ -158,12 +158,12 @@ LOAD_BRANCH:
                         WindIO_print(&other);
                 }
                 *data += 1;         // moves past expend
-                return;
+                break;
         case WindInstruc_Self:
                 *data += 1;
                 //*obj = *(obj->parent);
                 Eval_self(obj, (WindObject*)obj->parent);
-                return;
+                break;
         case WindInstruc_Apply:
                 *data += 1;
                 applState = EvalApply_True;
