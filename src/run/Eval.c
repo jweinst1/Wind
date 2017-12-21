@@ -9,7 +9,6 @@ void Eval_validate_exp(unsigned char** data)
                 exit(1);
         }
 }
-
 void Eval_cleanup(WindObject* obj)
 {
         switch(obj->type)
@@ -17,10 +16,6 @@ void Eval_cleanup(WindObject* obj)
         case WindType_Str:
                 free(obj->value._str.begin);
                 obj->value._str.begin = NULL;
-                return;
-        case WindType_List:
-                free(obj->value._lst.begin);
-                obj->value._lst.begin = NULL;
                 return;
         default:
                 return;

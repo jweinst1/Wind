@@ -56,14 +56,14 @@ ByteBuf* Translate_code(char* srcCode)
                         ByteBuf_write_byte(insBuf, WindInstruc_ExpEnd);
                         reader++;
                         break;
-                case '[':
+                /*case '[':
                         ByteBuf_write_byte(insBuf, WindInstruc_ListStart);
                         reader++;
                         break;
-                case ']':
+                   case ']':
                         ByteBuf_write_byte(insBuf, WindInstruc_ListEnd);
                         reader++;
-                        break;
+                        break;*/
                 case '#': // comments
                         reader++;
                         while(*reader != '\n') reader++;

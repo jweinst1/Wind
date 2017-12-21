@@ -14,8 +14,8 @@ typedef enum
         WindInstruc_Print,
         WindInstruc_ExpStart,
         WindInstruc_ExpEnd,
-        WindInstruc_ListStart,
-        WindInstruc_ListEnd,
+        //WindInstruc_ListStart,
+        //WindInstruc_ListEnd,
         WindInstruc_String
 } WindInstruc;
 

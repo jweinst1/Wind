@@ -29,14 +29,6 @@ void Debug_print(unsigned char* start, unsigned char* end)
                         puts("ExpEnd: ')';");
                         start++;
                         break;
-                case WindInstruc_ListStart:
-                        puts("ListStart: '[';");
-                        start++;
-                        break;
-                case WindInstruc_ListEnd:
-                        puts("ListEnd: ']';");
-                        start++;
-                        break;
                 case WindInstruc_String:
                         start++;
                         printf("String: '");

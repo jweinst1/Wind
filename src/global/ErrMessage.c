@@ -9,7 +9,6 @@ int ErrMessage_active(void)
 {
         return ErrMessage_STATE;
 }
-
 void ErrMessage_on(void)
 {
         ErrMessage_STATE = 1;

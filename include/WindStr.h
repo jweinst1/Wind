@@ -22,6 +22,7 @@
 #define WindStr_FITS(obj, size) ((obj->value._str.end - obj->value._str.mark) < size + 1)
 
 #define WindStr_INIT(obj) do { \
+                obj->type = WindType_Str; \
                 SAFE_ALLOC_M(obj->value._str.begin, WindStr_DEF_CAP); \
                 WindStr_MARK(obj) = WindStr_BEGIN(obj); \
                 WindStr_END(obj) = WindStr_BEGIN(obj) + WindStr_DEF_CAP; \

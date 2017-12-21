@@ -13,8 +13,7 @@ typedef enum
 {
         WindType_None,
         WindType_Int,
-        WindType_Str,
-        WindType_List
+        WindType_Str
 } WindType;
 
 typedef struct
@@ -26,12 +25,6 @@ typedef struct
                 char* mark;
                 char* end;
         } _str;
-        struct WindList
-        {
-                struct WindObject* begin;
-                struct WindObject* mark;
-                struct WindObject* end;
-        } _lst;
 
 } WindValue;
 

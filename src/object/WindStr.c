@@ -9,17 +9,18 @@ void WindStr_over_write(WindObject* obj, char* string, size_t n)
 
 void WindStr_from_ins(WindObject* obj, unsigned char** data)
 {
-        obj->type = WindType_Str;
-        WindStr_INIT(obj);
+        if(obj->type != WindType_Str) WindStr_INIT(obj);
         while(**data != WindInstruc_String)
         {
                 WindStr_EXP2_IF(obj);
                 *WindStr_MARK(obj)++ = **data;
                 *data += 1;
+
         }
         // Appends null character
         *WindStr_MARK(obj) = '\0';
         *data += 1; // moves past the other string ins.
+        return;
 }
 
 void WindStr_from_size(WindObject* obj, size_t size)

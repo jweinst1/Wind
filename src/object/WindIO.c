@@ -15,9 +15,5 @@ void WindIO_print(WindObject* obj)
         case WindType_Str:
                 printf("\"%s\"\n", obj->value._str.begin);
                 break;
-        case WindType_List:
-                // not implemented
-                puts("[]");
-                break;
         }
 }
