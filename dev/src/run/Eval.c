@@ -76,6 +76,7 @@ LOAD_BRANCH:
         case WindInstruc_String:
                 *data += 1;
                 WindStr_from_ins(obj, data);
+                *data+=1;
                 return;
         case WindInstruc_Add:
                 *data += 1;
@@ -96,7 +97,7 @@ LOAD_BRANCH:
                         case WindType_Str:
                                 if(other.type == WindType_Str) WindStr_append(obj, &other);
                                 else ErrMessage_write("Type Error: Can only add str to to type str.");
-                                break; // needs error handle
+                                return; // needs error handle
                         default:
                                 break;
                         }
