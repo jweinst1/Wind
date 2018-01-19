@@ -6,5 +6,4 @@ int main(int argc, char const *argv[]) {
         WindUnit<char> f(g);
         std::cout << f.getData()[0] << std::endl;
         return 0;
-
 }
