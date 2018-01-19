@@ -8,5 +8,6 @@ int main(int argc, char const *argv[]) {
         f.setNext(&a);
         std::cout << f.getData()[0] << std::endl;
         std::cout << f.hasNext() << std::endl;
+        f.debugInfo();
         return 0;
 }

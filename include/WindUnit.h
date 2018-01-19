@@ -3,9 +3,10 @@
 // Header That defines Wind Unit
 // A Unit encapsulates a pointer to some WindObject
 
+#include "DebugInterface.h"
 
 template<class T>
-class WindUnit
+class WindUnit : public DebugInterface
 {
 public:
 // Allocating Constructor
@@ -23,6 +24,11 @@ WindUnit(T* ptr, int size = 1) : _len(size), _data(ptr), _next(nullptr)
 WindUnit(const T& object) : _len(1), _data(new T[1]), _next(nullptr)
 {
         *_data = object;
+}
+
+void debugInfo(void) const
+{
+        std::cout << "Unit:{ length: " << _len << " objectAd: " << static_cast<void*>(_data) << "}" << std::endl;
 }
 
 ~WindUnit()
