@@ -30,9 +30,22 @@ WindUnit(const T& object) : _len(1), _data(new T[1])
         delete[] _data;
 }
 
+// Swaps the stored pointer for a new one.
+void reset(T* ptr, int size = 1)
+{
+        delete[] _data;
+        _data = ptr;
+        _len = size;
+}
+
 T& operator* ()
 {
         return *_data;
+}
+
+T& operator[] (long index)
+{
+        return _data[index % _len];
 }
 
 T* operator-> ()
@@ -44,6 +57,16 @@ T* operator-> ()
 int getLen(void) const
 {
         return _len;
+}
+
+bool isSingle(void) const
+{
+        return _len == 1;
+}
+
+T* getData(void) const
+{
+        return _data;
 }
 private:
 
