@@ -7,14 +7,33 @@ class WindObject
 public:
 enum Type
 {
-        Int,
-        Str
-};
+        Type_None
 };
 
-class WindInt : public WindObject
+Type getType(void) const
 {
+        return _type;
+}
 
+void setType(Type type)
+{
+        _type = type;
+}
+private:
+Type _type;
+};
+
+// The None type class
+class WindNone : public WindObject
+{
+public:
+WindNone()
+{
+        setType(WindObject::Type_None);
+}
+~WindNone()
+{
+}
 };
 
 #endif

@@ -3,5 +3,22 @@
 // Header to define main Wind Stream Object
 
 #include "WindUnit.h"
+#include "WindObject.h"
+
+class WindStream
+{
+public:
+WindStream()
+{
+
+}
+~WindStream()
+{
+
+}
+private:
+WindUnit<WindObject>* _front;
+WindUnit<WindObject>* _back;
+};
 
 #endif
