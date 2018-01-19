@@ -17,12 +17,11 @@ WindUnit(T* ptr, int size = 1) : _len(size), _data(ptr)
 {
 
 }
-
 // Reference Constructor
 // object must have copy constructor
 WindUnit(const T& object) : _len(1), _data(new T[1])
 {
-        *_data = T;
+        *_data = object;
 }
 
 ~WindUnit()
@@ -53,6 +52,10 @@ T* operator-> ()
         return _data;
 }
 
+bool operator==(const WindUnit& other) const
+{
+        return other.getLen() == _len && other.getData() == _data;
+}
 
 int getLen(void) const
 {

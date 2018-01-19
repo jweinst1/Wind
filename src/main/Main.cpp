@@ -1,9 +1,10 @@
 #include <iostream>
+#include "WindUnit.h"
 
 int main(int argc, char const *argv[]) {
-        int* foo = new int[1];
-        foo[0] = 5;
-        std::cout << *foo << "Hello World!\n";
-        delete[] foo;
+        char g = 'h';
+        WindUnit<char> f(g);
+        std::cout << f.getData()[0] << std::endl;
         return 0;
+
 }
