@@ -3,6 +3,7 @@
 // Header That defines Wind Unit
 // A Unit encapsulates a pointer to some WindObject
 
+
 template<class T>
 class WindUnit
 {
@@ -65,6 +66,27 @@ bool operator!=(const WindUnit& other) const
 int getLen(void) const
 {
         return _len;
+}
+
+WindUnit* getNext(void) const
+{
+        return _next;
+}
+
+bool hasNext(void) const
+{
+        return _next != nullptr;
+}
+
+void setNext(WindUnit* wunit)
+{
+        _next = wunit;
+}
+
+WindUnit* getNextNext(void) const
+{
+        if(hasNext()) return _next->getNext();
+        else return nullptr;
 }
 
 bool isSingle(void) const
