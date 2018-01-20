@@ -9,22 +9,13 @@ template<class T>
 class WindUnit : public DebugInterface
 {
 public:
-// Allocating Constructor
-WindUnit(int size) : _len(size), _data(new T[_len]), _next(nullptr)
+
+
+WindUnit(T* ptr = nullptr, int size = 1) : _len(size), _data(ptr), _next(nullptr)
 {
 
 }
 
-WindUnit(T* ptr, int size = 1) : _len(size), _data(ptr), _next(nullptr)
-{
-
-}
-// Reference Constructor
-// object must have copy constructor
-WindUnit(const T& object) : _len(1), _data(new T[1]), _next(nullptr)
-{
-        *_data = object;
-}
 
 void debugInfo(void) const
 {

@@ -9,6 +9,9 @@ enum Type
 {
         Type_None
 };
+public:
+virtual ~WindObject(){
+}
 
 Type getType(void) const
 {

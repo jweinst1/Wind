@@ -5,17 +5,14 @@
 #include "WindUnit.h"
 #include "WindObject.h"
 
+// type abbreviation, WindNode is always used in WindStream
+typedef WindUnit<WindObject> WindNode;
+
 class WindStream
 {
 public:
-WindStream()
-{
-
-}
-~WindStream()
-{
-
-}
+WindStream();
+~WindStream();
 private:
 WindUnit<WindObject>* _front;
 WindUnit<WindObject>* _back;
