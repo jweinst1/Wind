@@ -3,10 +3,10 @@
 // Header That defines Wind Unit
 // A Unit encapsulates a pointer to some WindObject
 
-#include "DebugInterface.h"
+#include "Printable.h"
 
 template<class T>
-class WindUnit : public DebugInterface
+class WindUnit : public Printable
 {
 public:
 

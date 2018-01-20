@@ -29,6 +29,28 @@ bool isSing(void) const
         return _back == _front;
 }
 
+WindNode* getFront(void) const
+{
+        return _front;
+}
+
+WindNode* getBack(void) const
+{
+        return _back;
+}
+
+WindObject* getFrontObj(void) const
+{
+        if(_len > 0) return _front->getData();
+        else return nullptr;
+}
+
+WindObject* getBackObj(void) const
+{
+        if(_len > 0) return _back->getData();
+        else return nullptr;
+}
+
 WindStream& operator<<(WindObject* wobj);
 private:
 WindNode* _front;
