@@ -37,6 +37,11 @@ WindNone()
 ~WindNone()
 {
 }
+
+static WindNone* create(int amount = 1)
+{
+        return new WindNone[amount];
+}
 };
 
 #endif
