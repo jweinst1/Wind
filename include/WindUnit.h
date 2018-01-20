@@ -3,7 +3,7 @@
 // Header That defines Wind Unit
 // A Unit encapsulates a pointer to some WindObject
 
-#include "Printable.h"
+#include "PrintInterface.h"
 
 template<class T>
 class WindUnit : public Printable
@@ -17,6 +17,11 @@ WindUnit(T* ptr = nullptr, int size = 1) : _len(size), _data(ptr), _next(nullptr
 
 
 void debugInfo(void) const
+{
+        std::cout << "Unit:{ length: " << _len << " objectAd: " << static_cast<void*>(_data) << "}" << std::endl;
+}
+
+void print(void) const
 {
         std::cout << "Unit:{ length: " << _len << " objectAd: " << static_cast<void*>(_data) << "}" << std::endl;
 }

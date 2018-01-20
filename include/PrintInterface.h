@@ -9,7 +9,8 @@ virtual void debugInfo(void) const
 {
 }
 
-virtual void print(void) const {
+virtual void print(void) const
+{
 }
 };
 
