@@ -13,9 +13,27 @@ class WindStream
 public:
 WindStream();
 ~WindStream();
+
+size_t getLen(void) const
+{
+        return _len;
+}
+
+bool isEmpty(void) const
+{
+        return _front == nullptr && _back == nullptr;
+}
+
+bool isSing(void) const
+{
+        return _back == _front;
+}
+
+WindStream& operator<<(WindObject* wobj);
 private:
-WindUnit<WindObject>* _front;
-WindUnit<WindObject>* _back;
+WindNode* _front;
+WindNode* _back;
+size_t _len;
 };
 
 #endif

@@ -10,7 +10,6 @@ class WindUnit : public DebugInterface
 {
 public:
 
-
 WindUnit(T* ptr = nullptr, int size = 1) : _len(size), _data(ptr), _next(nullptr)
 {
 
@@ -22,7 +21,7 @@ void debugInfo(void) const
         std::cout << "Unit:{ length: " << _len << " objectAd: " << static_cast<void*>(_data) << "}" << std::endl;
 }
 
-~WindUnit()
+virtual ~WindUnit()
 {
         delete[] _data;
 }
