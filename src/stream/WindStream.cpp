@@ -14,6 +14,21 @@ WindStream::~WindStream()
         }
 }
 
+void WindStream::push(WindObject* wobj)
+{
+        _len++;
+        if(isEmpty())
+        {
+                _front = new WindNode(wobj);
+                _back = _front;
+        }
+        else
+        {
+                _back->setNext(new WindNode(wobj));
+                _back = _back->getNext();
+        }
+}
+
 WindStream& WindStream::operator<<(WindObject* wobj)
 {
         _len++;

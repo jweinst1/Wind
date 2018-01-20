@@ -7,7 +7,8 @@ class WindObject
 public:
 enum Type
 {
-        Type_None
+        Type_None,
+        Type_Int
 };
 public:
 virtual ~WindObject(){
@@ -24,24 +25,6 @@ void setType(Type type)
 }
 private:
 Type _type;
-};
-
-// The None type class
-class WindNone : public WindObject
-{
-public:
-WindNone()
-{
-        setType(WindObject::Type_None);
-}
-~WindNone()
-{
-}
-
-static WindNone* create(int amount = 1)
-{
-        return new WindNone[amount];
-}
 };
 
 #endif

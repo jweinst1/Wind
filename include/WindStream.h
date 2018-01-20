@@ -2,8 +2,9 @@
 #define WIND_STREAM_H
 // Header to define main Wind Stream Object
 
+#include <iostream>
 #include "WindUnit.h"
-#include "WindObject.h"
+#include "WindNone.h"
 
 // type abbreviation, WindNode is always used in WindStream
 typedef WindUnit<WindObject> WindNode;
@@ -51,7 +52,17 @@ WindObject* getBackObj(void) const
         else return nullptr;
 }
 
+// Inserts one element into the stream.
+void push(WindObject* wobj);
+
 WindStream& operator<<(WindObject* wobj);
+
+// Pushes one None object onto the stream.
+void pushNone(void)
+{
+        push(WindNone::create());
+}
+
 private:
 WindNode* _front;
 WindNode* _back;
