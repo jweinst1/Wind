@@ -45,3 +45,22 @@ WindStream& WindStream::operator<<(WindObject* wobj)
                 return *this;
         }
 }
+
+void WindStream::removeFront(void)
+{
+        if(isEmpty()) return;
+        else if(isSing())
+        {
+                _len--;
+                delete _front;
+                _front = nullptr;
+                _back = nullptr;
+        }
+        else
+        {
+                _len--;
+                WindNode* frontHold = _front;
+                delete _front;
+                _front = frontHold->getNext();
+        }
+}

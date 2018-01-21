@@ -7,10 +7,9 @@ int main(int argc, char const *argv[]) {
         WindNone* foo = new WindNone[1];
         WindStream stream;
         stream << foo;
+        stream << WindInt::create(7);
+        stream.removeFront();
         std::cout << "Hello\n";
-        WindInt* wint = WindInt::create(8);
-        std::cout << wint->getInt() << std::endl;
-        delete[] wint;
-        return 0;
 
+        return 0;
 }

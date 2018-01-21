@@ -5,6 +5,7 @@
 #include <iostream>
 #include "WindUnit.h"
 #include "WindNone.h"
+#include "WindInt.h"
 
 // type abbreviation, WindNode is always used in WindStream
 typedef WindUnit<WindObject> WindNode;
@@ -55,6 +56,8 @@ WindObject* getBackObj(void) const
 // Inserts one element into the stream.
 void push(WindObject* wobj);
 
+void removeFront(void);
+
 // Operator the facilitates the push method.
 WindStream& operator<<(WindObject* wobj);
 
@@ -64,6 +67,11 @@ WindStream& operator<<(WindObject* wobj);
 void pushNone(void)
 {
         push(WindNone::create());
+}
+
+void pushInt(long num = 0)
+{
+        push(WindInt::create(num));
 }
 
 private:
