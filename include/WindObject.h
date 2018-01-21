@@ -1,8 +1,10 @@
 #ifndef WIND_OBJECT_H
 #define WIND_OBJECT_H
 
+#include "PrintInterface.h"
+
 // Main object type
-class WindObject
+class WindObject : public Printable
 {
 public:
 enum Type

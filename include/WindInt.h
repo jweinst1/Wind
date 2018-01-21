@@ -2,9 +2,8 @@
 #define WIND_INT_H
 
 #include "WindObject.h"
-#include "PrintInterface.h"
 
-class WindInt : public WindObject, public Printable
+class WindInt : public WindObject
 {
 public:
 WindInt(long num = 0);

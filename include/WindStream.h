@@ -55,7 +55,10 @@ WindObject* getBackObj(void) const
 // Inserts one element into the stream.
 void push(WindObject* wobj);
 
+// Operator the facilitates the push method.
 WindStream& operator<<(WindObject* wobj);
+
+
 
 // Pushes one None object onto the stream.
 void pushNone(void)

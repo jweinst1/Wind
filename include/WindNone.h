@@ -1,11 +1,10 @@
 #ifndef WIND_NONE_H
 #define WIND_NONE_H
 
-#include "PrintInterface.h"
 #include "WindObject.h"
 
 // The None type class
-class WindNone : public WindObject, public Printable
+class WindNone : public WindObject
 {
 public:
 WindNone()

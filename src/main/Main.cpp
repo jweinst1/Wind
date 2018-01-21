@@ -12,4 +12,5 @@ int main(int argc, char const *argv[]) {
         std::cout << wint->getInt() << std::endl;
         delete[] wint;
         return 0;
+
 }
