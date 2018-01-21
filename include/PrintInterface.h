@@ -2,6 +2,8 @@
 #define PRINT_INTERFACE_H
 // Contains the printable interface
 
+#include <iostream>
+
 class Printable
 {
 public:

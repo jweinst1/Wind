@@ -27,6 +27,13 @@ long& getInt(void)
         return _int;
 }
 
+void setInt(long num)
+{
+        _int = num;
+}
+
+// Creates a new WindInt[1] with specified number.
+static WindInt* create(long num);
 
 private:
 long _int;
