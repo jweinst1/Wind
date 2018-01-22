@@ -27,9 +27,11 @@ typedef enum
 
 // Wind Object
 // This is the pure, base Type for the Wind Language.
-typedef struct
+struct WindObject
 {
         WindObject_BASE
-} WindObject;
+};
+
+typedef struct WindObject WindObject;
 
 #endif // WIND_OBJECT_H

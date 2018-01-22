@@ -5,8 +5,11 @@ WindNone* WindNone_new(void)
 {
         WindNone* newNone = malloc(sizeof(WindNone));
         newNone->type = WindType_None;
+        newNone->next = NULL;
+        newNone->prev = NULL;
         return newNone;
 }
+
 
 WindNone* WindNone_new_arr(int amount)
 {

@@ -1,6 +1,7 @@
 #ifndef WIND_STREAM_H
 #define WIND_STREAM_H
 
+#include <stdio.h>
 #include "WindObject.h"
 
 // Macro that creates a stack-allocated stream.
@@ -24,8 +25,15 @@ typedef struct
 // Creates a new dynamically allocated stream.
 WindStream* WindStream_new(void);
 
+static inline void WindStream_connect(WindObject* wobj1, WindObject* wobj2)
+{
+        wobj1->next = wobj2;
+        wobj2->prev = wobj1;
+}
+
+// Deletes a Stream
 void WindStream_del(WindStream* wstream);
 
-void WindStream_push(WindObject* wobj);
+void WindStream_push(WindStream* wstream, WindObject* wobj);
 
 #endif // WIND_STREAM_H

@@ -17,20 +17,22 @@ void WindStream_del(WindStream* wstream)
                 free(curObj);
                 curObj = curObj->next;
         }
+        free(wstream);
 }
+
 
 void WindStream_push(WindStream* wstream, WindObject* wobj)
 {
-        if(wstream->len == 0)
+        if(wstream->len)
         {
                 wstream->len++;
-                wstream->front = wobj;
-                wstream->back = wstream->front;
+                WindStream_connect(wstream->back, wobj);
+                wstream->back = wobj;
         }
         else
         {
                 wstream->len++;
-                wstream->back->next = wobj;
-                wstream->back = wstream->back->next;
+                wstream->front = wobj;
+                wstream->back = wstream->front;
         }
 }
