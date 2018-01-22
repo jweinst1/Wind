@@ -56,6 +56,7 @@ WindObject* getBackObj(void) const
 // Inserts one element into the stream.
 void push(WindObject* wobj);
 
+// Removes and destroys the front element of the stream.
 void removeFront(void);
 
 // Operator the facilitates the push method.
