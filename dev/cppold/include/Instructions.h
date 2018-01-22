@@ -2,12 +2,14 @@
 #define WIND_INSTRUCTIONS_H
 // Instructions related header
 
-struct WindInstruc
+// Encapsulated Instruction type for Wind
+struct WindIns
 {
         enum Code
         {
-                Code_Int,
-                Code_Push
+                Stop,
+                Print,
+                Int
         }
 };
 
