@@ -18,6 +18,10 @@
 // Macro to determine if two objects have the same type
 #define WindObject_SAME_T(obj1, obj2) (obj1->type == obj2->type)
 
+#define WindObject_NULLIFY(obj) \
+        obj->next = NULL; \
+        obj->prev = NULL;
+
 // Type to denote information about an object
 typedef enum
 {

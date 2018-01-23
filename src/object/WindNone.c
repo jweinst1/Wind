@@ -19,6 +19,7 @@ WindNone* WindNone_new_arr(int amount)
         while(amount--)
         {
                 writer->type = WindType_None;
+                WindObject_NULLIFY(writer);
                 writer++;
         }
         return newNone;

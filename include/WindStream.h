@@ -25,15 +25,31 @@ typedef struct
 // Creates a new dynamically allocated stream.
 WindStream* WindStream_new(void);
 
-static inline void WindStream_connect(WindObject* wobj1, WindObject* wobj2)
+// Inlined function to fuse objects
+static inline void
+WindStream_connect(WindObject* wobj1, WindObject* wobj2)
 {
         wobj1->next = wobj2;
         wobj2->prev = wobj1;
 }
 
+// Inline function to disconnect objects
+static inline void
+WindStream_disconnect(WindObject* wobj1, WindObject* wobj2)
+{
+        wobj1->next = NULL;
+        wobj2->prev = NULL;
+}
+
+
 // Deletes a Stream
 void WindStream_del(WindStream* wstream);
 
 void WindStream_push(WindStream* wstream, WindObject* wobj);
+
+// Removes the last item in the stream
+void WindStream_remove_end(WindStream* wstream);
+
+
 
 #endif // WIND_STREAM_H
