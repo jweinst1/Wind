@@ -47,6 +47,8 @@ void WindStream_del(WindStream* wstream);
 
 void WindStream_push(WindStream* wstream, WindObject* wobj);
 
+void WindStream_push_left(WindStream* wstream, WindObject* wobj);
+
 // Removes the last item in the stream
 void WindStream_remove_end(WindStream* wstream);
 

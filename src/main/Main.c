@@ -8,6 +8,7 @@ int main(int argc, char const *argv[]) {
         WindStream* stream = WindStream_new();
         WindStream_push(stream, (WindObject*)none);
         WindStream_push(stream, (WindObject*)none2);
+        WindStream_push_left(stream, (WindObject*)WindNone_new());
         Debug_stream(stream);
         WindStream_del(stream);
         return 0;

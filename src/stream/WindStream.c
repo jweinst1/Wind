@@ -37,6 +37,22 @@ void WindStream_push(WindStream* wstream, WindObject* wobj)
         }
 }
 
+void WindStream_push_left(WindStream* wstream, WindObject* wobj)
+{
+        if(wstream->len)
+        {
+                wstream->len++;
+                WindStream_connect(wobj, wstream->front);
+                wstream->front = wobj;
+        }
+        else
+        {
+                wstream->len++;
+                wstream->front = wobj;
+                wstream->back = wstream->front;
+        }
+}
+
 void WindStream_remove_end(WindStream* wstream)
 {
         // todo:: Free mechanism needs replace for sized types
