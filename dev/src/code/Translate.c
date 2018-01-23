@@ -56,13 +56,21 @@ ByteBuf* Translate_code(char* srcCode)
                         ByteBuf_write_byte(insBuf, WindInstruc_ExpEnd);
                         reader++;
                         break;
-                case '[':
+                /*case '[':
                         ByteBuf_write_byte(insBuf, WindInstruc_ListStart);
                         reader++;
                         break;
-                case ']':
+                   case ']':
                         ByteBuf_write_byte(insBuf, WindInstruc_ListEnd);
                         reader++;
+                        break;*/
+                case '#': // comments
+                        reader++;
+                        while(*reader != '\n') reader++;
+                        break;
+                case '@':
+                        reader++;
+                        ByteBuf_write_byte(insBuf, WindInstruc_Self);
                         break;
                 case '"':
                         reader++;
@@ -75,6 +83,14 @@ ByteBuf* Translate_code(char* srcCode)
                 case '+':
                         reader++;
                         ByteBuf_write_byte(insBuf, WindInstruc_Add);
+                        break;
+                case '*':
+                        reader++;
+                        ByteBuf_write_byte(insBuf, WindInstruc_Mul);
+                        break;
+                case '/':
+                        reader++;
+                        ByteBuf_write_byte(insBuf, WindInstruc_Div);
                         break;
                 case 'o':
                         if(reader[1] == 'u' && reader[2] == 't')

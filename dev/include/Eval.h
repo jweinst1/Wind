@@ -5,6 +5,9 @@
 #include "WindObject.h"
 #include "ByteBuf.h"
 #include "Instruction.h"
+#include "ErrMessage.h"
+#include "WindStr.h"
+#include "WindIO.h"
 
 
 
@@ -20,9 +23,12 @@ typedef enum
 // Validates start of expression call '()'
 void Eval_validate_exp(unsigned char** data);
 
-/*void Eval_sub(WindObject* obj, unsigned char** data, EvalApply apply);
+void Eval_cleanup(WindObject* obj);
+// copies obj2 into obj1.
+void Eval_copy(WindObject* obj1, WindObject* obj2);
 
-   void Eval_add(WindObject* obj, unsigned char** data, EvalApply apply);*/
+// makes a copy of the highest parent of obj2 into obj1.
+void Eval_self(WindObject* obj1, WindObject* obj2);
 
 void Eval_load(WindObject* obj, unsigned char** data);
 

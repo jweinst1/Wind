@@ -1,40 +1,41 @@
 #ifndef WIND_OBJECT_H
 #define WIND_OBJECT_H
-// contains windobject definition
 
+#include <stdlib.h>
 
-typedef struct
-{
-        char* begin;
-        char* mark;
-        char* end;
-} WindStr;
+// Object base struct for common casting.
+#define WindObject_BASE \
+        WindType type; \
+        struct WindObject* next; \
+        struct WindObject* prev;
 
+// Macro for connecting objects.
+#define WindObject_CONNECT(obj1, obj2) do { \
+                obj1->next = obj2; \
+                obj2->prev = obj1; \
+} while(0)
+
+// Macro to determine if two objects have the same type
+#define WindObject_SAME_T(obj1, obj2) (obj1->type == obj2->type)
+
+#define WindObject_NULLIFY(obj) \
+        obj->next = NULL; \
+        obj->prev = NULL;
+
+// Type to denote information about an object
 typedef enum
 {
-        WindType_None,
-        WindType_Int
+        WindType_None
 } WindType;
 
-typedef union
+
+// Wind Object
+// This is the pure, base Type for the Wind Language.
+struct WindObject
 {
-        long _int;
-        struct WindStr* _str;
-        struct WindList* _lst;
+        WindObject_BASE
+};
 
-} WindValue;
+typedef struct WindObject WindObject;
 
-typedef struct
-{
-        WindValue value;
-        WindType type;
-} WindObject;
-
-typedef struct
-{
-        WindObject* begin;
-        WindObject* mark;
-        WindObject* end;
-} WindList;
-
-#endif
+#endif // WIND_OBJECT_H
