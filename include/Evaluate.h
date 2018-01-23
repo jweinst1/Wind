@@ -15,6 +15,9 @@ typedef enum
         EvalState_Separator
 } EvalState;
 
+
+int Evaluate_separator(WindStream* wstream, const char** code, EvalState* state);
+
 // Top level evaluator function
 // Evaluates a string of code onto a stream.
 void Evaluate_code(WindStream* wstream, const char* code, EvalState* state);
