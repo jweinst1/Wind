@@ -5,4 +5,6 @@
 
 void Debug_object(WindObject* wobj);
 
+void Debug_stream(WindStream* wstream);
+
 #endif // WIND_DEBUG_H
