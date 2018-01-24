@@ -1,8 +1,52 @@
 #include "Evaluate.h"
 
-int Evaluate_Command(WindStream* wstream, const char** code, EvalState* state)
+void Evaluate_command(WindStream* wstream, const char** code, EvalState* state)
 {
-        return 0;
+        while(**code)
+        {
+                switch(**code)
+                {
+                case ' ':
+                case '\n':
+                case '\t':
+                case '\v':
+                        *code += 1;
+                        break;
+                case '#':
+                        //comment handler
+                        while(**code != '\n') *code += 1;
+                        break;
+                case 'p':
+                        switch((*code)[1])
+                        {
+                        case 'u':
+                                switch((*code)[2])
+                                {
+                                case 's':
+                                        switch((*code)[3])
+                                        {
+                                        case 'h':
+                                                // push eval goes here
+                                                break;
+                                        default:
+                                                // syntax error
+                                                return;
+                                        }
+                                        break;
+                                default:
+                                        // syntax error
+                                        return;
+                                }
+                                break;
+                        default:
+                                //syntax error
+                                return;
+                        }
+                        break;
+                default:
+                        return; // syntax error
+                }
+        }
 }
 
 
@@ -33,6 +77,7 @@ int Evaluate_separator(WindStream* wstream, const char** code, EvalState* state)
                         break;
                 case '#':
                         //comment handler
+                        while(**code != '\n') *code += 1;
                         break;
                 default:
                         //bad syntax error or code is done
@@ -47,6 +92,7 @@ void Evaluate_code(WindStream* wstream, const char* code, EvalState* state)
         while(*code)
         {
                 if(*state == EvalState_Separator) Evaluate_separator(wstream, &code, state);
+                else Evaluate_Command(wstream, &code, state);
         }
 
 }

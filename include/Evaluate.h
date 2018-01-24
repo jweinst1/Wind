@@ -16,7 +16,7 @@ typedef enum
 } EvalState;
 
 // Handles the command evaluation state.
-int Evaluate_Command(WindStream* wstream, const char** code, EvalState* state);
+void Evaluate_command(WindStream* wstream, const char** code, EvalState* state);
 
 // Handles the Sep evaluation state.
 int Evaluate_separator(WindStream* wstream, const char** code, EvalState* state);
