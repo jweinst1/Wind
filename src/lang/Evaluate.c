@@ -1,5 +1,10 @@
 #include "Evaluate.h"
 
+void Evaluate_out(WindStream* wstream, const char** code, EvalState* state)
+{
+
+}
+
 void Evaluate_command(WindStream* wstream, const char** code, EvalState* state)
 {
         while(**code)

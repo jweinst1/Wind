@@ -15,6 +15,8 @@ typedef enum
         EvalState_Separator
 } EvalState;
 
+void Evaluate_out(WindStream* wstream, const char** code, EvalState* state);
+
 // Handles the command evaluation state.
 void Evaluate_command(WindStream* wstream, const char** code, EvalState* state);
 

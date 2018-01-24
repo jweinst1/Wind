@@ -59,6 +59,8 @@ void WindStream_remove_end(WindStream* wstream);
 
 void WindStream_remove_begin(WindStream* wstream);
 
+void WindStream_out(WindStream* wstream);
+
 
 
 #endif // WIND_STREAM_H
