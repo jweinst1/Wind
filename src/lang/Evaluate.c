@@ -2,7 +2,7 @@
 
 void Evaluate_out(WindStream* wstream, const char** code, EvalState* state)
 {
-
+        WindStream_out(wstream);
 }
 
 void Evaluate_command(WindStream* wstream, const char** code, EvalState* state)
@@ -28,8 +28,9 @@ void Evaluate_command(WindStream* wstream, const char** code, EvalState* state)
                                 switch((*code)[2])
                                 {
                                 case 't':
-                                        // out command goes here
                                         *code += 3;
+                                        Evaluate_out(wstream, code, state);
+                                        *state = EvalState_Separator;
                                         break;
                                 default:
                                         // syntax error

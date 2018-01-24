@@ -10,9 +10,9 @@ int main(int argc, char const *argv[]) {
         WindStream_push(stream, (WindObject*)none2);
         WindStream_push_left(stream, (WindObject*)WindNone_new());
 
-        EvalState state = EvalState_Separator;
-        const char* coding = "   \n\n -> 4";
-        Evaluate_separator(stream, &coding, &state);
+        EvalState state = EvalState_Command;
+        const char* coding = "   \n\nout ->";
+        Evaluate_command(stream, &coding, &state);
         puts(coding);
         WindStream_del(stream);
         return 0;
