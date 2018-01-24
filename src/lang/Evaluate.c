@@ -16,22 +16,15 @@ void Evaluate_command(WindStream* wstream, const char** code, EvalState* state)
                         //comment handler
                         while(**code != '\n') *code += 1;
                         break;
-                case 'p':
+                case 'o':
                         switch((*code)[1])
                         {
                         case 'u':
                                 switch((*code)[2])
                                 {
-                                case 's':
-                                        switch((*code)[3])
-                                        {
-                                        case 'h':
-                                                // push eval goes here
-                                                break;
-                                        default:
-                                                // syntax error
-                                                return;
-                                        }
+                                case 't':
+                                        // out command goes here
+                                        *code += 3;
                                         break;
                                 default:
                                         // syntax error
@@ -92,7 +85,7 @@ void Evaluate_code(WindStream* wstream, const char* code, EvalState* state)
         while(*code)
         {
                 if(*state == EvalState_Separator) Evaluate_separator(wstream, &code, state);
-                else Evaluate_Command(wstream, &code, state);
+                else Evaluate_command(wstream, &code, state);
         }
 
 }

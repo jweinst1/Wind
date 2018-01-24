@@ -79,3 +79,25 @@ void WindStream_remove_end(WindStream* wstream)
                 }
         }
 }
+
+void WindStream_remove_begin(WindStream* wstream)
+{
+        // todo:: Free mechanism needs replace for sized types
+        if(wstream->len)
+        {
+                if(wstream->len == 1)
+                {
+                        free(wstream->front);
+                        wstream->front = NULL;
+                        wstream->back = NULL;
+                        wstream->len--;
+                }
+                else
+                {
+                        free(wstream->front);
+                        wstream->front = wstream->front->next;
+                        wstream->front->prev = NULL;
+                        wstream->len--;
+                }
+        }
+}
