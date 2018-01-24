@@ -1,35 +1,41 @@
 #include "Evaluate.h"
 
+int Evaluate_Command(WindStream* wstream, const char** code, EvalState* state)
+{
+        return 0;
+}
+
 
 int Evaluate_separator(WindStream* wstream, const char** code, EvalState* state)
 {
-        const char* codePtr = *code;
-        while(*codePtr)
+        while(**code)
         {
-                switch(*codePtr)
+                switch(**code)
                 {
                 case ' ':
                 case '\n':
                 case '\t':
                 case '\v':
-                        codePtr++;
+                        *code += 1;
                         break;
                 case '-':
-                        if(codePtr[1] == '>')
+                        if((*code)[1] == '>')
                         {
-                                codePtr += 2;
-                                // Moves source code pointer
-                                *code = codePtr;
+                                *code += 2;
+                                *state = EvalState_Command;
                                 return 1;
                         }
                         else
                         {
-                                *code = codePtr;
+                                // bad syntax error
                                 return 0;
                         }
                         break;
+                case '#':
+                        //comment handler
+                        break;
                 default:
-                        *code = codePtr;
+                        //bad syntax error or code is done
                         return 0;
                 }
         }
@@ -40,7 +46,7 @@ void Evaluate_code(WindStream* wstream, const char* code, EvalState* state)
 {
         while(*code)
         {
-                if(*state == EvalState_Separator) ;
+                if(*state == EvalState_Separator) Evaluate_separator(wstream, &code, state);
         }
 
 }
