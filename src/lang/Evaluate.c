@@ -5,6 +5,25 @@ void Evaluate_out(WindStream* wstream, const char** code, EvalState* state)
         WindStream_out(wstream);
 }
 
+void Evaluate_push(WindStream* wstream, const char** code, EvalState* state)
+{
+        while(**code)
+        {
+                switch(**code)
+                {
+                case ' ':
+                case '\n':
+                case '\t':
+                case '\v':
+                        *code += 1;
+                        break;
+                case '\0':
+                        return;
+                        break;
+                }
+        }
+}
+
 void Evaluate_command(WindStream* wstream, const char** code, EvalState* state)
 {
         while(**code)
@@ -42,6 +61,35 @@ void Evaluate_command(WindStream* wstream, const char** code, EvalState* state)
                                 break;
                         default:
                                 WindErr_write(wstream, "Syntax Error: Unexpected token 'o%c'.", (*code)[1]);
+                                return;
+                        }
+                        break;
+                case 'p':
+                        switch((*code)[1])
+                        {
+                        case 'u':
+                                switch((*code)[2])
+                                {
+                                case 's':
+                                        switch((*code)[3])
+                                        {
+                                        case 'h':
+                                                *code += 4;
+                                                // Needs eval push
+                                                *state = EvalState_Separator;
+                                                break;
+                                        default:
+                                                WindErr_write(wstream, "Syntax Error: Unexpected token 'pus%c'.", (*code)[3]);
+                                                return;
+                                        }
+                                        break;
+                                default:
+                                        WindErr_write(wstream, "Syntax Error: Unexpected token 'pu%c'.", (*code)[2]);
+                                        return;
+                                }
+                                break;
+                        default:
+                                WindErr_write(wstream, "Syntax Error: Unexpected token 'p%c'.", (*code)[1]);
                                 return;
                         }
                         break;

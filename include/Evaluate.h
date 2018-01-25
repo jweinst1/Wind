@@ -16,6 +16,15 @@ typedef enum
         EvalState_Separator
 } EvalState;
 
+// Determines if the string is at a sep
+static inline int
+Evaluate_isSep(const char* string)
+{
+        return *string == '-' && string[1] == '>';
+}
+
+void Evaluate_push(WindStream* wstream, const char** code, EvalState* state);
+
 void Evaluate_out(WindStream* wstream, const char** code, EvalState* state);
 
 // Handles the command evaluation state.
