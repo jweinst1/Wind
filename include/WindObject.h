@@ -15,6 +15,12 @@
                 obj2->prev = obj1; \
 } while(0)
 
+// Macro for disconnecting objects
+#define WindObject_DISCONNECT(obj1, obj2) do { \
+                obj1->next = NULL; \
+                obj2->prev = NULL; \
+} while(0)
+
 // Macro to determine if two objects have the same type
 #define WindObject_SAME_T(obj1, obj2) (obj1->type == obj2->type)
 
