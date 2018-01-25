@@ -7,7 +7,7 @@ void Evaluate_out(WindStream* wstream, const char** code, EvalState* state)
 
 void Evaluate_push(WindStream* wstream, const char** code, EvalState* state)
 {
-        while(**code)
+        while(!Evaluate_isSep(*code))
         {
                 switch(**code)
                 {
@@ -20,6 +20,40 @@ void Evaluate_push(WindStream* wstream, const char** code, EvalState* state)
                 case '\0':
                         return;
                         break;
+                case '#':
+                        //comment handler
+                        while(**code != '\n') *code += 1;
+                        break;
+                case 'N':
+                        switch((*code)[1])
+                        {
+                        case 'o':
+                                switch((*code)[2])
+                                {
+                                case 'n':
+                                        switch((*code)[3])
+                                        {
+                                        case 'e':
+                                                *code += 4;
+                                                WindStream_push(wstream, (WindObject*)WindNone_new());
+                                                continue;
+                                        default:
+                                                WindErr_write(wstream, "Syntax Error: Unexpected token 'Non%c'.", (*code)[3]);
+                                                return;
+                                        }
+                                        break;
+                                default:
+                                        WindErr_write(wstream, "Syntax Error: Unexpected token 'No%c'.", (*code)[2]);
+                                        return;
+                                }
+                                break;
+                        default:
+                                WindErr_write(wstream, "Syntax Error: Unexpected token 'n%c'.", (*code)[1]);
+                                return;
+                        }
+                default:
+                        WindErr_write(wstream, "Syntax Error(push): Unexpected token '%c'.", **code);
+                        return; // syntax error
                 }
         }
 }
@@ -53,7 +87,7 @@ void Evaluate_command(WindStream* wstream, const char** code, EvalState* state)
                                         *code += 3;
                                         Evaluate_out(wstream, code, state);
                                         *state = EvalState_Separator;
-                                        break;
+                                        return;
                                 default:
                                         WindErr_write(wstream, "Syntax Error: Unexpected token 'ou%c'.", (*code)[2]);
                                         return;
@@ -75,9 +109,9 @@ void Evaluate_command(WindStream* wstream, const char** code, EvalState* state)
                                         {
                                         case 'h':
                                                 *code += 4;
-                                                // Needs eval push
+                                                Evaluate_push(wstream, code, state);
                                                 *state = EvalState_Separator;
-                                                break;
+                                                return;
                                         default:
                                                 WindErr_write(wstream, "Syntax Error: Unexpected token 'pus%c'.", (*code)[3]);
                                                 return;
@@ -94,7 +128,7 @@ void Evaluate_command(WindStream* wstream, const char** code, EvalState* state)
                         }
                         break;
                 default:
-                        WindErr_write(wstream, "Syntax Error: Unexpected token '%c'.", **code);
+                        WindErr_write(wstream, "Syntax Error(cmd): Unexpected token '%c'.", **code);
                         return; // syntax error
                 }
         }
@@ -134,7 +168,7 @@ int Evaluate_separator(WindStream* wstream, const char** code, EvalState* state)
                         while(**code != '\n') *code += 1;
                         break;
                 default:
-                        WindErr_write(wstream, "Syntax Error: Unexpected token '%c'.", **code);
+                        WindErr_write(wstream, "Syntax Error(sep): Unexpected token '%c'.", **code);
                         return 0;
                 }
         }

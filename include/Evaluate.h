@@ -4,6 +4,7 @@
 
 #include <ctype.h>
 #include "WindStream.h"
+#include "WindNone.h"
 #include "WindErr.h"
 
 // Macro to advance past whitespace.
