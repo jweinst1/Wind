@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "WindNone.h"
 #include "Evaluate.h"
+#include "WindErr.h"
 
 int main(int argc, char const *argv[]) {
         WindNone* none = WindNone_new();
@@ -14,6 +15,9 @@ int main(int argc, char const *argv[]) {
         const char* coding = "   \n\nout ->";
         Evaluate_command(stream, &coding, &state);
         puts(coding);
+
+        WindErr_write(stream, "Error: %d is too big for %s.", 5, "foo");
+        WindErr_print(stream);
         WindStream_del(stream);
         return 0;
 

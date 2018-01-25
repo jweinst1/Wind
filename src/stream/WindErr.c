@@ -9,7 +9,14 @@ void WindErr_write(WindStream* wstream, const char* fmt, ...)
         va_end (args);
 }
 
+
 void WindErr_clear(WindStream* wstream)
 {
         for(size_t i = 0; i < WindStream_ERRSIZE; i++) wstream->err[i] = '\0';
+}
+
+void WindErr_print(WindStream* wstream)
+{
+        printf("%s\n", wstream->err);
+        wstream->hasErr = 0;
 }

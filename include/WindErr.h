@@ -8,6 +8,8 @@
 
 void WindErr_write(WindStream* wstream, const char* fmt, ...);
 
+void WindErr_print(WindStream* wstream);
+
 void WindErr_clear(WindStream* wstream);
 
 #endif // WIND_ERR_H
