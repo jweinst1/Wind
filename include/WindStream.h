@@ -46,8 +46,6 @@ WindStream_disconnect(WindObject* wobj1, WindObject* wobj2)
         wobj2->prev = NULL;
 }
 
-void WindStream_clear_err(WindStream* wstream);
-
 
 // Deletes a Stream
 void WindStream_del(WindStream* wstream);

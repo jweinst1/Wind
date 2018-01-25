@@ -21,10 +21,7 @@ void WindStream_del(WindStream* wstream)
         free(wstream);
 }
 
-void WindStream_clear_err(WindStream* wstream)
-{
-        for(size_t i = 0; i < WindStream_ERRSIZE; i++) wstream->err[i] = '\0';
-}
+
 
 
 void WindStream_push(WindStream* wstream, WindObject* wobj)

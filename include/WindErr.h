@@ -5,4 +5,9 @@
 #include <stdarg.h>
 #include "WindStream.h"
 
+
+void WindErr_write(WindStream* wstream, const char* fmt, ...);
+
+void WindErr_clear(WindStream* wstream);
+
 #endif // WIND_ERR_H
