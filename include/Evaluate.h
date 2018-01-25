@@ -4,6 +4,7 @@
 
 #include <ctype.h>
 #include "WindStream.h"
+#include "WindErr.h"
 
 // Macro to advance past whitespace.
 #define Evaluate_WSPACE_ADV(string) while(isspace(*string)) string++

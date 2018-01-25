@@ -17,6 +17,9 @@ void Evaluate_command(WindStream* wstream, const char** code, EvalState* state)
                 case '\v':
                         *code += 1;
                         break;
+                case '\0':
+                        return;
+                        break;
                 case '#':
                         //comment handler
                         while(**code != '\n') *code += 1;
@@ -33,16 +36,17 @@ void Evaluate_command(WindStream* wstream, const char** code, EvalState* state)
                                         *state = EvalState_Separator;
                                         break;
                                 default:
-                                        // syntax error
+                                        WindErr_write(wstream, "Syntax Error: Unexpected token 'ou%c'.", (*code)[2]);
                                         return;
                                 }
                                 break;
                         default:
-                                //syntax error
+                                WindErr_write(wstream, "Syntax Error: Unexpected token 'o%c'.", (*code)[1]);
                                 return;
                         }
                         break;
                 default:
+                        WindErr_write(wstream, "Syntax Error: Unexpected token '%c'.", **code);
                         return; // syntax error
                 }
         }
@@ -61,6 +65,9 @@ int Evaluate_separator(WindStream* wstream, const char** code, EvalState* state)
                 case '\v':
                         *code += 1;
                         break;
+                case '\0':
+                        return 0;
+                        break;
                 case '-':
                         if((*code)[1] == '>')
                         {
@@ -70,7 +77,7 @@ int Evaluate_separator(WindStream* wstream, const char** code, EvalState* state)
                         }
                         else
                         {
-                                // bad syntax error
+                                WindErr_write(wstream, "Syntax Error: Unexpected token '-%c'.", (*code)[1]);
                                 return 0;
                         }
                         break;
@@ -79,7 +86,7 @@ int Evaluate_separator(WindStream* wstream, const char** code, EvalState* state)
                         while(**code != '\n') *code += 1;
                         break;
                 default:
-                        //bad syntax error or code is done
+                        WindErr_write(wstream, "Syntax Error: Unexpected token '%c'.", **code);
                         return 0;
                 }
         }
@@ -90,6 +97,13 @@ void Evaluate_code(WindStream* wstream, const char* code, EvalState* state)
 {
         while(*code)
         {
+                // Handles Error
+                if(wstream->hasErr)
+                {
+                        WindErr_print(wstream);
+                        return;
+                }
+
                 if(*state == EvalState_Separator) Evaluate_separator(wstream, &code, state);
                 else Evaluate_command(wstream, &code, state);
         }
