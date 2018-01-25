@@ -6,6 +6,7 @@ WindStream* WindStream_new(void)
         stream->front = NULL;
         stream->back = NULL;
         stream->len = 0;
+        stream->hasErr = 0;
         return stream;
 }
 

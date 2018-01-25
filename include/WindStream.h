@@ -11,7 +11,8 @@
         WindStream name; \
         name.front = NULL; \
         name.back = NULL; \
-        name.len = 0;
+        name.len = 0; \
+        name.hasErr = 0;
 
 #define WindStream_IS_EMPTY(wstream) (wstream->len == 0)
 
@@ -23,6 +24,7 @@ typedef struct
         struct WindObject* front;
         struct WindObject* back;
         size_t len;
+        int hasErr;
 } WindStream;
 
 // Creates a new dynamically allocated stream.
