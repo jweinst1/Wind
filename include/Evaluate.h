@@ -17,6 +17,12 @@ typedef enum
         EvalState_Separator
 } EvalState;
 
+typedef enum
+{
+        EvalPush_Left,
+        EvalPush_Right
+} EvalPush;
+
 // Determines if the string is at a sep
 static inline int
 Evaluate_isSep(const char* string)
@@ -24,7 +30,7 @@ Evaluate_isSep(const char* string)
         return *string == '-' && string[1] == '>';
 }
 
-void Evaluate_push(WindStream* wstream, const char** code, EvalState* state);
+void Evaluate_push(WindStream* wstream, const char** code, EvalPush opt);
 
 void Evaluate_pop(WindStream* wstream, const char** code, EvalState* state);
 
