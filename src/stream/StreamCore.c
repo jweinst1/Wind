@@ -75,3 +75,17 @@ void WindStream_remove_begin(WindStream* wstream)
                 }
         }
 }
+
+void WindStream_clear(WindStream* wstream)
+{
+        // Needs to be updated with a free mechanism
+        WindObject* curObj = wstream->front;
+        while(curObj != NULL)
+        {
+                free(curObj);
+                curObj = curObj->next;
+        }
+        wstream->front = NULL;
+        wstream->back = NULL;
+        wstream->len = 0;
+}

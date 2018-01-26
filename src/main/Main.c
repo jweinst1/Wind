@@ -7,7 +7,7 @@ int main(int argc, char const *argv[]) {
         WindStream* stream = WindStream_new();
 
         EvalState state = EvalState_Command;
-        const char* coding = "   \n\nout -> push None None -> out -> pop -> out -> add None -> out  ";
+        const char* coding = "   \n\nout -> push None None -> out -> pop -> out -> add None -> out -> clr -> out  ";
         Evaluate_code(stream, coding, &state);
         WindStream_del(stream);
 

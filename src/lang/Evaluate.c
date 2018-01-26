@@ -104,6 +104,27 @@ void Evaluate_command(WindStream* wstream, const char** code, EvalState* state)
                                 return;
                         }
                         break;
+                case 'c':
+                        switch((*code)[1])
+                        {
+                        case 'l':
+                                switch((*code)[2])
+                                {
+                                case 'r':
+                                        *code += 3;
+                                        WindStream_clear(wstream);
+                                        *state = EvalState_Separator;
+                                        return;
+                                default:
+                                        WindErr_write(wstream, "Syntax Error: Unexpected token 'cl%c'.", (*code)[2]);
+                                        return;
+                                }
+                                break;
+                        default:
+                                WindErr_write(wstream, "Syntax Error: Unexpected token 'c%c'.", (*code)[1]);
+                                return;
+                        }
+                        break;
                 case 'o':
                         switch((*code)[1])
                         {
