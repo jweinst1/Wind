@@ -58,6 +58,11 @@ void Evaluate_push(WindStream* wstream, const char** code, EvalState* state)
         }
 }
 
+void Evaluate_pop(WindStream* wstream, const char** code, EvalState* state)
+{
+        WindStream_remove_end(wstream);
+}
+
 void Evaluate_command(WindStream* wstream, const char** code, EvalState* state)
 {
         while(**code)
@@ -101,6 +106,19 @@ void Evaluate_command(WindStream* wstream, const char** code, EvalState* state)
                 case 'p':
                         switch((*code)[1])
                         {
+                        case 'o':
+                                switch((*code)[2])
+                                {
+                                case 'p':
+                                        *code += 3;
+                                        Evaluate_pop(wstream, code, state);
+                                        *state = EvalState_Separator;
+                                        return;
+                                default:
+                                        WindErr_write(wstream, "Syntax Error: Unexpected token 'po%c'.", (*code)[2]);
+                                        return;
+                                }
+                                break;
                         case 'u':
                                 switch((*code)[2])
                                 {

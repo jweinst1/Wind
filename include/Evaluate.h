@@ -3,7 +3,7 @@
 // Header that houses functions to evaluate source code into stream instructions.
 
 #include <ctype.h>
-#include "WindStream.h"
+#include "StreamCore.h"
 #include "WindNone.h"
 #include "WindErr.h"
 
@@ -25,6 +25,8 @@ Evaluate_isSep(const char* string)
 }
 
 void Evaluate_push(WindStream* wstream, const char** code, EvalState* state);
+
+void Evaluate_pop(WindStream* wstream, const char** code, EvalState* state);
 
 void Evaluate_out(WindStream* wstream, const char** code, EvalState* state);
 

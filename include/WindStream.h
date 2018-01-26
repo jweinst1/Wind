@@ -50,14 +50,6 @@ WindStream_disconnect(WindObject* wobj1, WindObject* wobj2)
 // Deletes a Stream
 void WindStream_del(WindStream* wstream);
 
-void WindStream_push(WindStream* wstream, WindObject* wobj);
-
-void WindStream_push_left(WindStream* wstream, WindObject* wobj);
-
-// Removes the last item in the stream
-void WindStream_remove_end(WindStream* wstream);
-
-void WindStream_remove_begin(WindStream* wstream);
 
 void WindStream_out(WindStream* wstream);
 
