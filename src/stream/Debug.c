@@ -8,6 +8,13 @@ void Debug_object(WindObject* wobj)
                 printf("Object[None]:{self = %p, next = %p, prev = %p}\n",
                        wobj, wobj->next, wobj->prev);
                 break;
+        case WindType_Bool:
+                printf("Object[Bool]:{state = %d,  self = %p, next = %p, prev = %p}\n",
+                       ((WindBool*)wobj)->state,
+                       wobj,
+                       wobj->next,
+                       wobj->prev);
+                break;
         }
 }
 

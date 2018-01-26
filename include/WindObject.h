@@ -35,7 +35,8 @@
 // Type to denote information about an object
 typedef enum
 {
-        WindType_None
+        WindType_None,
+        WindType_Bool
 } WindType;
 
 

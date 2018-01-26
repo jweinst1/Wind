@@ -2,6 +2,7 @@
 #define WIND_DEBUG_H
 
 #include "WindStream.h"
+#include "WindBool.h"
 
 void Debug_object(WindObject* wobj);
 

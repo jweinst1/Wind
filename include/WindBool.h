@@ -9,4 +9,8 @@ typedef struct
         int state;
 } WindBool;
 
+// Creates a new WindBool object.
+// @state: must be 0 or 1, false or true.
+WindBool* WindBool_new(int state);
+
 #endif // WIND_BOOL_H
