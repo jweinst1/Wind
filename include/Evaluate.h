@@ -4,6 +4,7 @@
 
 #include <ctype.h>
 #include "StreamCore.h"
+#include "StreamIO.h"
 #include "WindNone.h"
 #include "WindErr.h"
 

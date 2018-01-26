@@ -51,7 +51,7 @@ WindStream_disconnect(WindObject* wobj1, WindObject* wobj2)
 void WindStream_del(WindStream* wstream);
 
 
-void WindStream_out(WindStream* wstream);
+
 
 
 
