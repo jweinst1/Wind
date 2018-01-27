@@ -11,6 +11,9 @@ void WindStream_out(WindStream* wstream)
                 case WindType_None:
                         printf("%s ", "None");
                         break;
+                case WindType_Bool:
+                        printf("%s", WindBool_STATE(objPtr) ? "True" : "False");
+                        break;
                 }
                 objPtr = objPtr->next;
         }

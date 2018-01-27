@@ -24,6 +24,74 @@ void Evaluate_push(WindStream* wstream, const char** code, EvalPush opt)
                         //comment handler
                         while(**code != '\n') *code += 1;
                         break;
+                case 'F':
+                        switch((*code)[1])
+                        {
+                        case 'a':
+                                switch((*code)[2])
+                                {
+                                case 'l':
+                                        switch((*code)[3])
+                                        {
+                                        case 's':
+                                                switch((*code)[4])
+                                                {
+                                                case 'e':
+                                                        *code += 5;
+                                                        if(opt == EvalPush_Right) WindStream_push(wstream, (WindObject*)WindBool_new(0));
+                                                        else WindStream_push_left(wstream, (WindObject*)WindBool_new(0));
+                                                        continue;
+                                                default:
+                                                        WindErr_write(wstream, "Syntax Error: Unexpected token 'Fals%c'.", (*code)[3]);
+                                                        return;
+
+                                                }
+                                                break;
+                                        default:
+                                                WindErr_write(wstream, "Syntax Error: Unexpected token 'Fal%c'.", (*code)[3]);
+                                                return;
+                                        }
+                                        break;
+                                default:
+                                        WindErr_write(wstream, "Syntax Error: Unexpected token 'Fa%c'.", (*code)[2]);
+                                        return;
+                                }
+                                break;
+                        default:
+                                WindErr_write(wstream, "Syntax Error: Unexpected token 'F%c'.", (*code)[1]);
+                                return;
+                        }
+                        break;
+                case 'T':
+                        switch((*code)[1])
+                        {
+                        case 'r':
+                                switch((*code)[2])
+                                {
+                                case 'u':
+                                        switch((*code)[3])
+                                        {
+                                        case 'e':
+                                                *code += 4;
+                                                if(opt == EvalPush_Right) WindStream_push(wstream, (WindObject*)WindBool_new(1));
+                                                else WindStream_push_left(wstream, (WindObject*)WindBool_new(1));
+                                                continue;
+                                        default:
+                                                WindErr_write(wstream, "Syntax Error: Unexpected token 'Tru%c'.", (*code)[3]);
+                                                return;
+                                        }
+                                        break;
+                                default:
+                                        WindErr_write(wstream, "Syntax Error: Unexpected token 'Tr%c'.", (*code)[2]);
+                                        return;
+                                }
+                                break;
+                        default:
+                                WindErr_write(wstream, "Syntax Error: Unexpected token 'T%c'.", (*code)[1]);
+                                return;
+                        }
+                        break;
+
                 case 'N':
                         switch((*code)[1])
                         {
@@ -52,6 +120,7 @@ void Evaluate_push(WindStream* wstream, const char** code, EvalPush opt)
                                 WindErr_write(wstream, "Syntax Error: Unexpected token 'n%c'.", (*code)[1]);
                                 return;
                         }
+                        break;
                 default:
                         WindErr_write(wstream, "Syntax Error(push): Unexpected token '%c'.", **code);
                         return; // syntax error

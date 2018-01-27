@@ -6,6 +6,7 @@
 #include "StreamCore.h"
 #include "StreamIO.h"
 #include "WindNone.h"
+#include "WindBool.h"
 #include "WindErr.h"
 
 // Macro to advance past whitespace.

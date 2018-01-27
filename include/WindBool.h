@@ -3,6 +3,12 @@
 
 #include "WindObject.h"
 
+// Macro that casts a regular object to a boolean.
+#define WindBool_CAST(wobj) ((WindBool*)wobj)
+
+// Casts to WindBool then gets the state.
+#define WindBool_STATE(wobj) ((WindBool*)wobj)->state
+
 typedef struct
 {
         WindObject_BASE
