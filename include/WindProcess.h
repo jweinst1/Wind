@@ -1,6 +1,6 @@
-#ifndef WIND_FUNCTION_H
-#define WIND_FUNCTION_H
-// Header that handles handles the wind function object
+#ifndef WIND_PROCESS_H
+#define WIND_PROCESS_H
+// Header that handles handles the wind process object
 
 #include "WindObject.h"
 #include "FixedMap.h"
@@ -12,10 +12,10 @@ typedef enum
         WindInstruc_Sub
 } WindInstruc;
 
-// Wind Functional Object
+// Wind process Object
 typedef struct
 {
         WindObject_BASE
-} WindFunction;
+} WindProcess;
 
-#endif // WIND_FUNCTION_H
+#endif // WIND_PROCESS_H
