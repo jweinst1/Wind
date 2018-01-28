@@ -45,3 +45,26 @@ void* FixedMap_get(FixedMap* fmap, const char* key)
         }
         return NULL;
 }
+
+void FixedMap_reset(FixedMap* fmap, const char* key, void* value)
+{
+        const char* cmpKey1;
+        const char* cmpKey2;
+        for(int i = 0; i < FIXEDMAP_ITEM_LEN; i++)
+        {
+                cmpKey1 = fmap->items[i].key;
+                cmpKey2 = key;
+                while(*cmpKey1 == *cmpKey2)
+                {
+                        if(*cmpKey1 == '\0' && *cmpKey2 == '\0')
+                        {
+                                fmap->items[i].val = value;
+                        }
+                        else
+                        {
+                                cmpKey1++;
+                                cmpKey2++;
+                        }
+                }
+        }
+}

@@ -41,4 +41,7 @@ void FixedMap_set(FixedMap* fmap, const char* key, void* value);
 // If key is not found, returns NULL.
 void* FixedMap_get(FixedMap* fmap, const char* key);
 
+// Resets the value of a key already present in the map.
+void FixedMap_reset(FixedMap* fmap, const char* key, void* value);
+
 #endif //FIXED_MAP_H
