@@ -12,9 +12,9 @@
 // Macro to reference end pointer of map node key
 #define FixedMapNode_END(fmn) (fmn.key + FIXEDMAP_KEY_LEN)
 
-#define FixedMap_FULL(fmap) fmap->len == FIXEDMAP_ITEM_LEN
+#define FixedMap_FULL(fmap) (fmap->len == FIXEDMAP_ITEM_LEN)
 
-#define FixedMap_CLEAN(fmap) for(int i = 0; i< FIXEDMAP_ITEM_LEN; i++) { \
+#define FixedMap_CLEAN_L(fmap) for(int i = 0; i< FIXEDMAP_ITEM_LEN; i++) { \
                 fmap.items[i].item = NULL; \
 }
 
@@ -22,7 +22,7 @@
 typedef struct
 {
         char key[FIXEDMAP_KEY_LEN];
-        void* item;
+        void* val;
 } FixedMapNode;
 
 typedef struct
@@ -31,6 +31,10 @@ typedef struct
         int len;
 } FixedMap;
 
+// Initializes a fixedmap with cleaned key-value pairs.
 void FixedMap_init(FixedMap* fmap);
 
-#endif //WIND_MAP_H
+// Sets a new pair in the map if it is not yet full.
+void FixedMap_set(FixedMap* fmap, const char* key, void* value);
+
+#endif //FIXED_MAP_H
