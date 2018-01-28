@@ -37,4 +37,8 @@ void FixedMap_init(FixedMap* fmap);
 // Sets a new pair in the map if it is not yet full.
 void FixedMap_set(FixedMap* fmap, const char* key, void* value);
 
+// Gets the value corresponding to a key.
+// If key is not found, returns NULL.
+void* FixedMap_get(FixedMap* fmap, const char* key);
+
 #endif //FIXED_MAP_H
