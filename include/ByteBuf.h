@@ -20,6 +20,9 @@
 #define ByteBuf_FITS(buf, size) ((buf->end - buf->mark) > size)
 #define ByteBuf_FULL(buf) (buf->end - buf->mark) == 0
 
+// Allows the existing space in a byte buffer to be reused.
+#define ByteBuf_RESET(buf) buf->mark = buf->begin
+
 typedef struct
 {
         unsigned char* begin;

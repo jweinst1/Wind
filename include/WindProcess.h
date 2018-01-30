@@ -2,6 +2,7 @@
 #define WIND_PROCESS_H
 // Header that handles handles the wind process object
 
+#include <string.h>
 #include "WindObject.h"
 #include "FixedMap.h"
 
@@ -16,6 +17,10 @@ typedef enum
 typedef struct
 {
         WindObject_BASE
+        unsigned char* ins;
+        size_t insSize;
 } WindProcess;
+
+WindProcess* WindProcess_new_empty(void);
 
 #endif // WIND_PROCESS_H
