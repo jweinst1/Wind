@@ -9,6 +9,9 @@
 // Controls the max size of the internal list
 #define INT_MAP_LST_LEN 10
 
+// Represents a failure value, if an add call is attempted on a full map.
+#define INT_MAP_BAD (INT_MAP_LST_LEN + 1)
+
 // Macro that initializes an IntMap
 #define IntMap_INIT(varName) \
         IntMap varName; \
@@ -30,6 +33,9 @@ typedef struct
         IntMapNode items[INT_MAP_LST_LEN];
         int count;
 } IntMap;
+
+// Inserts new string into map
+unsigned char IntMap_add(IntMap* imap, const char* string);
 
 
 
