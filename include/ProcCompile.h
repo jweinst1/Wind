@@ -18,6 +18,6 @@
 
 // Compiles source code of process into byte instructions.
 // Expands buf, but does not free or allocate it.
-void ProcCompile_compile(const char* code, unsigned char* buf, size_t bufSize);
+void ProcCompile_compile(const char** code, unsigned char* buf, size_t bufSize);
 
 #endif // PROC_COMPILE_H
