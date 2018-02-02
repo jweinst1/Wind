@@ -10,6 +10,7 @@
 #define INT_MAP_LST_LEN 10
 
 // Represents a failure value, if an add call is attempted on a full map.
+// Or if a name does not exist.
 #define INT_MAP_BAD (INT_MAP_LST_LEN + 1)
 
 // Macro that initializes an IntMap
@@ -36,6 +37,8 @@ typedef struct
 
 // Inserts new string into map
 unsigned char IntMap_add(IntMap* imap, const char* string);
+
+unsigned char IntMap_get(IntMap* imap, const char* string);
 
 
 
