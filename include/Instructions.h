@@ -7,6 +7,7 @@
 // These act as enumarations over byte code
 typedef enum
 {
+        WindPrcIns_Stop,
         WindPrcIns_Add,
         WindPrcIns_Sub
 } WindPrcIns;
