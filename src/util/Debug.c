@@ -34,3 +34,8 @@ void Debug_stream(WindStream* wstream)
         }
         puts("___________________");
 }
+
+void Debug_bytes(unsigned char* bytes, int amount)
+{
+
+}

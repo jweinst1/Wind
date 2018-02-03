@@ -4,14 +4,26 @@
 
 #include <stdlib.h>
 
-#define ByteBuf_START_SIZE 100
+#define ByteBuf_START_SIZE 200 * sizeof(unsigned char)
 #define ByteBuf_EXP_FACTOR 2
+
+// Macro version of bytebuf init
+#define ByteBuf_MAKE(name) do { \
+                if((name->begin = malloc(ByteBuf_START_SIZE)) == NULL) { \
+                        fprintf(stderr, "%s\n", "Memory Error: Out of memory, exiting."); \
+                        exit(1); \
+                } \
+                name->mark = name->begin; \
+                name->end = name->begin + ByteBuf_START_SIZE; \
+} while(0)
 
 #define ByteBuf_DEL(buf) do { \
                 free(buf->begin); \
                 buf->mark = NULL; \
                 buf->end = NULL; \
 } while(0)
+
+#define ByteBuf_TRANSFER(buf,)
 
 #define ByteBuf_LEN(buf) (buf->mark - buf->begin)
 #define ByteBuf_SPACE(buf) (buf->end - buf->mark)

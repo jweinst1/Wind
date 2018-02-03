@@ -1,9 +1,14 @@
 #include "ProcCompile.h"
 
-void ProcCompile_compile(const char** code, unsigned char* buf, size_t bufSize)
+void ProcCompileErr_print(ProcCompileErr* prcErr)
 {
-        unsigned char* bufEnd = buf + bufSize;
-        unsigned char* bufMark = buf;
+        fprintf(stderr, "%s\n", prcErr->mes);
+        prcErr->errState = 0;
+        prcErr->mes[0] = '\0';
+}
+
+void ProcCompile_compile(const char** code)
+{
         while(**code)
         {
                 switch(**code)
