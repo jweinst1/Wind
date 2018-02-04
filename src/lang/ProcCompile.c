@@ -1,4 +1,5 @@
 #include "ProcCompile.h"
+#include "ByteBuf.h"
 
 void ProcCompileErr_print(ProcCompileErr* prcErr)
 {
@@ -7,8 +8,10 @@ void ProcCompileErr_print(ProcCompileErr* prcErr)
         prcErr->mes[0] = '\0';
 }
 
-void ProcCompile_compile(const char** code)
+unsigned char* ProcCompile_compile(const char** code)
 {
+        ByteBuf insBuf;
+        ByteBuf_MAKE(insBuf);
         while(**code)
         {
                 switch(**code)
@@ -27,8 +30,11 @@ void ProcCompile_compile(const char** code)
                         while(**code != '\n') *code += 1;
                         break;
                 case ProcCompile_ENDC:
+                        ByteBuf_write_byte(&insBuf, WindPrcIns_End);
 
                         break;
                 }
         }
+        // Returns the heap allocated buffer of instructions.
+        return insBuf->begin;
 }

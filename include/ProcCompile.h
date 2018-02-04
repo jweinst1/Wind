@@ -40,6 +40,6 @@ void ProcCompileErr_print(ProcCompileErr* prcErr);
 
 // Compiles source code of process into byte instructions.
 // Expands buf, but does not free or allocate it.
-void ProcCompile_compile(const char** code);
+unsigned char* ProcCompile_compile(const char** code);
 
 #endif // PROC_COMPILE_H
