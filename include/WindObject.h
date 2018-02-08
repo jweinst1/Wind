@@ -2,6 +2,7 @@
 #define WIND_OBJECT_H
 // Header that defines WindObject and related macros.
 
+#include <stdio.h>
 #include <stdlib.h>
 
 // The amount of extra space to add after expansion
@@ -16,6 +17,11 @@
 #define WindObject_FITS(wobj, size) ((wobj->cap - wobj->len) > size)
 
 #define WindObject_ALLOC(capacity) malloc(sizeof(WindObject) + (capacity * sizeof(unsigned char)))
+
+#define WindObject_MEM_CHECK(memPtr) if(memPtr == NULL) { \
+                fprintf(stderr, "%s\n", "Memory Error: Out of memory, exiting."); \
+                exit(1); \
+}
 
 
 #define WindObject_RESET(wobj) wobj->len = 0
@@ -46,6 +52,10 @@
 #define WindObject_DISCON(wobj1, wobj2) \
         wobj1->next = NULL; \
         wobj2->prev = NULL
+
+#define WindObject_IS_SING(wobj) (wobj->next == NULL && wobj->prev == NULL)
+#define WindObject_IS_FRONT(wobj) (wobj->prev == NULL && wobj->next != NULL)
+#define WindObject_IS_BACK(wobj) (wobj->prev != NULL && wobj->next == NULL)
 
 // Core Object model of wind programming language.
 struct WindObject
