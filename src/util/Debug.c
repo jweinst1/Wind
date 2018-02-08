@@ -1,13 +1,6 @@
 #include "Debug.h"
 
 
-
-void Debug_process(unsigned char* bytes, int amount)
-{
-// not implemented yet.
-        puts("______Process_Instructions_______");
-}
-
 void Debug_bytes(unsigned char* bytes, int amount)
 {
         int enumerate = 0;

@@ -7,6 +7,8 @@
 
 // The amount of extra space to add after expansion
 #define WindObject_ADDSPC 5
+// Extra space to add during allocation.
+#define WindObject_ALLSPC 5
 
 #define WindObject_SIZE(wobj) (sizeof(WindObject) + wobj->cap)
 
@@ -36,6 +38,13 @@
 #define WindObject_NULLIFY(wobj) \
         wobj->next = NULL; \
         wobj->prev = NULL
+
+// sets prev and next to NULL and resets cap and len.
+#define WindObject_WIPE(wobj) \
+        wobj->next = NULL; \
+        wobj->prev = NULL; \
+        wobj->len = 0; \
+        wobj->cap = 0
 
 // Expands via realloc the current allocated memory of the object.
 #define WindObject_EXPAND(wobj, amount) do { \
