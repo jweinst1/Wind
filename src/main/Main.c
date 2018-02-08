@@ -1,15 +1,10 @@
 #include <stdio.h>
 #include "WindNone.h"
+#include "Bytebuf.h"
 #include "Debug.h"
 
 int main(int argc, char const *argv[]) {
-        WindNone* none = WindNone_new();
-        WindNone* none2 = WindNone_new();
-        WindStream* stream = WindStream_new();
-        WindStream_push(stream, (WindObject*)none);
-        WindStream_push(stream, (WindObject*)none2);
-        Debug_stream(stream);
-        WindStream_del(stream);
+        unsigned char foo[] = {0, 1, 55, 44, 33, 66, 77, 64, 64, 20, 20, 30, 30, 30, 30};
+        Debug_bytes(foo, 9);
         return 0;
-
 }

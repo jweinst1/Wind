@@ -4,12 +4,15 @@
 #include <stdio.h>
 #include "WindObject.h"
 
+#define WindStream_ERRSIZE 256
+
 // Macro that creates a stack-allocated stream.
 #define WindStream_INIT(name) \
         WindStream name; \
         name.front = NULL; \
         name.back = NULL; \
-        name.len = 0;
+        name.len = 0; \
+        name.hasErr = 0;
 
 #define WindStream_IS_EMPTY(wstream) (wstream->len == 0)
 
@@ -17,9 +20,11 @@
 // @len, number of objects in the stream.
 typedef struct
 {
+        char err[WindStream_ERRSIZE];
         struct WindObject* front;
         struct WindObject* back;
         size_t len;
+        int hasErr;
 } WindStream;
 
 // Creates a new dynamically allocated stream.
@@ -45,10 +50,8 @@ WindStream_disconnect(WindObject* wobj1, WindObject* wobj2)
 // Deletes a Stream
 void WindStream_del(WindStream* wstream);
 
-void WindStream_push(WindStream* wstream, WindObject* wobj);
 
-// Removes the last item in the stream
-void WindStream_remove_end(WindStream* wstream);
+
 
 
 

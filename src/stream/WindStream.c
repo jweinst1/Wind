@@ -6,6 +6,7 @@ WindStream* WindStream_new(void)
         stream->front = NULL;
         stream->back = NULL;
         stream->len = 0;
+        stream->hasErr = 0;
         return stream;
 }
 
@@ -18,43 +19,4 @@ void WindStream_del(WindStream* wstream)
                 curObj = curObj->next;
         }
         free(wstream);
-}
-
-
-void WindStream_push(WindStream* wstream, WindObject* wobj)
-{
-        if(wstream->len)
-        {
-                wstream->len++;
-                WindStream_connect(wstream->back, wobj);
-                wstream->back = wobj;
-        }
-        else
-        {
-                wstream->len++;
-                wstream->front = wobj;
-                wstream->back = wstream->front;
-        }
-}
-
-void WindStream_remove_end(WindStream* wstream)
-{
-        // todo:: Free mechanism needs replace for sized types
-        if(wstream->len)
-        {
-                if(wstream->len == 1)
-                {
-                        free(wstream->front);
-                        wstream->front = NULL;
-                        wstream->back = NULL;
-                        wstream->len--;
-                }
-                else
-                {
-                        free(wstream->back);
-                        wstream->back = wstream->back->prev;
-                        wstream->back->next = NULL;
-                        wstream->len--;
-                }
-        }
 }
