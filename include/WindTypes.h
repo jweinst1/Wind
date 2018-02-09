@@ -12,7 +12,10 @@ typedef enum
 // This enum enumerates byte code compiled from the Wind language's source code.
 typedef enum
 {
-        WindIns_Stop
+        WindIns_Stop,
+        WindIns_Int,
+        WindIns_None,
+        WindIns_Push
 } WindIns;
 
 
