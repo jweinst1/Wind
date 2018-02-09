@@ -8,4 +8,7 @@
 // Creates a new WindObject with space for n bytes
 WindObject* WindObject_new_n(size_t n);
 
+// Creates a new WindObject with a None value at the beginning.
+WindObject* WindObject_new_none(void);
+
 #endif
