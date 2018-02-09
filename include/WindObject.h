@@ -20,6 +20,14 @@
 
 #define WindObject_ALLOC(capacity) malloc(sizeof(WindObject) + (capacity * sizeof(unsigned char)))
 
+#define WindObject_NEW(name, capacity) \
+        WindObject* name = WindObject_ALLOC(capacity); \
+        wobj->next = NULL; \
+        wobj->prev = NULL; \
+        wobj->len = 0; \
+        wobj->cap = capacity
+
+
 #define WindObject_MEM_CHECK(memPtr) if(memPtr == NULL) { \
                 fprintf(stderr, "%s\n", "Memory Error: Out of memory, exiting."); \
                 exit(1); \
@@ -34,6 +42,14 @@
 
 // Gets a casted pointer corresponding to the address at which new data will be written.
 #define WindObject_WRITER_T(wobj, type) (type*)(wobj->data + wobj->len)
+
+// Writes one byte and increments the length
+#define WindObject_PUT_BYTE(wobj, byte) (wobj->data[wobj->len++] = byte)
+
+// Writes 1 int to the object.
+#define WindObject_PUT_INT(wobj, num) \
+        *(int*)(wobj->data + wobj->len) = num; \
+        wobj->len += sizeof(int)
 
 #define WindObject_NULLIFY(wobj) \
         wobj->next = NULL; \
