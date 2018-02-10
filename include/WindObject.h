@@ -19,6 +19,7 @@
 // Simple macro to check if object can fit a size of data.
 #define WindObject_FITS(wobj, size) ((wobj->cap - wobj->len) > size)
 
+// Checks if object does NOT fit the size
 #define WindObject_FITS_N(wobj, size) ((wobj->cap - wobj->len) <= size)
 
 #define WindObject_ALLOC(capacity) malloc(sizeof(WindObject) + (capacity * sizeof(unsigned char)))
@@ -53,6 +54,11 @@
 #define WindObject_PUT_INT(wobj, num) \
         *(int*)(wobj->data + wobj->len) = num; \
         wobj->len += sizeof(int)
+
+// Writes one long to the object.
+#define WindObject_PUT_LONG(wobj, num) \
+        *(long*)(wobj->data + wobj->len) = num; \
+        wobj->len += sizeof(long)
 
 #define WindObject_NULLIFY(wobj) \
         wobj->next = NULL; \
@@ -102,6 +108,9 @@ struct WindObject
 };
 
 typedef struct WindObject WindObject;
+
+// Creates a new WindObject with space for n bytes
+WindObject* WindObject_new_n(size_t n);
 
 
 #endif // WIND_OBJECT_H
