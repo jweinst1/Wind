@@ -1,10 +1,10 @@
 #include <stdio.h>
-#include "Bytebuf.h"
 #include "ObjectCreate.h"
+#include "StringTool.h"
+
 
 
 int main(int argc, char const *argv[]) {
-        WindObject* nonetest = WindObject_new_none();
-        printf("IS none %d\n", nonetest->data[0] == WindObjType_None);
+        printf("Found the char %d\n", StringTool_len_to_ch("111  \n", '4'));
         return 0;
 }

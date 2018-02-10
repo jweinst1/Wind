@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // The amount of extra space to add after expansion
 #define WindObject_ADDSPC 5
@@ -18,14 +19,16 @@
 // Simple macro to check if object can fit a size of data.
 #define WindObject_FITS(wobj, size) ((wobj->cap - wobj->len) > size)
 
+#define WindObject_FITS_N(wobj, size) ((wobj->cap - wobj->len) <= size)
+
 #define WindObject_ALLOC(capacity) malloc(sizeof(WindObject) + (capacity * sizeof(unsigned char)))
 
 #define WindObject_NEW(name, capacity) \
-        WindObject* name = WindObject_ALLOC(capacity); \
+        WindObject* name = WindObject_ALLOC(capacity + WindObject_ALLSPC); \
         wobj->next = NULL; \
         wobj->prev = NULL; \
         wobj->len = 0; \
-        wobj->cap = capacity
+        wobj->cap = capacity + WindObject_ALLSPC
 
 
 #define WindObject_MEM_CHECK(memPtr) if(memPtr == NULL) { \
@@ -67,6 +70,12 @@
                 wobj = realloc(wobj, wobj->cap + amount + WindObject_ADDSPC); \
                 wobj->cap += amount + WindObject_ADDSPC; \
 } while (0)
+
+// Doubles the capacity of the windobject
+#define WindObject_EXPAND_2X(wobj) do { \
+                wobj->cap *= 2; \
+                wobj = realloc(wobj, wobj->cap); \
+} while(0)
 
 // Connects 2 wind objects
 #define WindObject_CONNECT(wobj1, wobj2) \
