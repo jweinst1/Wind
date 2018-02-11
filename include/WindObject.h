@@ -112,5 +112,26 @@ typedef struct WindObject WindObject;
 // Creates a new WindObject with space for n bytes
 WindObject* WindObject_new_n(size_t n);
 
+// Creates a new WindObject but marks the beginning of the object with a byte.
+WindObject* WindObject_new_nmark(unsigned char byte, size_t n);
+
+// Creates a new WindObject from existing memory space.
+WindObject* WindObject_new_data(void* data, size_t amount);
+
+// Writes, to the end of an object, some n bytes of data.
+void WindObject_write_n(WindObject* wobj, void* data, size_t n);
+
+//Writes to data to the end of an object, but first writes the size of that data.
+// As a long integer.
+void WindObject_write_recn(WindObject* wobj, void* data, size_t n);
+
+//Copies data from a C-String and moves it.
+//void WindObject_write_move(WindObject* wobj, const char** string, size_t n);
+
+// Makes a copy of the entire object.
+WindObject* WindObject_new_copy(WindObject* wobj);
+
+
+
 
 #endif // WIND_OBJECT_H

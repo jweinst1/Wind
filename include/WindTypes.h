@@ -6,7 +6,9 @@
 typedef enum
 {
         WindObjType_None,
-        WindObjType_Bool
+        WindObjType_Bool,
+        WindObjType_Int,
+        WindObjType_Instruction // Used for compiler
 } WindObjType;
 
 // This enum enumerates byte code compiled from the Wind language's source code.
