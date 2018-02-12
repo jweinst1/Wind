@@ -48,10 +48,17 @@ void WindObject_write_recn(WindObject* wobj, void* data, size_t n)
         wobj->len += totalPut;
 }
 
+void WindObject_write_over(WindObject* wobj, void* data, size_t n)
+{
+        if(n > wobj->cap) WindObject_EXPAND(wobj, n);
+        memcpy(wobj->data, data, n);
+        wobj->len = n;
+}
+
 WindObject* WindObject_new_copy(WindObject* wobj)
 {
         size_t objSize = WindObject_SIZE(wobj);
         WindObject* newObj = WindObject_ALLOC(objSize);
-        memcpy(newobj, wobj, objSize);
+        memcpy(newObj, wobj, objSize);
         return newObj;
 }

@@ -15,9 +15,8 @@ typedef enum
 typedef enum
 {
         WindIns_Stop,
-        WindIns_Int,
-        WindIns_None,
-        WindIns_Push
+        WindIns_Push,
+        WindIns_Out
 } WindIns;
 
 

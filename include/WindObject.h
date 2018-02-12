@@ -125,6 +125,9 @@ void WindObject_write_n(WindObject* wobj, void* data, size_t n);
 // As a long integer.
 void WindObject_write_recn(WindObject* wobj, void* data, size_t n);
 
+//Writes to the beginning of an object, starting at the beginning.
+void WindObject_write_over(WindObject* wobj, void* data, size_t n);
+
 //Copies data from a C-String and moves it.
 //void WindObject_write_move(WindObject* wobj, const char** string, size_t n);
 
