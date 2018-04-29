@@ -1,7 +1,41 @@
 #include "Compiler.h"
 
-WindObject* Compiler_compile(const char* srcCode)
+void Compiler_process(WindObject* compiledCode, const char** srcCode)
 {
-        WindObject* compiledCode = WindObject_new_n(COMPILER_DEF_SIZE);
-        return compiledCode;
+        while(**srcCode)
+        {
+                switch(**srcCode)
+                {
+
+                }
+        }
+}
+
+void Compiler_compile(WindObject* compiledCode, const char* srcCode)
+{
+        //signifies this is an instruction containing object.
+        WindObject_PUT_BYTE(compiledCode, WindObjType_Instruction);
+        while(*srcCode)
+        {
+                switch(*srcCode)
+                {
+                case ' ':
+                case '\n':
+                case '\t':
+                case '\v':
+                        srcCode++;
+                        break;
+                case '\0':
+                        // Stops compiling at null char.
+                        return;
+                case '{':
+                        // process handling.
+                        srcCode++;
+                        Compiler_process(compiledCode, &srcCode);
+                        break;
+                default:
+                        // Needs error handling
+                        return;
+                }
+        }
 }
