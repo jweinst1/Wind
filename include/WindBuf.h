@@ -10,6 +10,10 @@
 #define WindBuf_FITS(wb, size) (wb->cap - wb->len) > size
 #define WindBuf_SIZE(wb) (wb->cap + sizeof(WindBuf))
 
+//Macros that reset or clean the buffer
+#define WindBuf_RESET(wb) (wb->len = 0)
+#define WindBuf_CLEAN(wb) for(size_t i =0; i< wb->cap; i++) wb->data[i] = 0
+
 //Checks if index is in the range of the buffer.
 #define WindBuf_IN(wb, index) (index < wb->len && index >= 0)
 
@@ -18,6 +22,12 @@
                 wb->cap += amount; \
                 wb = realloc(wb, WindBuf_SIZE(wb)); \
 } while (0)
+
+// Shrinks the capacity of the buffer if neccesary
+#define WindBuf_SHRINK(wb, newsize) if(newsize > wb->len) { \
+                wb->cap = newsize; \
+                wb = realloc(wb, WindBuf_SIZE(wb)); \
+}
 
 // Gets a typed pointer to some area of the buffer.
 #define WindBuf_TPTR(wb, index, type) ((type*)(wb->data + index))
