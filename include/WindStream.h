@@ -40,6 +40,8 @@ WindStream* WindStream_new(void);
 // Writes one byte to the stream.
 void WindStream_put(WindStream* ws, unsigned char byte);
 
+void WindStream_put_c(WindStream* ws, char ch);
+
 void WindStream_put_ptr(WindStream* ws, void* ptr, size_t n);
 
 void WindStream_put_int(WindStream* ws, int num);

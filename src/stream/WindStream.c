@@ -15,6 +15,12 @@ void WindStream_put(WindStream* ws, unsigned char byte)
         WindBuf_PUT(ws->activeBuf, byte);
 }
 
+void WindStream_put_c(WindStream* ws, char ch)
+{
+        if(WindBuf_FULL(ws->activeBuf)) WindBuf_EXPAND(ws->activeBuf, 30);
+        WindBuf_PUTC(ws, ch);
+}
+
 void WindStream_put_ptr(WindStream* ws, void* ptr, size_t n)
 {
         if(!(WindStream_FITS(ws, n))) WindBuf_EXPAND(ws->activeBuf, n + 30);

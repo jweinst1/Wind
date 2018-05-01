@@ -36,6 +36,8 @@
 
 #define WindBuf_PUT(wb, byte) (wb->data[wb->len++] = byte)
 
+#define WindBuf_PUTC(wb, ch) (wb->data[wb->len++] = (unsigned char)ch)
+
 // Buffer is an in-place allocated memory chunk that reserves additional capacity.
 typedef struct
 {
