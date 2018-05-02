@@ -13,6 +13,8 @@ typedef enum
         StreamState_sep
 } StreamState;
 
+int Translate_src_command(const char** code, WindStream* ws, StreamState* state);
+
 int Translate_src_sep(const char** code, WindStream* ws, StreamState* state);
 
 void Translate_src_code(const char* code, WindStream* ws, StreamState* state);

@@ -1,5 +1,18 @@
 #include "Translation.h"
 
+int Translate_src_command(const char** code, WindStream* ws, StreamState* state)
+{
+        while(**code)
+        {
+                switch(**code)
+                {
+                default:
+                        return 0;
+                }
+        }
+        return 1;
+}
+
 
 int Translate_src_sep(const char** code, WindStream* ws, StreamState* state)
 {
@@ -31,6 +44,7 @@ int Translate_src_sep(const char** code, WindStream* ws, StreamState* state)
                                 return 0; // error
                         }
                 default:
+                        WindStream_write_err(ws, "Expected separator ->, found '%c'", (*code)[0]);
                         return 0;
                 }
         }
