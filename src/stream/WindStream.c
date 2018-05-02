@@ -6,6 +6,8 @@ WindStream* WindStream_new(void)
         newstream->activeBuf = WindBuf_new(WindStream_BUF_SIZE);
         newstream->altBuf = WindBuf_new(WindStream_BUF_SIZE);
         newstream->activeIndex = 0;
+        newstream->hasErr = 0;
+        newstream->err[0] = '\0';
         return newstream;
 }
 
@@ -52,4 +54,23 @@ void WindStream_del(WindStream* ws)
         free(ws->activeBuf);
         free(ws->altBuf);
         free(ws);
+}
+
+void WindStream_write_err(WindStream* ws, const char* fmt, ...)
+{
+        va_list err_args;
+        va_start(err_args, fmt);
+        vsprintf(ws->err, fmt, err_args);
+        ws->hasErr = 1;
+        va_end(err_args);
+}
+
+void WindStream_print_err(WindStream* ws)
+{
+        if(ws->hasErr)
+        {
+                printf("Error: %s \n", ws->err);
+                ws->hasErr = 0;
+                ws->err[0] = '\0';
+        }
 }

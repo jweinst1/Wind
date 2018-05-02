@@ -1,6 +1,8 @@
 #ifndef WIND_STREAM_H
 #define WIND_STREAM_H
 
+#include <stdio.h>
+#include <stdarg.h>
 #include "WindBuf.h"
 #include "WindType.h"
 
@@ -29,6 +31,8 @@
 
 typedef struct
 {
+        char err[256];
+        int hasErr;
         WindBuf* altBuf;
         WindBuf* activeBuf;
         // Indicates which stream is active, while the other(s) is reserved for copy operations
@@ -51,5 +55,9 @@ void WindStream_put_int(WindStream* ws, int num);
 void WindStream_put_string(WindStream* ws, const char* string);
 
 void WindStream_del(WindStream* ws);
+
+void WindStream_write_err(WindStream* ws, const char* fmt, ...);
+
+void WindStream_print_err(WindStream* ws);
 
 #endif
