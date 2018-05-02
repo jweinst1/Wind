@@ -27,6 +27,7 @@ int Translate_src_sep(const char** code, WindStream* ws, StreamState* state)
                         }
                         else
                         {
+                                WindStream_write_err(ws, "Expected separator ->, found '-%c'", (*code)[1]);
                                 return 0; // error
                         }
                 default:
