@@ -57,6 +57,8 @@ void WindStream_put_ptr(WindStream* ws, int alt, void* ptr, size_t n);
 
 void WindStream_put_int(WindStream* ws, int alt, int num);
 
+void WindStream_put_long(WindStream* ws, int alt, long num);
+
 // Puts string in format [size, data].
 // Does not include typed marker.
 void WindStream_put_string(WindStream* ws, int alt, const char* string);

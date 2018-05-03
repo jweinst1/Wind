@@ -53,6 +53,14 @@ void WindStream_put_int(WindStream* ws, int alt, int num)
         expBuf->len += sizeof(int);
 }
 
+void WindStream_put_long(WindStream* ws, int alt, long num)
+{
+        WindBuf* expBuf = alt ? ws->altBuf : ws->activeBuf;
+        if(!(WindStream_FITS(ws, sizeof(long)))) WindBuf_EXPAND(expBuf, sizeof(long) + 30);
+        *(long*)(expBuf->data + expBuf->len) = num;
+        expBuf->len += sizeof(long);
+}
+
 void WindStream_put_string(WindStream* ws, int alt, const char* string)
 {
         WindBuf* expBuf = alt ? ws->altBuf : ws->activeBuf;
