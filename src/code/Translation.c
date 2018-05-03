@@ -12,6 +12,29 @@ int Translate_src_command(const char** code, WindStream* ws, StreamState* state)
                 case '\v':
                         *code += 1;   //white space
                         break;
+                case 'o':
+                        switch(*code[1])
+                        {
+                        case 'u':
+                                switch(*code[2])
+                                {
+                                case 't':
+                                        // exec out
+                                        *code += 3;
+                                        return 1;
+                                default:
+                                        WindStream_write_err(ws, "Expected command symbol, found 'ou%c'", *code[2]);
+                                        return 0;
+                                }
+                                break;
+                        default:
+                                WindStream_write_err(ws, "Expected command symbol, found 'o%c'", *code[1]);
+                                return 0;
+                        }
+                        break;
+                case '\0':
+                        // end of source code
+                        return 1;
                 default:
                         WindStream_write_err(ws, "Expected command symbol, found '%c'", **code);
                         return 0;

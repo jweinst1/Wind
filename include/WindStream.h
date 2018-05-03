@@ -49,17 +49,17 @@ void WindStream_expand(WindStream* ws, int alt, size_t amount);
 void WindStream_reset(WindStream* ws, int alt);
 
 // Writes one byte to the stream.
-void WindStream_put(WindStream* ws, unsigned char byte);
+void WindStream_put(WindStream* ws, int alt, unsigned char byte);
 
-void WindStream_put_c(WindStream* ws, char ch);
+void WindStream_put_c(WindStream* ws, int alt, char ch);
 
-void WindStream_put_ptr(WindStream* ws, void* ptr, size_t n);
+void WindStream_put_ptr(WindStream* ws, int alt, void* ptr, size_t n);
 
-void WindStream_put_int(WindStream* ws, int num);
+void WindStream_put_int(WindStream* ws, int alt, int num);
 
 // Puts string in format [size, data].
 // Does not include typed marker.
-void WindStream_put_string(WindStream* ws, const char* string);
+void WindStream_put_string(WindStream* ws, int alt, const char* string);
 
 void WindStream_del(WindStream* ws);
 

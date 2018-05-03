@@ -23,42 +23,47 @@ void WindStream_reset(WindStream* ws, int alt)
         expBuf->len = 0;
 }
 
-void WindStream_put(WindStream* ws, unsigned char byte)
+void WindStream_put(WindStream* ws, int alt, unsigned char byte)
 {
-        if(WindBuf_FULL(ws->activeBuf)) WindBuf_EXPAND(ws->activeBuf, 20);
-        WindBuf_PUT(ws->activeBuf, byte);
+        WindBuf* expBuf = alt ? ws->altBuf : ws->activeBuf;
+        if(WindBuf_FULL(expBuf)) WindBuf_EXPAND(expBuf, 20);
+        WindBuf_PUT(expBuf, byte);
 }
 
-void WindStream_put_c(WindStream* ws, char ch)
+void WindStream_put_c(WindStream* ws, int alt, char ch)
 {
-        if(WindBuf_FULL(ws->activeBuf)) WindBuf_EXPAND(ws->activeBuf, 30);
-        WindBuf_PUTC(ws->activeBuf, ch);
+        WindBuf* expBuf = alt ? ws->altBuf : ws->activeBuf;
+        if(WindBuf_FULL(expBuf)) WindBuf_EXPAND(expBuf, 30);
+        WindBuf_PUTC(expBuf, ch);
 }
 
-void WindStream_put_ptr(WindStream* ws, void* ptr, size_t n)
+void WindStream_put_ptr(WindStream* ws, int alt, void* ptr, size_t n)
 {
-        if(!(WindStream_FITS(ws, n))) WindBuf_EXPAND(ws->activeBuf, n + 30);
-        memcpy(ws->activeBuf->data + ws->activeBuf->len, ptr, n);
-        ws->activeBuf->len += n;
+        WindBuf* expBuf = alt ? ws->altBuf : ws->activeBuf;
+        if(!(WindStream_FITS(ws, n))) WindBuf_EXPAND(expBuf, n + 30);
+        memcpy(expBuf->data + expBuf->len, ptr, n);
+        expBuf->len += n;
 }
 
-void WindStream_put_int(WindStream* ws, int num)
+void WindStream_put_int(WindStream* ws, int alt, int num)
 {
-        if(!(WindStream_FITS(ws, sizeof(int)))) WindBuf_EXPAND(ws->activeBuf, sizeof(int) + 30);
-        *(int*)(ws->activeBuf->data + ws->activeBuf->len) = num;
-        ws->activeBuf->len += sizeof(int);
+        WindBuf* expBuf = alt ? ws->altBuf : ws->activeBuf;
+        if(!(WindStream_FITS(ws, sizeof(int)))) WindBuf_EXPAND(expBuf, sizeof(int) + 30);
+        *(int*)(expBuf->data + expBuf->len) = num;
+        expBuf->len += sizeof(int);
 }
 
-void WindStream_put_string(WindStream* ws, const char* string)
+void WindStream_put_string(WindStream* ws, int alt, const char* string)
 {
+        WindBuf* expBuf = alt ? ws->altBuf : ws->activeBuf;
         unsigned long length = strlen(string);
         *(unsigned long*)WindStream_REF(ws) = length;
-        ws->activeBuf->len += sizeof(unsigned long);
+        expBuf->len += sizeof(unsigned long);
 
-        if(!(WindStream_FITS(ws, length))) WindBuf_EXPAND(ws->activeBuf, length + 30);
+        if(!(WindStream_FITS(ws, length))) WindBuf_EXPAND(expBuf, length + 30);
         char* writer = (char*)WindStream_REF(ws);
         while(*string) *writer++ = *string++;
-        ws->activeBuf->len += length;
+        expBuf->len += length;
 }
 
 void WindStream_del(WindStream* ws)
