@@ -5,6 +5,9 @@
 
 // Header that can print debug info for stream
 
+// prints out debug styled info about data in a wind buf.
+void Debug_buf(WindBuf* wb);
+
 void Debug_stream(WindStream* ws);
 
 #endif

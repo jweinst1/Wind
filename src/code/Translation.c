@@ -6,7 +6,14 @@ int Translate_src_command(const char** code, WindStream* ws, StreamState* state)
         {
                 switch(**code)
                 {
+                case ' ':
+                case '\n':
+                case '\t':
+                case '\v':
+                        *code += 1;   //white space
+                        break;
                 default:
+                        WindStream_write_err(ws, "Expected command symbol, found '%c'", **code);
                         return 0;
                 }
         }
@@ -55,11 +62,18 @@ void Translate_src_code(const char* code, WindStream* ws, StreamState* state)
 {
         while(*code)
         {
+                if(ws->hasErr)
+                {
+                        WindStream_print_err(ws);
+                        return;
+                }
                 switch(*state)
                 {
                 case StreamState_sep:
+                        Translate_src_sep(&code, ws, state);
                         break;
                 case StreamState_command:
+                        Translate_src_command(&code, ws, state);
                         break;
                 }
         }
