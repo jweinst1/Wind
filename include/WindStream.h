@@ -41,6 +41,13 @@ typedef struct
 
 WindStream* WindStream_new(void);
 
+// expands internal buffer.
+// if alt, expands the alternative buffer instead.
+void WindStream_expand(WindStream* ws, int alt, size_t amount);
+
+// Resets specified buffer of stream.
+void WindStream_reset(WindStream* ws, int alt);
+
 // Writes one byte to the stream.
 void WindStream_put(WindStream* ws, unsigned char byte);
 
@@ -59,5 +66,7 @@ void WindStream_del(WindStream* ws);
 void WindStream_write_err(WindStream* ws, const char* fmt, ...);
 
 void WindStream_print_err(WindStream* ws);
+
+void WindStream_swap_buf(WindStream* ws);
 
 #endif

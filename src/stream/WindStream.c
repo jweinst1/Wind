@@ -11,6 +11,18 @@ WindStream* WindStream_new(void)
         return newstream;
 }
 
+void WindStream_expand(WindStream* ws, int alt, size_t amount)
+{
+        WindBuf* expBuf = alt ? ws->altBuf : ws->activeBuf;
+        WindBuf_EXPAND(expBuf, amount);
+}
+
+void WindStream_reset(WindStream* ws, int alt)
+{
+        WindBuf* expBuf = alt ? ws->altBuf : ws->activeBuf;
+        expBuf->len = 0;
+}
+
 void WindStream_put(WindStream* ws, unsigned char byte)
 {
         if(WindBuf_FULL(ws->activeBuf)) WindBuf_EXPAND(ws->activeBuf, 20);
@@ -73,4 +85,13 @@ void WindStream_print_err(WindStream* ws)
                 ws->hasErr = 0;
                 ws->err[0] = '\0';
         }
+}
+
+void WindStream_swap_buf(WindStream* ws)
+{
+        // flips the active index, to indicate if the buffer is the alt or original active.
+        ws->activeIndex = ws->activeIndex ? 0 : 1;
+        WindBuf* temp = ws->activeBuf;
+        ws->activeBuf = ws->altBuf;
+        ws->altBuf = temp;
 }
