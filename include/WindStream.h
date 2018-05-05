@@ -29,12 +29,27 @@
 
 #define WindStream_INC_LEN(ws, amount) (ws->activeBuf->len += amount)
 
+#define WindStream_GET_BUF(ws, var, key) switch(key) { \
+        case BufKey_active: var = ws->activeBuf; break; \
+        case BufKey_alt: var = ws->altBuf; break; \
+        case BufKey_load: var = ws->loadBuf; break; \
+}
+
+// enum that acts as way of specifying which buffer you want to perform action on.
+typedef enum
+{
+        BufKey_active,
+        BufKey_alt,
+        BufKey_load
+} BufKey;
+
 typedef struct
 {
         char err[256];
         int hasErr;
         WindBuf* altBuf;
         WindBuf* activeBuf;
+        WindBuf* loadBuf; // for loading args or values.
         // Indicates which stream is active, while the other(s) is reserved for copy operations
         int activeIndex;
 } WindStream;
@@ -43,25 +58,26 @@ WindStream* WindStream_new(void);
 
 // expands internal buffer.
 // if alt, expands the alternative buffer instead.
-void WindStream_expand(WindStream* ws, int alt, size_t amount);
+void WindStream_expand(WindStream* ws, BufKey bkey, size_t amount);
 
 // Resets specified buffer of stream.
-void WindStream_reset(WindStream* ws, int alt);
+void WindStream_reset(WindStream* ws, BufKey bkey);
+
 
 // Writes one byte to the stream.
-void WindStream_put(WindStream* ws, int alt, unsigned char byte);
+void WindStream_put(WindStream* ws, BufKey bkey, unsigned char byte);
 
-void WindStream_put_c(WindStream* ws, int alt, char ch);
+void WindStream_put_c(WindStream* ws, BufKey bkey, char ch);
 
-void WindStream_put_ptr(WindStream* ws, int alt, void* ptr, size_t n);
+void WindStream_put_ptr(WindStream* ws, BufKey bkey, void* ptr, size_t n);
 
-void WindStream_put_int(WindStream* ws, int alt, int num);
+void WindStream_put_int(WindStream* ws, BufKey bkey, int num);
 
-void WindStream_put_long(WindStream* ws, int alt, long num);
+void WindStream_put_long(WindStream* ws, BufKey bkey, long num);
 
 // Puts string in format [size, data].
 // Does not include typed marker.
-void WindStream_put_string(WindStream* ws, int alt, const char* string);
+void WindStream_put_string(WindStream* ws, BufKey bkey, const char* string);
 
 void WindStream_del(WindStream* ws);
 

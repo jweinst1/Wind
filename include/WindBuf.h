@@ -11,6 +11,7 @@
 #define WindBuf_FITS(wb, size) (wb->cap - wb->len) > size
 #define WindBuf_SIZE(wb) (wb->cap + sizeof(WindBuf))
 #define WindBuf_FULL(wb) (wb->cap == wb->len)
+#define WindBuf_EMPTY(wb) (wb->len == 0)
 
 //Macros that reset or clean the buffer
 #define WindBuf_RESET(wb) (wb->len = 0)

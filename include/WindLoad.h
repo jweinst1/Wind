@@ -11,7 +11,7 @@
 static inline int
 WindLoad_is_sep(const char* string)
 {
-        return *string == '|' || (*string == '-' && string[1] == '>')
+        return *string == '|' || (*string == '-' && string[1] == '>');
 }
 
 // Function to parse argument segments of strings, after a command name
