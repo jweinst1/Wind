@@ -1,6 +1,6 @@
 #include "Translation.h"
 
-int Translate_src_command(const char** code, WindStream* ws, StreamState* state)
+int Translate_src_command(const char** code, WindStream* ws)
 {
         while(**code)
         {
@@ -43,8 +43,8 @@ int Translate_src_command(const char** code, WindStream* ws, StreamState* state)
                                         {
                                         case 'h':
                                                 *code += 4;
-                                                // handle push
-                                                return;
+                                                if(!WindLoad_from_str(ws, BufKey_active, code)) return 0;
+                                                return 1;
                                         default:
                                                 WindStream_write_err(ws, "Expected command symbol, found 'pus%c'", *code[3]);
                                                 return 0;
@@ -72,7 +72,7 @@ int Translate_src_command(const char** code, WindStream* ws, StreamState* state)
 }
 
 
-int Translate_src_sep(const char** code, WindStream* ws, StreamState* state)
+int Translate_src_sep(const char** code, WindStream* ws)
 {
         while(**code)
         {
@@ -87,13 +87,13 @@ int Translate_src_sep(const char** code, WindStream* ws, StreamState* state)
                 case '|':
                         // pipe sep found
                         *code += 1;
-                        *state = StreamState_command;
+                        ws->state = StreamState_command;
                         return 1;
                 case '-':
                         if((*code)[1] == '>')
                         {
                                 *code += 2;
-                                *state = StreamState_command;
+                                ws->state = StreamState_command;
                                 return 1;
                         }
                         else
@@ -101,6 +101,7 @@ int Translate_src_sep(const char** code, WindStream* ws, StreamState* state)
                                 WindStream_write_err(ws, "Expected separator ->, found '-%c'", (*code)[1]);
                                 return 0; // error
                         }
+                        break;
                 default:
                         WindStream_write_err(ws, "Expected separator ->, found '%c'", (*code)[0]);
                         return 0;
@@ -109,7 +110,7 @@ int Translate_src_sep(const char** code, WindStream* ws, StreamState* state)
         return 1;
 }
 
-void Translate_src_code(const char* code, WindStream* ws, StreamState* state)
+void Translate_src_code(const char* code, WindStream* ws)
 {
         while(*code)
         {
@@ -118,13 +119,13 @@ void Translate_src_code(const char* code, WindStream* ws, StreamState* state)
                         WindStream_print_err(ws);
                         return;
                 }
-                switch(*state)
+                switch(ws->state)
                 {
                 case StreamState_sep:
-                        Translate_src_sep(&code, ws, state);
+                        Translate_src_sep(&code, ws);
                         break;
                 case StreamState_command:
-                        Translate_src_command(&code, ws, state);
+                        Translate_src_command(&code, ws);
                         break;
                 }
         }

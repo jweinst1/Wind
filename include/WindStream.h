@@ -43,9 +43,17 @@ typedef enum
         BufKey_load
 } BufKey;
 
+//enum to track what tokens the stream will accept next.
+typedef enum
+{
+        StreamState_command,
+        StreamState_sep
+} StreamState;
+
 typedef struct
 {
         char err[256];
+        StreamState state;
         int hasErr;
         WindBuf* altBuf;
         WindBuf* activeBuf;

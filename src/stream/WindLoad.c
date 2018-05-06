@@ -17,6 +17,21 @@ int WindLoad_from_str(WindStream* ws, BufKey bkey, const char** code)
                 case '\v':
                         *code += 1;     //white space
                         break;
+                case '|':
+                        // pipe sep found
+                        *code += 1;
+                        return 1;
+                case '-':
+                        if((*code)[1] == '>')
+                        {
+                                *code += 2;
+                                return 1;
+                        }
+                        else
+                        {
+                                WindStream_write_err(ws, "Expected separator ->, found '-%c'", (*code)[1]);
+                                return 0;         // error
+                        }
                 case 'N':
                         switch(*code[1])
                         {
