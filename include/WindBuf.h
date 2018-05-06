@@ -39,6 +39,9 @@
 
 #define WindBuf_PUTC(wb, ch) (wb->data[wb->len++] = (unsigned char)ch)
 
+// safe macro to copy memory into buffer.
+#define WindBuf_WRITE(wb, ptr, n) if((wb->cap - wb->len) > n) memcpy(wb->data, ptr, n)
+
 // Buffer is an in-place allocated memory chunk that reserves additional capacity.
 typedef struct
 {

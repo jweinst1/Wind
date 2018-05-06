@@ -17,6 +17,6 @@ WindLoad_is_sep(const char* string)
 // Function to parse argument segments of strings, after a command name
 // example: push 5 4 True ->
 // parses until ->
-int WindLoad_values(WindStream* ws, int alt, const char** code);
+int WindLoad_values(WindStream* ws, BufKey bkey, const char** code);
 
 #endif
