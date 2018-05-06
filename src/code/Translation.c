@@ -32,6 +32,34 @@ int Translate_src_command(const char** code, WindStream* ws, StreamState* state)
                                 return 0;
                         }
                         break;
+                case 'p':
+                        switch(*code[1])
+                        {
+                        case 'u':
+                                switch(*code[2])
+                                {
+                                case 's':
+                                        switch(*code[3])
+                                        {
+                                        case 'h':
+                                                *code += 4;
+                                                // handle push
+                                                return;
+                                        default:
+                                                WindStream_write_err(ws, "Expected command symbol, found 'pus%c'", *code[3]);
+                                                return 0;
+                                        }
+                                        break;
+                                default:
+                                        WindStream_write_err(ws, "Expected command symbol, found 'pu%c'", *code[2]);
+                                        return 0;
+                                }
+                                break;
+                        default:
+                                WindStream_write_err(ws, "Expected command symbol, found 'p%c'", *code[1]);
+                                return 0;
+                        }
+                        break;
                 case '\0':
                         // end of source code
                         return 1;

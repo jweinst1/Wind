@@ -14,9 +14,12 @@ WindLoad_is_sep(const char* string)
         return *string == '|' || (*string == '-' && string[1] == '>');
 }
 
+// Loads a none object onto the stream and specified buffer.
+void WindLoad_none(WindStream* ws, BufKey bkey);
+
 // Function to parse argument segments of strings, after a command name
 // example: push 5 4 True ->
 // parses until ->
-int WindLoad_values(WindStream* ws, BufKey bkey, const char** code);
+int WindLoad_from_str(WindStream* ws, BufKey bkey, const char** code);
 
 #endif

@@ -1,6 +1,11 @@
 #include "WindLoad.h"
 
-int WindLoad_values(WindStream* ws, BufKey bkey, const char** code)
+void WindLoad_none(WindStream* ws, BufKey bkey)
+{
+        WindStream_put(ws, bkey, WindType_None);
+}
+
+int WindLoad_from_str(WindStream* ws, BufKey bkey, const char** code)
 {
         while(**code)
         {
@@ -22,19 +27,21 @@ int WindLoad_values(WindStream* ws, BufKey bkey, const char** code)
                                         switch(*code[3])
                                         {
                                         case 'e':
-                                                break;
+                                                *code += 4;
+                                                WindLoad_none(ws, bkey);
+                                                continue;
                                         default:
-                                                WindStream_write_err(ws, "Expected command symbol, found 'Non%c'", *code[3]);
+                                                WindStream_write_err(ws, "Expected argument or value, found 'Non%c'", *code[3]);
                                                 return 0;
                                         }
                                         break;
                                 default:
-                                        WindStream_write_err(ws, "Expected command symbol, found 'No%c'", *code[2]);
+                                        WindStream_write_err(ws, "Expected argument or value, found 'No%c'", *code[2]);
                                         return 0;
                                 }
                                 break;
                         default:
-                                WindStream_write_err(ws, "Expected command symbol, found 'N%c'", *code[1]);
+                                WindStream_write_err(ws, "Expected argument or value, found 'N%c'", *code[1]);
                                 return 0;
                         }
                         break;
