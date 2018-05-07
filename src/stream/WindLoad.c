@@ -33,13 +33,13 @@ int WindLoad_from_str(WindStream* ws, BufKey bkey, const char** code)
                                 return 0;         // error
                         }
                 case 'N':
-                        switch(*code[1])
+                        switch((*code)[1])
                         {
                         case 'o':
-                                switch(*code[2])
+                                switch((*code)[2])
                                 {
                                 case 'n':
-                                        switch(*code[3])
+                                        switch((*code)[3])
                                         {
                                         case 'e':
                                                 *code += 4;

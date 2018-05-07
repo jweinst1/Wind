@@ -5,6 +5,6 @@
 
 #include "WindStream.h"
 
-int WindExec_out(WindStream* ws);
+int WindExec_out(WindStream* ws, BufKey bkey);
 
 #endif

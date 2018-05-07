@@ -2,7 +2,7 @@
 #define WIND_TRANSLATION_H
 
 #include <stdio.h>
-#include "WindStream.h"
+#include "WindExec.h"
 #include "WindLoad.h"
 
 // header that defines translation functions and utils

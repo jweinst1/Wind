@@ -28,5 +28,8 @@ void Debug_stream(WindStream* ws)
         puts("........AltBuf..........");
         printf("@ = %p\nlen = %lu\ncap = %lu\n", ws->altBuf, ws->altBuf->len, ws->altBuf->cap);
         Debug_buf(ws->altBuf);
+        puts("........LoadBuf..........");
+        printf("@ = %p\nlen = %lu\ncap = %lu\n", ws->loadBuf, ws->loadBuf->len, ws->loadBuf->cap);
+        Debug_buf(ws->loadBuf);
         puts("___________________________");
 }
