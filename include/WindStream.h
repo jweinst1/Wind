@@ -34,6 +34,8 @@
         case BufKey_alt: var = ws->altBuf; break; \
         case BufKey_load: var = ws->loadBuf; break; \
 }
+// Special macro to check for a non-null command.
+#define WindStream_HAS_CMD(ws) (ws->command != WindCommand_null)
 
 // enum that acts as way of specifying which buffer you want to perform action on.
 typedef enum
@@ -47,13 +49,15 @@ typedef enum
 typedef enum
 {
         StreamState_command,
-        StreamState_sep
+        StreamState_load,
+        StreamState_exec
 } StreamState;
 
 typedef struct
 {
         char err[256];
         StreamState state;
+        WindCommand cmd;
         int hasErr;
         WindBuf* altBuf;
         WindBuf* activeBuf;

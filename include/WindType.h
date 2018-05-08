@@ -8,4 +8,12 @@ typedef enum
         WindType_None
 } WindType;
 
+// An enum to track the kinds of Wind Commands.
+typedef enum
+{
+        WindCommand_null, // abscence of a command
+        WindCommand_out,
+        WindCommand_push
+} WindCommand;
+
 #endif

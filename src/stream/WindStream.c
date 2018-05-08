@@ -4,6 +4,7 @@ WindStream* WindStream_new(void)
 {
         WindStream* newstream = malloc(sizeof(WindStream));
         newstream->state = StreamState_command;
+        newstream->command = WindCommand_null;
         newstream->activeBuf = WindBuf_new(WindStream_BUF_SIZE);
         newstream->altBuf = WindBuf_new(WindStream_BUF_SIZE);
         newstream->loadBuf = WindBuf_new(WindStream_BUF_SIZE);
