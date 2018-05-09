@@ -12,8 +12,11 @@ int WindRun_exec(WindStream* ws, const char** code)
         case WindCommand_push:
                 WindExec_push(ws);
                 break;
+        case WindCommand_clr:
+                WindExec_clr(ws);
+                break;
         }
-        WindStream_reset(ws, BufKey_load);
+        WindStream_RESET_LOAD(ws);
         ws->state = StreamState_command;
         return 1;
 }
@@ -98,6 +101,27 @@ int WindRun_command(WindStream* ws, const char** code)
                 case '\t':
                 case '\v':
                         *code += 1; //white space
+                        break;
+                case 'c':
+                        switch((*code)[1])
+                        {
+                        case 'l':
+                                switch((*code)[2])
+                                {
+                                case 'r':
+                                        // exec out
+                                        *code += 3;
+                                        ws->command = WindCommand_clr;
+                                        goto TRANS_TO_LOAD;
+                                default:
+                                        WindStream_write_err(ws, "Expected command symbol, found 'cl%c'", *code[2]);
+                                        return 0;
+                                }
+                                break;
+                        default:
+                                WindStream_write_err(ws, "Expected command symbol, found 'c%c'", *code[1]);
+                                return 0;
+                        }
                         break;
                 case 'o':
                         switch((*code)[1])

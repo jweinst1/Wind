@@ -13,7 +13,8 @@ typedef enum
 {
         WindCommand_null, // abscence of a command
         WindCommand_out,
-        WindCommand_push
+        WindCommand_push,
+        WindCommand_clr
 } WindCommand;
 
 #endif

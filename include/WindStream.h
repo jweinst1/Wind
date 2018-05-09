@@ -29,6 +29,8 @@
 
 #define WindStream_INC_LEN(ws, amount) (ws->activeBuf->len += amount)
 
+#define WindStream_RESET_LOAD(ws) ws->loadBuf->len = 0
+
 #define WindStream_GET_BUF(ws, var, key) switch(key) { \
         case BufKey_active: var = ws->activeBuf; break; \
         case BufKey_alt: var = ws->altBuf; break; \

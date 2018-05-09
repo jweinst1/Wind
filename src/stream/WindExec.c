@@ -27,3 +27,9 @@ int WindExec_push(WindStream* ws)
         WindStream_put_ptr(ws, BufKey_active, ws->loadBuf->data, pushLen);
         return 1;
 }
+
+int WindExec_clr(WindStream* ws)
+{
+        WindStream_reset(ws, BufKey_active);
+        return 1;
+}

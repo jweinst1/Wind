@@ -30,6 +30,9 @@ void Debug_cmd(WindCommand cmd)
         case WindCommand_push:
                 puts("Command: push");
                 break;
+        case WindCommand_clr:
+                puts("Command: clr");
+                break;
         }
 }
 
