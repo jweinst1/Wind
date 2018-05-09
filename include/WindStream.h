@@ -57,6 +57,7 @@ typedef struct
 {
         char err[256];
         StreamState state;
+        WindCommand command;
         WindCommand cmd;
         int hasErr;
         WindBuf* altBuf;

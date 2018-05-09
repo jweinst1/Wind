@@ -8,6 +8,9 @@
 // prints out debug styled info about data in a wind buf.
 void Debug_buf(WindBuf* wb);
 
+// prints a command string
+void Debug_cmd(WindCommand cmd);
+
 void Debug_stream(WindStream* ws);
 
 #endif

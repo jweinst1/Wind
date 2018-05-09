@@ -1,5 +1,21 @@
 #include "WindRun.h"
 
+int WindRun_exec(WindStream* ws, const char** code)
+{
+        switch(ws->command)
+        {
+        case WindCommand_null:
+                break;
+        case WindCommand_out:
+                WindExec_out(ws, BufKey_active);
+                break;
+        case WindCommand_push:
+                break;
+        }
+        ws->state = StreamState_command;
+        return 1;
+}
+
 int WindRun_load(WindStream* ws, const char** code)
 {
         while(**code)
@@ -15,14 +31,12 @@ int WindRun_load(WindStream* ws, const char** code)
                 case '|':
                         // pipe sep found
                         *code += 1;
-                        ws->state = StreamState_exec;
-                        return 1;
+                        goto TRANS_TO_EXEC;
                 case '-':
                         if((*code)[1] == '>')
                         {
                                 *code += 2;
-                                ws->state = StreamState_exec;
-                                return 1;
+                                goto TRANS_TO_EXEC;
                         }
                         else
                         {
@@ -59,13 +73,14 @@ int WindRun_load(WindStream* ws, const char** code)
                         break;
                 case '\0':
                         // source code ends
-                        ws->state = StreamState_exec;
-                        return 1;
+                        goto TRANS_TO_EXEC;
                 default:
                         WindStream_write_err(ws, "Expected argument or value, found '%c'", **code);
                         return 0;
                 }
         }
+        goto TRANS_TO_EXEC;
+TRANS_TO_EXEC:
         ws->state = StreamState_exec;
         return 1;
 }
@@ -92,9 +107,7 @@ int WindRun_command(WindStream* ws, const char** code)
                                         // exec out
                                         *code += 3;
                                         ws->command = WindCommand_out;
-                                        if(!WindExec_out(ws, BufKey_active)) return 0;
-                                        ws->state = StreamState_sep;
-                                        return 1;
+                                        goto TRANS_TO_LOAD;
                                 default:
                                         WindStream_write_err(ws, "Expected command symbol, found 'ou%c'", *code[2]);
                                         return 0;
@@ -117,8 +130,7 @@ int WindRun_command(WindStream* ws, const char** code)
                                         case 'h':
                                                 *code += 4;
                                                 ws->command = WindCommand_push;
-                                                if(!WindLoad_from_str(ws, BufKey_active, code)) return 0;
-                                                return 1;
+                                                goto TRANS_TO_LOAD;
                                         default:
                                                 WindStream_write_err(ws, "Expected command symbol, found 'pus%c'", *code[3]);
                                                 return 0;
@@ -135,13 +147,15 @@ int WindRun_command(WindStream* ws, const char** code)
                         }
                         break;
                 case '\0':
-                        // end of source code
-                        return 1;
+                        goto TRANS_TO_LOAD;
                 default:
                         WindStream_write_err(ws, "Expected command symbol, found '%c'", **code);
                         return 0;
                 }
         }
+        goto TRANS_TO_LOAD;
+TRANS_TO_LOAD:
+        ws->state = StreamState_load;
         return 1;
 }
 
@@ -149,14 +163,24 @@ void WindRun_code(WindStream* ws, const char* code)
 {
         while(*code)
         {
+                if(ws->hasErr)
+                {
+                        WindStream_print_err(ws);
+                        return;
+                }
                 switch(ws->state)
                 {
                 case StreamState_command:
+                        WindRun_command(ws, &code);
                         break;
                 case StreamState_load:
+                        WindRun_load(ws, &code);
                         break;
                 case StreamState_exec:
+                        WindRun_exec(ws, &code);
                         break;
                 }
         }
+        // Executes any lasting commands, if null char is reached first.
+        if(ws->state == StreamState_exec) WindRun_exec(ws, &code);
 }

@@ -17,9 +17,38 @@ void Debug_buf(WindBuf* wb)
         }
 }
 
+void Debug_cmd(WindCommand cmd)
+{
+        switch(cmd)
+        {
+        case WindCommand_null:
+                puts("Command: null");
+                break;
+        case WindCommand_out:
+                puts("Command: out");
+                break;
+        case WindCommand_push:
+                puts("Command: push");
+                break;
+        }
+}
+
 void Debug_stream(WindStream* ws)
 {
         puts("_____Wind_Stream_Debug_____");
+        Debug_cmd(ws->command);
+        switch(ws->state)
+        {
+        case StreamState_command:
+                puts("State: command");
+                break;
+        case StreamState_load:
+                puts("State: load");
+                break;
+        case StreamState_exec:
+                puts("State: exec");
+                break;
+        }
         puts("...........Errors..........");
         printf("Has Error: %s\n", ws->hasErr ? "true" : "false");
         puts("........ActiveBuf..........");

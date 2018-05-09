@@ -1,11 +1,11 @@
 #include <stdio.h>
-#include "Translation.h"
+#include "Windrun.h"
 #include "Debug.h"
 
 
 int main(int argc, char const *argv[]) {
         WindStream* stream = WindStream_new();
-        Translate_src_code("out -> out", stream);
+        WindRun_code(stream, "out -> push None -> out ");
         Debug_stream(stream);
 
         WindStream_del(stream);
