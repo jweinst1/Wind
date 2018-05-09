@@ -10,8 +10,10 @@ int WindRun_exec(WindStream* ws, const char** code)
                 WindExec_out(ws, BufKey_active);
                 break;
         case WindCommand_push:
+                WindExec_push(ws);
                 break;
         }
+        WindStream_reset(ws, BufKey_load);
         ws->state = StreamState_command;
         return 1;
 }
@@ -54,7 +56,7 @@ int WindRun_load(WindStream* ws, const char** code)
                                         {
                                         case 'e':
                                                 *code += 4;
-                                                //WindLoad_none(ws, bkey);
+                                                WindStream_put(ws, BufKey_load, WindType_None);
                                                 continue;
                                         default:
                                                 WindStream_write_err(ws, "Expected argument or value, found 'Non%c'", *code[3]);

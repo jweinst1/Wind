@@ -76,6 +76,8 @@ void WindStream_expand(WindStream* ws, BufKey bkey, size_t amount);
 // Resets specified buffer of stream.
 void WindStream_reset(WindStream* ws, BufKey bkey);
 
+// Gets and returns buffer that corresponds to key.
+WindBuf* WindStream_get_buf(WindStream* ws, BufKey bkey);
 
 // Writes one byte to the stream.
 void WindStream_put(WindStream* ws, BufKey bkey, unsigned char byte);

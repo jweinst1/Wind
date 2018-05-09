@@ -28,6 +28,16 @@ void WindStream_reset(WindStream* ws, BufKey bkey)
         expBuf->len = 0;
 }
 
+WindBuf* WindStream_get_buf(WindStream* ws, BufKey bkey)
+{
+        switch(bkey)
+        {
+        case BufKey_load: return ws->loadBuf;
+        case BufKey_active: return ws->activeBuf;
+        case BufKey_alt: return ws->altBuf;
+        }
+}
+
 
 void WindStream_put(WindStream* ws, BufKey bkey, unsigned char byte)
 {
