@@ -17,6 +17,7 @@ int WindRun_exec(WindStream* ws, const char** code)
                 break;
         }
         WindStream_RESET_LOAD(ws);
+        ws->command = WindCommand_null;
         ws->state = StreamState_command;
         return 1;
 }
@@ -208,5 +209,5 @@ void WindRun_code(WindStream* ws, const char* code)
                 }
         }
         // Executes any lasting commands, if null char is reached first.
-        if(ws->state == StreamState_exec) WindRun_exec(ws, &code);
+        if(ws->command != WindCommand_null) WindRun_exec(ws, &code);
 }
