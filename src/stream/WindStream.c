@@ -82,6 +82,22 @@ void WindStream_put_long(WindStream* ws, BufKey bkey, long num)
         expBuf->len += sizeof(long);
 }
 
+void WindStream_copy_val(WindStream* ws, BufKey bkey, unsigned char* bufPtr)
+{
+        WindBuf* expBuf;
+        WindStream_GET_BUF(ws, expBuf, bkey);
+        switch(*bufPtr)
+        {
+        case WindType_None:
+                if(WindBuf_FULL(expBuf)) WindBuf_EXPAND(expBuf, 20);
+                expBuf->data[expBuf->len++] = WindType_None;
+                return;
+        default:
+                // needs error handling.
+                return;
+        }
+}
+
 void WindStream_put_string(WindStream* ws, BufKey bkey, const char* string)
 {
         WindBuf* expBuf;
@@ -94,6 +110,13 @@ void WindStream_put_string(WindStream* ws, BufKey bkey, const char* string)
         char* writer = (char*)WindStream_REF(ws);
         while(*string) *writer++ = *string++;
         expBuf->len += length;
+}
+
+unsigned char* WindStream_get(WindStream* ws, BufKey bkey, size_t index)
+{
+        WindBuf* expBuf;
+        WindStream_GET_BUF(ws, expBuf, bkey);
+        return WindBuf_get(expBuf, index);
 }
 
 void WindStream_del(WindStream* ws)

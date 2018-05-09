@@ -92,6 +92,13 @@ void WindStream_put_int(WindStream* ws, BufKey bkey, int num);
 
 void WindStream_put_long(WindStream* ws, BufKey bkey, long num);
 
+// Copies a single value from a bytes pointer onto the specified buffer.
+void WindStream_copy_val(WindStream* ws, BufKey bkey, unsigned char* bufPtr);
+
+// Gets the buffer at the ith item specified in index.
+// If index is out of range returns NULL.
+unsigned char* WindStream_get(WindStream* ws, BufKey bkey, size_t index);
+
 // Puts string in format [size, data].
 // Does not include typed marker.
 void WindStream_put_string(WindStream* ws, BufKey bkey, const char* string);
