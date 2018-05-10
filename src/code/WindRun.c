@@ -34,10 +34,6 @@ int WindRun_load(WindStream* ws, const char** code)
                 case '\v':
                         *code += 1; //white space
                         break;
-                case '|':
-                        // pipe sep found
-                        *code += 1;
-                        goto TRANS_TO_EXEC;
                 case '-':
                         if((*code)[1] == '>')
                         {

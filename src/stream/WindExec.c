@@ -12,6 +12,10 @@ int WindExec_out(WindStream* ws, BufKey bkey)
                 case WindType_None:
                         printf("None ");
                         break;
+                case WindType_Bool:
+                        i++;
+                        printf(sbuf->data[i] ? "True " : "False ");
+                        break;
                 default:
                         WindStream_write_err(ws, "Cannot recognize item with byte %u", sbuf->data[i]);
                         return 0;
