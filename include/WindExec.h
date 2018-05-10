@@ -11,4 +11,6 @@ int WindExec_push(WindStream* ws);
 
 int WindExec_clr(WindStream* ws);
 
+int WindExec_map(WindStream* ws);
+
 #endif

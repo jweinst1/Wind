@@ -15,6 +15,9 @@ int WindRun_exec(WindStream* ws, const char** code)
         case WindCommand_clr:
                 WindExec_clr(ws);
                 break;
+        case WindCommand_map:
+                WindExec_map(ws);
+                break;
         }
         WindStream_RESET_LOAD(ws);
         ws->command = WindCommand_null;
@@ -45,6 +48,15 @@ int WindRun_load(WindStream* ws, const char** code)
                                 WindStream_write_err(ws, "Expected separator ->, found '-%c'", (*code)[1]);
                                 return 0;   // error
                         }
+                case '|':
+                        *code += 1;
+                        WindStream_put(ws, BufKey_load, WindType_Sep);
+                        continue;
+                case '!':
+                        // not :symbol
+                        *code += 1;
+                        WindStream_put(ws, BufKey_load, WindType_Not);
+                        continue;
                 case 'T':
                         if((*code)[1] == 'r' && (*code)[2] == 'u' && (*code)[3] == 'e')
                         {
@@ -143,6 +155,27 @@ int WindRun_command(WindStream* ws, const char** code)
                                 break;
                         default:
                                 WindStream_write_err(ws, "Expected command symbol, found 'c%c'", *code[1]);
+                                return 0;
+                        }
+                        break;
+                case 'm':
+                        switch((*code)[1])
+                        {
+                        case 'a':
+                                switch((*code)[2])
+                                {
+                                case 'p':
+                                        // exec out
+                                        *code += 3;
+                                        ws->command = WindCommand_map;
+                                        goto TRANS_TO_LOAD;
+                                default:
+                                        WindStream_write_err(ws, "Expected command symbol, found 'ma%c'", *code[2]);
+                                        return 0;
+                                }
+                                break;
+                        default:
+                                WindStream_write_err(ws, "Expected command symbol, found 'm%c'", *code[1]);
                                 return 0;
                         }
                         break;

@@ -16,6 +16,12 @@ int WindExec_out(WindStream* ws, BufKey bkey)
                         i++;
                         printf(sbuf->data[i] ? "True " : "False ");
                         break;
+                case WindType_Not:
+                        printf("! ");
+                        break;
+                case WindType_Sep:
+                        printf("| ");
+                        break;
                 default:
                         WindStream_write_err(ws, "Cannot recognize item with byte %u", sbuf->data[i]);
                         return 0;
@@ -35,5 +41,11 @@ int WindExec_push(WindStream* ws)
 int WindExec_clr(WindStream* ws)
 {
         WindStream_reset(ws, BufKey_active);
+        return 1;
+}
+
+int WindExec_map(WindStream* ws)
+{
+
         return 1;
 }
