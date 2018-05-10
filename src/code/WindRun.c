@@ -53,8 +53,26 @@ int WindRun_load(WindStream* ws, const char** code)
                         if((*code)[1] == 'r' && (*code)[2] == 'u' && (*code)[3] == 'e')
                         {
                                 *code += 4;
-                                // write bool
+                                WindLoad_bool(ws, BufKey_load, 1);
                                 continue;
+                        }
+                        else
+                        {
+                                WindStream_write_err(ws, "Expected argument or value, found 'T%c'", *code[1]);
+                                return 0;
+                        }
+                        break;
+                case 'F':
+                        if((*code)[1] == 'a' && (*code)[2] == 'l' && (*code)[3] == 's' && (*code)[4] == 'e')
+                        {
+                                *code += 5;
+                                WindLoad_bool(ws, BufKey_load, 0);
+                                continue;
+                        }
+                        else
+                        {
+                                WindStream_write_err(ws, "Expected argument or value, found 'F%c'", *code[1]);
+                                return 0;
                         }
                         break;
                 case 'N':

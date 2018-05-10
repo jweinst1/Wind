@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "WindStream.h"
 #include "WindExec.h"
+#include "WindLoad.h"
 
 // central header that handles running of code
 

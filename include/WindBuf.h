@@ -33,6 +33,13 @@
                 wb = realloc(wb, WindBuf_SIZE(wb)); \
 }
 
+// Macro that checks if a size can fit in the buffer, and if it doesn't
+// expands buffer by add
+#define WindBuf_CHECK(wb, size, add) if((wb->cap - wb->len) < size) { \
+                wb->cap += add; \
+                wb = realloc(wb, WindBuf_SIZE(wb)); \
+}
+
 // Gets a typed pointer to some area of the buffer.
 #define WindBuf_TPTR(wb, index, type) ((type*)(wb->data + index))
 
