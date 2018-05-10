@@ -11,6 +11,10 @@ void Debug_buf(WindBuf* wb)
                 case WindType_None:
                         puts("None");
                         break;
+                case WindType_Bool:
+                        i++;
+                        printf("%s\n", (wb->data[i] ? "True" : "False"));
+                        break;
                 default:
                         printf("Unknown: %u\n", wb->data[i]);
                 }

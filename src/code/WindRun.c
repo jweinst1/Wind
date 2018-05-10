@@ -49,6 +49,14 @@ int WindRun_load(WindStream* ws, const char** code)
                                 WindStream_write_err(ws, "Expected separator ->, found '-%c'", (*code)[1]);
                                 return 0;   // error
                         }
+                case 'T':
+                        if((*code)[1] == 'r' && (*code)[2] == 'u' && (*code)[3] == 'e')
+                        {
+                                *code += 4;
+                                // write bool
+                                continue;
+                        }
+                        break;
                 case 'N':
                         switch((*code)[1])
                         {
@@ -173,6 +181,7 @@ int WindRun_command(WindStream* ws, const char** code)
                                 return 0;
                         }
                         break;
+
                 case '\0':
                         goto TRANS_TO_LOAD;
                 default:
