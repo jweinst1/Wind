@@ -47,3 +47,12 @@ long WindBuf_count(WindBuf* wb)
         }
         return total;
 }
+
+void WindBuf_equalize(WindBuf* wb, WindBuf** other)
+{
+        if(wb->cap > (*other)->cap)
+        {
+                size_t newCap = wb->cap + WindBuf_EQ_SPACE;
+                WindBuf_EXPAND((*other), newCap);
+        }
+}

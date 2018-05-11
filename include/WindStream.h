@@ -108,7 +108,7 @@ void WindStream_del(WindStream* ws);
 void WindStream_write_err(WindStream* ws, const char* fmt, ...);
 
 void WindStream_print_err(WindStream* ws);
-
+// swaps active and alt Buffer
 void WindStream_swap_buf(WindStream* ws);
 
 #endif

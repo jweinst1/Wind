@@ -7,6 +7,8 @@
 
 // Buffer for Wind Stream
 
+#define WindBuf_EQ_SPACE 10
+
 // Macros that deal with size and space of buf
 #define WindBuf_SPACE(wb) (wb->cap - wb->len)
 #define WindBuf_FITS(wb, size) (wb->cap - wb->len) > size
@@ -66,5 +68,9 @@ unsigned char* WindBuf_get(WindBuf* wb, size_t index);
 // Counts the amount of items in the buffer.
 // returns -1 if error
 long WindBuf_count(WindBuf* wb);
+
+// Makes buffer 2 the same capacity as buffer 1, if it's smaller than buffer 1
+// other buffer must be double pointer due to direct allocation of WindBuf
+void WindBuf_equalize(WindBuf* wb, WindBuf** other);
 
 #endif
