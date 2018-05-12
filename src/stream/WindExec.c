@@ -46,18 +46,21 @@ int WindExec_clr(WindStream* ws)
 
 int WindExec_map(WindStream* ws)
 {
+        // This allows for copying between buffers to be done without size checks
         WindBuf_equalize(ws->activeBuf, &(ws->altBuf));
         // Clears altbuf to allow for new stream result.
-        WinfBuf_RESET(ws->altBuf);
+        WindBuf_RESET(ws->altBuf);
         // Traversing Pointers
         unsigned char* loadPtr;
         unsigned char* loadEnd;
 
         unsigned char* activePtr = ws->activeBuf->data;
         unsigned char* activeEnd = activePtr + ws->activeBuf->len;
+        unsigned char* altPtr = ws->altBuf->data;
 
         while(activePtr != activeEnd)
         {
+                WindVal_copy(altPtr, activePtr, 1);
                 // These are restarted each loop since entire map seq
                 // is applied to one value at a time.
                 loadPtr = ws->loadBuf->data;

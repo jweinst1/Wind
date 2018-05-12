@@ -65,6 +65,10 @@ WindBuf* WindBuf_new(size_t size);
 // Low level get function
 unsigned char* WindBuf_get(WindBuf* wb, size_t index);
 
+// appends item to end of buffer, but returns pointer to place where item
+// begins in buffer after appending.
+unsigned char* WindBuf_place(WindBuf* wb, void* item, size_t size);
+
 // Counts the amount of items in the buffer.
 // returns -1 if error
 long WindBuf_count(WindBuf* wb);
