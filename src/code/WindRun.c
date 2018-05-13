@@ -266,4 +266,9 @@ void WindRun_code(WindStream* ws, const char* code)
         }
         // Executes any lasting commands, if null char is reached first.
         if(ws->command != WindCommand_null) WindRun_exec(ws, &code);
+        if(ws->hasErr)
+        {
+                WindStream_print_err(ws);
+                return;
+        }
 }

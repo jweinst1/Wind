@@ -59,6 +59,7 @@ long WindBuf_count(WindBuf* wb)
         return total;
 }
 
+
 void WindBuf_equalize(WindBuf* wb, WindBuf** other)
 {
         (*other)->len = wb->len;

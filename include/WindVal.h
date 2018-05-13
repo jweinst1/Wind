@@ -11,7 +11,7 @@
 
 // Copies <amnt> wind values from src to destination.
 // Assumes sufficient space.
-int WindVal_copy(unsigned char* dest, const unsigned char* src, int amnt);
+int WindVal_copy(unsigned char** dest, unsigned char** src, int amnt);
 
 // Applies not operation to binary item.
 // Accepts a double bytes pointer so it can be moved.

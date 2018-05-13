@@ -23,6 +23,13 @@
 //Checks if index is in the range of the buffer.
 #define WindBuf_IN(wb, index) (index < wb->len && index >= 0)
 
+// This sets the len of the buffer equal to the space that head was moved.
+#define WindBuf_HEAD_LEN(wb) (wb->len = (wb->head - wb->data))
+#define WindBuf_HEAD_RE(wb) (wb->head = wb->data)
+
+#define WindBuf_HEAD_FULL(wb) (wb->head == (wb->data + wb->cap))
+#define WindBuf_HEAD_FITS(wb, size) (wb->head + size) > (wb->data + wb->cap)
+
 // Macro handles expansion of buffer due to memory allocated in place.
 #define WindBuf_EXPAND(wb, amount) do { \
                 wb->cap += amount; \

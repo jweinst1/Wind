@@ -28,6 +28,7 @@ void Debug_buf(WindBuf* wb)
         }
 }
 
+
 void Debug_cmd(WindCommand cmd)
 {
         switch(cmd)

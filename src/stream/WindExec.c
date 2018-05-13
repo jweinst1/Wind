@@ -7,6 +7,7 @@ int WindExec_out(WindStream* ws, BufKey bkey)
         printf("[ ");
         for(size_t i = 0; i < sbuf->len; i++)
         {
+                //printf("debug %u place %lu \n", sbuf->data[i], i);
                 switch(sbuf->data[i])
                 {
                 case WindType_None:
@@ -55,11 +56,14 @@ int WindExec_map(WindStream* ws)
 
         unsigned char* activePtr = ws->activeBuf->data;
         unsigned char* activeEnd = activePtr + ws->activeBuf->len;
-        unsigned char* altPtr = ws->altBuf->data;
 
+        WindBuf* target = ws->altBuf;
+        unsigned char* copyAlt = target->data;
+        WindBuf_HEAD_RE(target);
         while(activePtr != activeEnd)
         {
-                WindVal_copy(altPtr, activePtr, 1);
+                // needs movable head.
+                WindVal_copy(&copyAlt, &activePtr, 1);
                 // These are restarted each loop since entire map seq
                 // is applied to one value at a time.
                 loadPtr = ws->loadBuf->data;
@@ -70,7 +74,7 @@ int WindExec_map(WindStream* ws)
                         {
                         case WindType_Not:
                                 loadPtr++;
-                                WindVal_apply_not(altPtr);
+                                WindVal_apply_not(&(target->head));
                                 break;
                         case WindType_Sep:
                                 loadPtr++;

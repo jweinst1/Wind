@@ -55,6 +55,7 @@ void WindStream_put_c(WindStream* ws, BufKey bkey, char ch)
         WindBuf_PUTC(expBuf, ch);
 }
 
+
 void WindStream_put_ptr(WindStream* ws, BufKey bkey, void* ptr, size_t n)
 {
         WindBuf* expBuf;

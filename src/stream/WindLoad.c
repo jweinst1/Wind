@@ -8,4 +8,5 @@ void WindLoad_bool(WindStream* ws, BufKey bkey, int b)
         WindBuf_CHECK(buf, sizeof(WIND_BOOL_T), 10);
         buf->data[buf->len++] = boolp[0];
         buf->data[buf->len++] = boolp[1];
+
 }
