@@ -9,6 +9,10 @@ OBJ_FILES := $(patsubst src/%,lib/%,$(C_FILES:.c=.o))
 LD_FLAGS :=
 CC_FLAGS := -c -Wall -I$(INC_DIR)
 
+clean:
+	rm -rf bin
+	rm -rf lib
+
 all: bin/Wind
 
 bin/Wind: $(OBJ_FILES) ; $(CC) $(LD_FLAGS) -o $@ $^ | mkdir -p bin
