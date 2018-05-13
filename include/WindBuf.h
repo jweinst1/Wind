@@ -27,12 +27,14 @@
 #define WindBuf_EXPAND(wb, amount) do { \
                 wb->cap += amount; \
                 wb = realloc(wb, WindBuf_SIZE(wb)); \
+                wb->head = wb->data; \
 } while (0)
 
 // Shrinks the capacity of the buffer if neccesary
 #define WindBuf_SHRINK(wb, newsize) if(newsize > wb->len) { \
                 wb->cap = newsize; \
                 wb = realloc(wb, WindBuf_SIZE(wb)); \
+                wb->head = wb->data; \
 }
 
 // Macro that checks if a size can fit in the buffer, and if it doesn't
@@ -40,6 +42,7 @@
 #define WindBuf_CHECK(wb, size, add) if((wb->cap - wb->len) < size) { \
                 wb->cap += add; \
                 wb = realloc(wb, WindBuf_SIZE(wb)); \
+                wb->head = wb->data; \
 }
 
 // Gets a typed pointer to some area of the buffer.
@@ -53,10 +56,12 @@
 #define WindBuf_WRITE(wb, ptr, n) if((wb->cap - wb->len) > n) memcpy(wb->data, ptr, n)
 
 // Buffer is an in-place allocated memory chunk that reserves additional capacity.
+// head serves as a movable writer or reader for iterating across a buffer.
 typedef struct
 {
         size_t cap;
         size_t len;
+        unsigned char* head;
         unsigned char data[0];
 } WindBuf;
 

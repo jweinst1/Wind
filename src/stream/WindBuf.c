@@ -5,6 +5,7 @@ WindBuf* WindBuf_new(size_t size)
         WindBuf* newbuf = malloc(sizeof(WindBuf) + (sizeof(unsigned char) * size));
         newbuf->len = 0;
         newbuf->cap = size;
+        newbuf->head = newbuf->data;
         return newbuf;
 }
 
@@ -60,6 +61,7 @@ long WindBuf_count(WindBuf* wb)
 
 void WindBuf_equalize(WindBuf* wb, WindBuf** other)
 {
+        (*other)->len = wb->len;
         if(wb->cap > (*other)->cap)
         {
                 size_t newCap = wb->cap + WindBuf_EQ_SPACE;

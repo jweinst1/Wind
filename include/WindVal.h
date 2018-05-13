@@ -13,5 +13,9 @@
 // Assumes sufficient space.
 int WindVal_copy(unsigned char* dest, const unsigned char* src, int amnt);
 
+// Applies not operation to binary item.
+// Accepts a double bytes pointer so it can be moved.
+int WindVal_apply_not(unsigned char** item);
+
 
 #endif

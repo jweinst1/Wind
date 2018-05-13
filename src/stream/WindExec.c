@@ -48,8 +48,7 @@ int WindExec_map(WindStream* ws)
 {
         // This allows for copying between buffers to be done without size checks
         WindBuf_equalize(ws->activeBuf, &(ws->altBuf));
-        // Clears altbuf to allow for new stream result.
-        WindBuf_RESET(ws->altBuf);
+
         // Traversing Pointers
         unsigned char* loadPtr;
         unsigned char* loadEnd;
@@ -71,7 +70,10 @@ int WindExec_map(WindStream* ws)
                         {
                         case WindType_Not:
                                 loadPtr++;
-                                // WindMap_not( const unsigned char* src, unsigned char* ins);
+                                WindVal_apply_not(altPtr);
+                                break;
+                        case WindType_Sep:
+                                loadPtr++;
                                 break;
                         default:
                                 WindStream_write_err(ws, "Unrecognized map argument %u", *loadPtr);
