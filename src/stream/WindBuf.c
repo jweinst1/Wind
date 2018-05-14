@@ -41,6 +41,7 @@ unsigned char* WindBuf_place(WindBuf* wb, void* item, size_t size)
 
 long WindBuf_count(WindBuf* wb)
 {
+        // Needs updating
         long total = 0;
         unsigned char* startPtr = wb->data;
         unsigned char* endPtr = wb->data + wb->len;

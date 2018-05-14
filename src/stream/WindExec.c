@@ -75,8 +75,6 @@ int WindExec_map(WindStream* ws)
                         case WindType_Not:
                                 loadPtr++;
                                 WindVal_apply_not(target->head);
-                                // move back.
-                                //*(target->head) -= 2;
                                 break;
                         case WindType_Sep:
                                 loadPtr++;

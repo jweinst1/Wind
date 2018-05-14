@@ -57,6 +57,11 @@ int WindRun_load(WindStream* ws, const char** code)
                         *code += 1;
                         WindStream_put(ws, BufKey_load, WindType_Not);
                         continue;
+                case '=':
+                        // not :symbol
+                        *code += 1;
+                        WindStream_put(ws, BufKey_load, WindType_Assign);
+                        continue;
                 case 'T':
                         if((*code)[1] == 'r' && (*code)[2] == 'u' && (*code)[3] == 'e')
                         {

@@ -8,6 +8,7 @@ typedef enum
         WindType_None,
         WindType_Bool,
         WindType_Not,
+        WindType_Assign,
         WindType_Sep
 } WindType;
 

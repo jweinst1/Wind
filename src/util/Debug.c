@@ -7,10 +7,14 @@ void Debug_buf(WindBuf* wb)
         for(size_t i = 0; i < wb->len; i++)
         {
                 printf("Item @: %lu, place:%d\n", i, count++);
+                // This shoudl be moved to windval for centralized print.
                 switch(wb->data[i])
                 {
                 case WindType_None:
                         puts("None");
+                        break;
+                case WindType_Assign:
+                        puts("=");
                         break;
                 case WindType_Not:
                         puts("!");

@@ -26,6 +26,8 @@
 // This sets the len of the buffer equal to the space that head was moved.
 #define WindBuf_HEAD_LEN(wb) (wb->len = (wb->head - wb->data))
 #define WindBuf_HEAD_RE(wb) (wb->head = wb->data)
+// Determines if the head is at the length point.
+#define WindBuf_HEAD_AT_L(wb) (wb->head == (wb->data + wb->len))
 
 #define WindBuf_HEAD_FULL(wb) (wb->head == (wb->data + wb->cap))
 #define WindBuf_HEAD_FITS(wb, size) (wb->head + size) > (wb->data + wb->cap)
