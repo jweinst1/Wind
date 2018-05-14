@@ -28,19 +28,39 @@ int WindVal_copy(unsigned char** dest, unsigned char** src, int amnt)
         return 1;
 }
 
-int WindVal_apply_not(unsigned char** item)
+int WindVal_apply_not(unsigned char* item)
 {
-        switch(**item)
+        switch(*item)
         {
         case WindType_Bool:
-                (*item)[1] = !((*item)[1]);
-                *item += 2;
+                item[1] = !(item[1]);
                 return 1;
         default:
                 // If type is not bool, writes a false boolean. may change this.
-                (*item)[0] = WindType_Bool;
-                (*item)[1] = 0;
-                *item += 2;
+                *item++ = WindType_Bool;
+                *item++ = 0;
                 return 1;
         }
+}
+
+int WindVal_move(unsigned char** item, int amnt)
+{
+        while(amnt--)
+        {
+                switch(**item)
+                {
+                case WindType_Not:
+                case WindType_Sep:
+                case WindType_None:
+                        *item += 1;
+                        return 1;
+                case WindType_Bool:
+                        *item += 2;
+                        return 1;
+                default:
+                        // error
+                        return 0;
+                }
+        }
+        return 1;
 }

@@ -15,7 +15,10 @@ int WindVal_copy(unsigned char** dest, unsigned char** src, int amnt);
 
 // Applies not operation to binary item.
 // Accepts a double bytes pointer so it can be moved.
-int WindVal_apply_not(unsigned char** item);
+int WindVal_apply_not(unsigned char* item);
+
+// Advances the pointer pointer some amount of times, according to the WindType code.
+int WindVal_move(unsigned char** item, int amnt);
 
 
 #endif
