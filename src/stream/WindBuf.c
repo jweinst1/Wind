@@ -40,26 +40,7 @@ unsigned char* WindBuf_place(WindBuf* wb, void* item, size_t size)
         return placed;
 }
 
-long WindBuf_count(WindBuf* wb)
-{
-        // Needs updating
-        long total = 0;
-        unsigned char* startPtr = wb->data;
-        unsigned char* endPtr = wb->data + wb->len;
-        while(startPtr != endPtr)
-        {
-                switch(*startPtr)
-                {
-                case WindType_None:
-                        total++;
-                        startPtr++;
-                        break;
-                default:
-                        return -1;
-                }
-        }
-        return total;
-}
+
 
 
 void WindBuf_equalize(WindBuf* wb, WindBuf** other)
@@ -70,4 +51,20 @@ void WindBuf_equalize(WindBuf* wb, WindBuf** other)
                 size_t newCap = wb->cap + WindBuf_EQ_SPACE;
                 WindBuf_EXPAND((*other), newCap);
         }
+}
+
+void WindBuf_equalize_cap(WindBuf* wb, WindBuf** other)
+{
+        if(wb->cap > (*other)->cap)
+        {
+                size_t newCap = wb->cap + WindBuf_EQ_SPACE;
+                WindBuf_EXPAND((*other), newCap);
+        }
+}
+
+// Never throws.
+void WindBuf_write(WindBuf* wb, void* item, size_t size)
+{
+        WindBuf_CHECK(wb, size, size + 30);
+        memcpy(wb->data, item, size);
 }

@@ -52,6 +52,8 @@ int WindExec_map(WindStream* ws)
 {
         // This allows for copying between buffers to be done without size checks
         WindBuf_equalize(ws->activeBuf, &(ws->altBuf));
+        // allows for writing of larger values from load buf.
+        WindBuf_equalize_cap(ws->loadBuf, &(ws->altBuf));
 
         // Traversing Pointers
         unsigned char* loadPtr;

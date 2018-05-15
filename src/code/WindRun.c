@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include "WindRun.h"
 
 int WindRun_exec(WindStream* ws, const char** code)
@@ -37,6 +38,18 @@ int WindRun_load(WindStream* ws, const char** code)
                 case '\v':
                         *code += 1; //white space
                         break;
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                        // parse number.
+                        break;
                 case '-':
                         if((*code)[1] == '>')
                         {
@@ -58,7 +71,7 @@ int WindRun_load(WindStream* ws, const char** code)
                         WindStream_put(ws, BufKey_load, WindType_Not);
                         continue;
                 case '=':
-                        // not :symbol
+                        // assign :symbol
                         *code += 1;
                         WindStream_put(ws, BufKey_load, WindType_Assign);
                         continue;

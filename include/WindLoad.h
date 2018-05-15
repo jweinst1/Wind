@@ -11,4 +11,7 @@ static unsigned char WIND_BOOL_F[] = {WindType_Bool, 0};
 
 void WindLoad_bool(WindStream* ws, BufKey bkey, int b);
 
+// Loads number onto specified buffer.
+void WindLoad_number(WindBuf* wb, const char** code);
+
 #endif

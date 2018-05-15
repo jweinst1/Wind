@@ -83,12 +83,15 @@ unsigned char* WindBuf_get(WindBuf* wb, size_t index);
 // begins in buffer after appending.
 unsigned char* WindBuf_place(WindBuf* wb, void* item, size_t size);
 
-// Counts the amount of items in the buffer.
-// returns -1 if error
-long WindBuf_count(WindBuf* wb);
 
 // Makes buffer 2 the same capacity as buffer 1, if it's smaller than buffer 1
 // other buffer must be double pointer due to direct allocation of WindBuf
 void WindBuf_equalize(WindBuf* wb, WindBuf** other);
+
+// Does the same as equalize but does not change the length;
+void WindBuf_equalize_cap(WindBuf* wb, WindBuf** other);
+
+// Generic write function directly for buffers.
+void WindBuf_write(WindBuf* wb, void* item, size_t size);
 
 #endif
