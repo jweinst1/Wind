@@ -15,6 +15,9 @@ int WindRun_exec(WindStream* ws, const char** code)
         case WindCommand_clr:
                 WindExec_clr(ws);
                 break;
+        case WindCommand_map:
+                WindExec_map(ws);
+                break;
         }
         WindStream_RESET_LOAD(ws);
         ws->command = WindCommand_null;
@@ -34,10 +37,6 @@ int WindRun_load(WindStream* ws, const char** code)
                 case '\v':
                         *code += 1; //white space
                         break;
-                case '|':
-                        // pipe sep found
-                        *code += 1;
-                        goto TRANS_TO_EXEC;
                 case '-':
                         if((*code)[1] == '>')
                         {
@@ -49,6 +48,20 @@ int WindRun_load(WindStream* ws, const char** code)
                                 WindStream_write_err(ws, "Expected separator ->, found '-%c'", (*code)[1]);
                                 return 0;   // error
                         }
+                case '|':
+                        *code += 1;
+                        WindStream_put(ws, BufKey_load, WindType_Sep);
+                        continue;
+                case '!':
+                        // not :symbol
+                        *code += 1;
+                        WindStream_put(ws, BufKey_load, WindType_Not);
+                        continue;
+                case '=':
+                        // not :symbol
+                        *code += 1;
+                        WindStream_put(ws, BufKey_load, WindType_Assign);
+                        continue;
                 case 'T':
                         if((*code)[1] == 'r' && (*code)[2] == 'u' && (*code)[3] == 'e')
                         {
@@ -150,6 +163,27 @@ int WindRun_command(WindStream* ws, const char** code)
                                 return 0;
                         }
                         break;
+                case 'm':
+                        switch((*code)[1])
+                        {
+                        case 'a':
+                                switch((*code)[2])
+                                {
+                                case 'p':
+                                        // exec out
+                                        *code += 3;
+                                        ws->command = WindCommand_map;
+                                        goto TRANS_TO_LOAD;
+                                default:
+                                        WindStream_write_err(ws, "Expected command symbol, found 'ma%c'", *code[2]);
+                                        return 0;
+                                }
+                                break;
+                        default:
+                                WindStream_write_err(ws, "Expected command symbol, found 'm%c'", *code[1]);
+                                return 0;
+                        }
+                        break;
                 case 'o':
                         switch((*code)[1])
                         {
@@ -237,4 +271,9 @@ void WindRun_code(WindStream* ws, const char* code)
         }
         // Executes any lasting commands, if null char is reached first.
         if(ws->command != WindCommand_null) WindRun_exec(ws, &code);
+        if(ws->hasErr)
+        {
+                WindStream_print_err(ws);
+                return;
+        }
 }

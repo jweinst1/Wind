@@ -2,14 +2,25 @@
 
 void Debug_buf(WindBuf* wb)
 {
+        int count = 1;
         puts("......Buf..Data............");
         for(size_t i = 0; i < wb->len; i++)
         {
-                printf("Item: %lu\n", i);
+                printf("Item @: %lu, place:%d\n", i, count++);
+                // This shoudl be moved to windval for centralized print.
                 switch(wb->data[i])
                 {
                 case WindType_None:
                         puts("None");
+                        break;
+                case WindType_Assign:
+                        puts("=");
+                        break;
+                case WindType_Not:
+                        puts("!");
+                        break;
+                case WindType_Sep:
+                        puts("|");
                         break;
                 case WindType_Bool:
                         i++;
@@ -20,6 +31,7 @@ void Debug_buf(WindBuf* wb)
                 }
         }
 }
+
 
 void Debug_cmd(WindCommand cmd)
 {
@@ -36,6 +48,9 @@ void Debug_cmd(WindCommand cmd)
                 break;
         case WindCommand_clr:
                 puts("Command: clr");
+                break;
+        case WindCommand_map:
+                puts("Command: map");
                 break;
         }
 }
