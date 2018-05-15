@@ -11,6 +11,7 @@ WindBuf* WindBuf_new(size_t size)
 
 unsigned char* WindBuf_get(WindBuf* wb, size_t index)
 {
+        // needs moving to windval header
         unsigned char* startPtr = wb->data;
         unsigned char* endPtr = wb->data + wb->len;
         while(startPtr != endPtr && index--)

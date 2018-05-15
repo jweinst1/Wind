@@ -17,6 +17,9 @@ int WindExec_out(WindStream* ws, BufKey bkey)
                         i++;
                         printf(sbuf->data[i] ? "True " : "False ");
                         break;
+                case WindType_Assign:
+                        printf("= ");
+                        break;
                 case WindType_Not:
                         printf("! ");
                         break;
@@ -76,6 +79,11 @@ int WindExec_map(WindStream* ws)
                                 loadPtr++;
                                 WindVal_apply_not(target->head);
                                 break;
+                        case WindType_Assign:
+                                loadPtr++;
+                                WindVal_apply_assign(target->head, loadPtr);
+                                WindVal_move(&loadPtr, 1);
+                                break;
                         case WindType_Sep:
                                 loadPtr++;
                                 break;
@@ -86,6 +94,8 @@ int WindExec_map(WindStream* ws)
                 }
                 WindVal_move(&(target->head), 1);
         }
+        // If mapping resulted in shrink operation, levels head with len.
+        WindBuf_HEAD_LEN(target);
         WindStream_swap_buf(ws);
 
         return 1;
