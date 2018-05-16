@@ -94,4 +94,7 @@ void WindBuf_equalize_cap(WindBuf* wb, WindBuf** other);
 // Generic write function directly for buffers.
 void WindBuf_write(WindBuf* wb, void* item, size_t size);
 
+// Same as Windbuf_write but writes a byte mark before the incoming item.
+void WindBuf_write_mark(WindBuf* wb, unsigned char mark, void* item, size_t size);
+
 #endif

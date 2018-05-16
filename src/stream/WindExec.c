@@ -5,32 +5,7 @@ int WindExec_out(WindStream* ws, BufKey bkey)
         WindBuf* sbuf;
         WindStream_GET_BUF(ws, sbuf, bkey);
         printf("[ ");
-        for(size_t i = 0; i < sbuf->len; i++)
-        {
-                //printf("debug %u place %lu \n", sbuf->data[i], i);
-                switch(sbuf->data[i])
-                {
-                case WindType_None:
-                        printf("None ");
-                        break;
-                case WindType_Bool:
-                        i++;
-                        printf(sbuf->data[i] ? "True " : "False ");
-                        break;
-                case WindType_Assign:
-                        printf("= ");
-                        break;
-                case WindType_Not:
-                        printf("! ");
-                        break;
-                case WindType_Sep:
-                        printf("| ");
-                        break;
-                default:
-                        WindStream_write_err(ws, "Cannot recognize item with byte %u", sbuf->data[i]);
-                        return 0;
-                }
-        }
+        WindVal_print(sbuf->data, sbuf->data + sbuf->len);
         puts("]");
         return 1;
 }

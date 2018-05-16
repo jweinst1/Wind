@@ -10,8 +10,8 @@
 // Also provides utilities for moving WindType pointers
 // Uses mostly pure unsigned char* buffers
 
-//prints a single wind value from bytes
-int WindVal_print(unsigned char* item);
+//Prints all the values from start to end.
+int WindVal_print(unsigned char* start, unsigned char* end);
 
 // Copies <amnt> wind values from src to destination.
 // Assumes sufficient space.

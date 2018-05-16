@@ -66,5 +66,15 @@ void WindBuf_equalize_cap(WindBuf* wb, WindBuf** other)
 void WindBuf_write(WindBuf* wb, void* item, size_t size)
 {
         WindBuf_CHECK(wb, size, size + 30);
-        memcpy(wb->data, item, size);
+        memcpy(wb->data + wb->len, item, size);
+        wb->len += size;
+}
+
+// never throws.
+void WindBuf_write_mark(WindBuf* wb, unsigned char mark, void* item, size_t size)
+{
+        WindBuf_CHECK(wb, (size + sizeof(unsigned char)), size + 30);
+        wb->data[wb->len++] = mark;
+        memcpy(wb->data + wb->len, item, size);
+        wb->len += size;
 }

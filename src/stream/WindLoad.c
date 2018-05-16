@@ -1,4 +1,5 @@
 #include "WindLoad.h"
+#include "WindBuf.h"
 
 // Used as default initalizer for moved C-string result.
 static char* NUM_RESULT_INIT = "";
@@ -18,7 +19,7 @@ void WindLoad_number(WindBuf* wb, const char** code)
 {
         char** movedStr = &NUM_RESULT_INIT;
         double numResult = strtod(*code, movedStr);
-
+        WindBuf_write_mark(wb, WindType_Number, &numResult, sizeof(double));
         // Sets the code to new location after number ends.
         *code = *movedStr;
 }

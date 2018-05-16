@@ -48,7 +48,7 @@ int WindRun_load(WindStream* ws, const char** code)
                 case '7':
                 case '8':
                 case '9':
-                        // parse number.
+                        WindLoad_number(ws->loadBuf, code);
                         break;
                 case '-':
                         if((*code)[1] == '>')
@@ -56,11 +56,16 @@ int WindRun_load(WindStream* ws, const char** code)
                                 *code += 2;
                                 goto TRANS_TO_EXEC;
                         }
+                        else if(isdigit((*code)[1]))
+                        {
+                                WindLoad_number(ws->loadBuf, code);
+                        }
                         else
                         {
                                 WindStream_write_err(ws, "Expected separator ->, found '-%c'", (*code)[1]);
                                 return 0;   // error
                         }
+                        break;
                 case '|':
                         *code += 1;
                         WindStream_put(ws, BufKey_load, WindType_Sep);
