@@ -1,6 +1,7 @@
 #ifndef WIND_BUF_H
 #define WIND_BUF_H
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "WindType.h"
@@ -76,6 +77,8 @@ typedef struct
 
 WindBuf* WindBuf_new(size_t size);
 
+void WindBuf_check(WindBuf** wb, size_t size, size_t add);
+
 // Low level get function
 unsigned char* WindBuf_get(WindBuf* wb, size_t index);
 
@@ -92,7 +95,11 @@ void WindBuf_equalize(WindBuf* wb, WindBuf** other);
 void WindBuf_equalize_cap(WindBuf* wb, WindBuf** other);
 
 // Generic write function directly for buffers.
-void WindBuf_write(WindBuf* wb, void* item, size_t size);
+void WindBuf_write(WindBuf** wb, void* item, size_t size);
+
+// Writes a pointer to the beginning of the buffer, also resetting
+// the len of the buffer to size of the pointer.
+void WindBuf_write_begin(WindBuf* wb, void* item, size_t size);
 
 // Same as Windbuf_write but writes a byte mark before the incoming item.
 void WindBuf_write_mark(WindBuf* wb, unsigned char mark, void* item, size_t size);

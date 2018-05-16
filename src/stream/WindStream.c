@@ -60,7 +60,7 @@ void WindStream_put_ptr(WindStream* ws, BufKey bkey, void* ptr, size_t n)
 {
         WindBuf* expBuf;
         WindStream_GET_BUF(ws, expBuf, bkey);
-        if(!(WindStream_FITS(ws, n))) WindBuf_EXPAND(expBuf, n + 30);
+        WindBuf_CHECK(expBuf, n, n + 10);
         memcpy(expBuf->data + expBuf->len, ptr, n);
         expBuf->len += n;
 }

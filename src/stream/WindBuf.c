@@ -9,6 +9,15 @@ WindBuf* WindBuf_new(size_t size)
         return newbuf;
 }
 
+void WindBuf_check(WindBuf** wb, size_t size, size_t add)
+{
+        if(((*wb)->cap - (*wb)->len) < size)
+        {
+                (*wb)->cap += size + add;
+                *wb = realloc(*wb, sizeof(WindBuf) + (*wb)->cap);
+        }
+}
+
 unsigned char* WindBuf_get(WindBuf* wb, size_t index)
 {
         // needs moving to windval header
@@ -63,11 +72,18 @@ void WindBuf_equalize_cap(WindBuf* wb, WindBuf** other)
 }
 
 // Never throws.
-void WindBuf_write(WindBuf* wb, void* item, size_t size)
+void WindBuf_write(WindBuf** wb, void* item, size_t size)
 {
+        WindBuf_check(wb, size, size + 30);
+        memcpy((*wb)->data + (*wb)->len, item, size);
+        (*wb)->len += size;
+}
+
+void WindBuf_write_begin(WindBuf* wb, void* item, size_t size)
+{
+        wb->len = size;
         WindBuf_CHECK(wb, size, size + 30);
-        memcpy(wb->data + wb->len, item, size);
-        wb->len += size;
+        memcpy(wb->data, item, size);
 }
 
 // never throws.

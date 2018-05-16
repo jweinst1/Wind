@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "WindType.h"
 
 // Header that handles transformation of binary objects for mapping,

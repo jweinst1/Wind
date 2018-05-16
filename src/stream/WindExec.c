@@ -13,7 +13,7 @@ int WindExec_out(WindStream* ws, BufKey bkey)
 int WindExec_push(WindStream* ws)
 {
         size_t pushLen = ws->loadBuf->len;
-        WindStream_put_ptr(ws, BufKey_active, ws->loadBuf->data, pushLen);
+        WindBuf_write(&(ws->activeBuf), ws->loadBuf->data, pushLen);
         return 1;
 }
 
