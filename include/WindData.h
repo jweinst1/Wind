@@ -11,46 +11,62 @@
 #define WindData_BUF_SIZE 100000
 
 
+const unsigned char*
+WindData_load_begin(void);
 
-// Function to get load buf pointer.
-static inline unsigned char*
-WindData_get_load(void)
-{
+const unsigned char*
+WindData_load_end(void);
+/*
+   // Function to get load buf pointer.
+   static inline unsigned char*
+   WindData_load_ptr(void)
+   {
         return WindData_LOAD_PTR;
-}
+   }
 
-static inline unsigned long
-WindData_load_space(void)
-{
+   static inline unsigned long
+   WindData_load_space(void)
+   {
         return WindData_LOAD_END - WindData_LOAD_PTR;
-}
+   }
 
-// Switches the active buffer.
-static inline void
-WindData_active_switch(void)
-{
+   // Switches the active buffer.
+   static inline void
+   WindData_active_switch(void)
+   {
         WindData_ACTIVE_B = !WindData_ACTIVE_B;
-}
+   }
 
-// Checks the active state for buffers.
-static inline int
-WindData_active_check(void)
-{
+   // Checks the active state for buffers.
+   static inline int
+   WindData_active_check(void)
+   {
         return WindData_ACTIVE_B;
-}
+   }
 
-// Returns the beginning pointer of active buffer.
-static inline unsigned char*
-WindData_active_begin(void)
-{
+   // Returns the beginning pointer of active buffer.
+   static inline unsigned char*
+   WindData_active_begin(void)
+   {
         return WindData_ACTIVE_B ? WindData_B1_BEGIN : WindData_B0_BEGIN;
-}
+   }
 
-static inline unsigned char*
-WindData_active_end(void)
-{
+   static inline unsigned char*
+   WindData_active_end(void)
+   {
         return WindData_ACTIVE_B ? WindData_B1_END : WindData_B0_END;
-}
+   }
+
+   static inline unsigned char*
+   WindData_active_ptr(void)
+   {
+        return WindData_ACTIVE_B ? WindData_B1_PTR : WindData_B0_PTR;
+   }
+   static inline unsigned long
+   WindData_active_space(void)
+   {
+        return WindData_active_end() - WindData_active_ptr();
+   }*/
 
 
 

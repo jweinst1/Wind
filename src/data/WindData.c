@@ -1,5 +1,8 @@
 #include "WindData.h"
 
+// Determiens which computational buffer is the active one.
+static int WindData_ACTIVE_B = 0;
+
 /*Load Buf*/
 static unsigned char WindData_LOAD[WindData_LOAD_SIZE];
 static const unsigned char* WindData_LOAD_BEGIN = WindData_LOAD;
@@ -21,6 +24,14 @@ static const unsigned char* WindData_B1_END = WindData_B1 + WindData_BUF_SIZE;
 
 static unsigned char* WindData_B1_PTR = WindData_B1;
 
+const unsigned char*
+WindData_load_begin(void)
+{
+        return WindData_LOAD_BEGIN;
+}
 
-// Determiens which computational buffer is the active one.
-static int WindData_ACTIVE_B = 0;
+const unsigned char*
+WindData_load_end(void)
+{
+        return WindData_LOAD_END;
+}
