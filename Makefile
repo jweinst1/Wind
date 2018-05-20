@@ -1,13 +1,10 @@
 CC = gcc
-CCPP = g++
-CPPFLAGS =	-std=c++11
-CPPLINK = -lstdc++
 INC_DIR = include
 
 C_FILES := $(wildcard src/*/*.c)
 OBJ_FILES := $(patsubst src/%,lib/%,$(C_FILES:.c=.o))
 LD_FLAGS :=
-CC_FLAGS := -c -Wall -I$(INC_DIR)
+CC_FLAGS := -c -Wall -I$(INC_DIR) -DWindData_BUF_SIZE=50000
 
 clean:
 	rm -rf bin

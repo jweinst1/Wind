@@ -24,6 +24,16 @@ static const unsigned char* WindData_B1_END = WindData_B1 + WindData_BUF_SIZE;
 
 static unsigned char* WindData_B1_PTR = WindData_B1;
 
+int WindData_active_state(void)
+{
+        return WindData_ACTIVE_B;
+}
+
+void WindData_active_switch(void)
+{
+        WindData_ACTIVE_B = !WindData_ACTIVE_B;
+}
+
 const unsigned char*
 WindData_load_begin(void)
 {
@@ -34,4 +44,25 @@ const unsigned char*
 WindData_load_end(void)
 {
         return WindData_LOAD_END;
+}
+
+unsigned char*
+WindData_load_ptr(void)
+{
+        return WindData_LOAD_PTR;
+}
+
+size_t WindData_load_space(void)
+{
+        return WindData_LOAD_END - WindData_LOAD_PTR;
+}
+
+void WindData_load_reset(void)
+{
+        WindData_LOAD_PTR = WindData_LOAD_BEGIN;
+}
+
+void WindData_load_adv_safe(size_t amount)
+{
+        WindData_LOAD_PTR += (amount > WindData_LOAD_END - WindData_LOAD_PTR);
 }
