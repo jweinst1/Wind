@@ -1,10 +1,13 @@
 CC = gcc
 INC_DIR = include
 
+WIND_MEM_BUF = 100000
+WIND_MEM_LOAD = 10000
+
 C_FILES := $(wildcard src/*/*.c)
 OBJ_FILES := $(patsubst src/%,lib/%,$(C_FILES:.c=.o))
 LD_FLAGS :=
-CC_FLAGS := -c -Wall -I$(INC_DIR) -DWindData_BUF_SIZE=50000
+CC_FLAGS := -c -Wall -I$(INC_DIR) -DWindData_BUF_SIZE=$(WIND_MEM_BUF) -DWindData_LOAD_SIZE=$(WIND_MEM_LOAD)
 
 clean:
 	rm -rf bin

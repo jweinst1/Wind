@@ -4,9 +4,9 @@
 
 
 int main(int argc, char const *argv[]) {
-        if(argc != 3)
+        if(argc != 2)
         {
-                fprintf(stderr, "%s\n", "Error, need exactly two command line arguments.");
+                fprintf(stderr, "%s\n", "Error, need exactly one command line arguments.");
                 exit(1);
         }
         else if(!strcmp(argv[1], "-c"))
@@ -16,7 +16,7 @@ int main(int argc, char const *argv[]) {
         // debug option
         else if(!strcmp(argv[1], "-d"))
         {
-                printf("Buf size is %d\n", WindData_BUF_SIZE);
+                printf("Load size is %d\n", WindData_LOAD_SIZE);
         }
         else
         {
