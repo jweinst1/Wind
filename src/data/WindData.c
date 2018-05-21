@@ -37,7 +37,7 @@ void WindData_active_switch(void)
 
 const unsigned char* WindData_active_begin(void)
 {
-        return (WindData_ACTIVE_B ? WindData_B1WindData_B1_BEGIN : WindData_B0_BEGIN);
+        return (WindData_ACTIVE_B ? WindData_B1_BEGIN : WindData_B0_BEGIN);
 }
 
 const unsigned char* WindData_active_end(void)
@@ -66,7 +66,7 @@ int WindData_active_is_full(void)
 }
 void WindData_active_reset(void)
 {
-        return WindData_ACTIVE_B ? WindData_B1_PTR = WindData_B1_BEGIN : WindData_B0_PTR = WindData_B0_BEGIN;
+        WindData_ACTIVE_B ? (WindData_B1_PTR = WindData_B1_BEGIN) : (WindData_B0_PTR = WindData_B0_BEGIN);
 }
 
 void WindData_active_adv_safe(size_t amount)
@@ -79,17 +79,87 @@ void WindData_active_adv_safe(size_t amount)
 }
 void WindData_active_adv(size_t amount)
 {
-        size_t space = WindData_ACTIVE_B ? WindData_B1_END - WindData_B1_PTR : WindData_B0_END - WindData_B0_PTR
-                       if(amount > space)
+        size_t space = WindData_ACTIVE_B ? WindData_B1_END - WindData_B1_PTR : WindData_B0_END - WindData_B0_PTR;
+        if(amount > space)
         {
-                fprintf(stderr, "%s\n", "Memory Error: Ran out of load buffer memory, exiting.");
+                fprintf(stderr, "%s\n", "Memory Error: Ran out of active buffer memory, exiting.");
                 exit(1);
         }
-        else (WindData_ACTIVE_B ? WindData_B1_PTR : WindData_B0_PTR) += amount;
+        else
+        {
+                if(WindData_ACTIVE_B) WindData_B1_PTR += amount;
+                else WindData_B0_PTR += amount;
+        }
 }
 void WindData_active_set(unsigned char* place)
 {
         if(WindData_ACTIVE_B) WindData_B1_PTR = place;
+        else WindData_B0_PTR = place;
+}
+
+/*INACTIVE FUNCTIONS*/
+
+const unsigned char* WindData_inactive_begin(void)
+{
+        return (!WindData_ACTIVE_B ? WindData_B1_BEGIN : WindData_B0_BEGIN);
+}
+
+const unsigned char* WindData_inactive_end(void)
+{
+        return (!WindData_ACTIVE_B ? WindData_B1_END : WindData_B0_END);
+}
+
+unsigned char* WindData_inactive_ptr(void)
+{
+        return (!WindData_ACTIVE_B ? WindData_B1_PTR : WindData_B0_PTR);
+}
+
+unsigned char* WindData_inactive_start(void)
+{
+        return (!WindData_ACTIVE_B ? WindData_B1_BEGIN : WindData_B0_BEGIN);
+}
+size_t WindData_inactive_space(void)
+{
+        return !WindData_ACTIVE_B ? WindData_B1_END - WindData_B1_PTR : WindData_B0_END - WindData_B0_PTR;
+}
+
+int WindData_inactive_is_full(void)
+{
+        return !WindData_ACTIVE_B ? WindData_B1_END == WindData_B1_PTR : WindData_B0_END == WindData_B0_PTR;
+}
+
+void WindData_inactive_reset(void)
+{
+        !WindData_ACTIVE_B ? (WindData_B1_PTR = WindData_B1_BEGIN) : (WindData_B0_PTR = WindData_B0_BEGIN);
+}
+
+void WindData_inactive_adv_safe(size_t amount)
+{
+        if(!WindData_ACTIVE_B)
+        {
+                WindData_B1_PTR += (amount > WindData_B1_END - WindData_B1_PTR ? WindData_B1_END - WindData_B1_PTR : amount );
+        }
+        else WindData_B0_PTR += (amount > WindData_B0_END - WindData_B0_PTR ? WindData_B0_END - WindData_B0_PTR : amount );
+}
+
+void WindData_inactive_adv(size_t amount)
+{
+        size_t space = !WindData_ACTIVE_B ? WindData_B1_END - WindData_B1_PTR : WindData_B0_END - WindData_B0_PTR;
+        if(amount > space)
+        {
+                fprintf(stderr, "%s\n", "Memory Error: Ran out of active buffer memory, exiting.");
+                exit(1);
+        }
+        else
+        {
+                if(!WindData_ACTIVE_B) WindData_B1_PTR += amount;
+                else WindData_B0_PTR += amount;
+        }
+}
+
+void WindData_inactive_set(unsigned char* place)
+{
+        if(!WindData_ACTIVE_B) WindData_B1_PTR = place;
         else WindData_B0_PTR = place;
 }
 

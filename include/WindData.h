@@ -21,19 +21,28 @@
 int WindData_active_state(void);
 void WindData_active_switch(void);
 
-const unsigned char*
-WindData_active_begin(void);
-
-const unsigned char*
-WindData_active_end(void);
-
+// active buffer functions
+const unsigned char* WindData_active_begin(void);
+const unsigned char* WindData_active_end(void);
 unsigned char* WindData_active_ptr(void);
-// Non const pointer to beginning of active buffer.
 unsigned char* WindData_active_start(void);
-
 size_t WindData_active_space(void);
 int WindData_active_is_full(void);
 void WindData_active_reset(void);
+void WindData_active_adv_safe(size_t amount);
+void WindData_active_adv(size_t amount);
+void WindData_active_set(unsigned char* place);
+
+const unsigned char* WindData_inactive_begin(void);
+const unsigned char* WindData_inactive_end(void);
+unsigned char* WindData_inactive_ptr(void);
+unsigned char* WindData_inactive_start(void);
+size_t WindData_inactive_space(void);
+int WindData_inactive_is_full(void);
+void WindData_inactive_reset(void);
+void WindData_inactive_adv_safe(size_t amount);
+void WindData_inactive_adv(size_t amount);
+void WindData_inactive_set(unsigned char* place);
 
 // Returns a non-const pointer to start of load buffer.
 // Can be used for reading or writing the contained data.
