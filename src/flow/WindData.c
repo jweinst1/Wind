@@ -224,3 +224,17 @@ void WindData_load_set(unsigned char* place)
         if(place >= WindData_LOAD_BEGIN && place <= WindData_LOAD_END)
                 WindData_LOAD_PTR = place;
 }
+
+void WindData_load_write(void* data, size_t length)
+{
+        if(length > WindData_LOAD_END - WindData_LOAD_PTR)
+        {
+                fprintf(stderr, "%s\n", "Memory Error: Ran out of load buffer memory, exiting.");
+                exit(1);
+        }
+        else
+        {
+                memcpy(WindData_LOAD_PTR, data, length);
+                WindData_LOAD_PTR += length;
+        }
+}

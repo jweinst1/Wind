@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 // Header that defines static memory buffers for Wind language.
 // These buffers are configurable in size depending on the platform Wind is needed for.
 
@@ -70,6 +71,9 @@ void WindData_load_adv(size_t amount);
 
 // Sets load ptr to place if place is valid address on load buffer range.
 void WindData_load_set(unsigned char* place);
+
+// Writes sized data to the end of the load buffer.
+void WindData_load_write(void* data, size_t length);
 
 
 
