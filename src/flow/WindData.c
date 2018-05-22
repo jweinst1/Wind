@@ -97,6 +97,22 @@ void WindData_active_set(unsigned char* place)
         else WindData_B0_PTR = place;
 }
 
+void WindData_active_write(void* data, size_t length)
+{
+        unsigned char* writer = WindData_ACTIVE_B ? WindData_B1 : WindData_B0_PTR;
+        if(length > (WindData_ACTIVE_B ? WindData_B1_END : WindData_B0_END) - writer)
+        {
+                fprintf(stderr, "%s\n", "Memory Error: Ran out of load buffer memory, exiting.");
+                exit(1);
+        }
+        else
+        {
+                memcpy(writer, data, length);
+                if(WindData_ACTIVE_B) WindData_B1_PTR += length;
+                else WindData_B0_PTR += length;
+        }
+}
+
 /*INACTIVE FUNCTIONS*/
 
 const unsigned char* WindData_inactive_begin(void)
@@ -161,6 +177,22 @@ void WindData_inactive_set(unsigned char* place)
 {
         if(!WindData_ACTIVE_B) WindData_B1_PTR = place;
         else WindData_B0_PTR = place;
+}
+
+void WindData_inactive_write(void* data, size_t length)
+{
+        unsigned char* writer = !WindData_ACTIVE_B ? WindData_B1 : WindData_B0_PTR;
+        if(length > (!WindData_ACTIVE_B ? WindData_B1_END : WindData_B0_END) - writer)
+        {
+                fprintf(stderr, "%s\n", "Memory Error: Ran out of load buffer memory, exiting.");
+                exit(1);
+        }
+        else
+        {
+                memcpy(writer, data, length);
+                if(!WindData_ACTIVE_B) WindData_B1_PTR += length;
+                else WindData_B0_PTR += length;
+        }
 }
 
 /*LOAD FUNCTIONS*/

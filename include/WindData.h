@@ -33,6 +33,7 @@ void WindData_active_reset(void);
 void WindData_active_adv_safe(size_t amount);
 void WindData_active_adv(size_t amount);
 void WindData_active_set(unsigned char* place);
+void WindData_active_write(void* data, size_t length);
 
 const unsigned char* WindData_inactive_begin(void);
 const unsigned char* WindData_inactive_end(void);
@@ -44,6 +45,7 @@ void WindData_inactive_reset(void);
 void WindData_inactive_adv_safe(size_t amount);
 void WindData_inactive_adv(size_t amount);
 void WindData_inactive_set(unsigned char* place);
+void WindData_inactive_write(void* data, size_t length);
 
 // Returns a non-const pointer to start of load buffer.
 // Can be used for reading or writing the contained data.
