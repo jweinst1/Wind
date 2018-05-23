@@ -71,7 +71,7 @@ WindCommand WindState_get_cmd(void)
 
 int WindState_has_cmd(void)
 {
-        return WindState_COMMAND == WindCommand_null;
+        return WindState_COMMAND != WindCommand_null;
 }
 
 void WindState_print_cmd(void)

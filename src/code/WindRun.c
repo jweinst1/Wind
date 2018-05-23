@@ -1,7 +1,7 @@
 #include <ctype.h>
 #include "WindRun.h"
 
-int WindRun_exec(WindStream* ws, const char** code)
+int WindRun_exec(const char** code)
 {
         switch(ws->command)
         {
@@ -26,7 +26,7 @@ int WindRun_exec(WindStream* ws, const char** code)
         return 1;
 }
 
-int WindRun_load(WindStream* ws, const char** code)
+int WindRun_load(const char** code)
 {
         while(**code)
         {
@@ -148,7 +148,7 @@ TRANS_TO_EXEC:
         return 1;
 }
 
-int WindRun_command(WindStream* ws, const char** code)
+int WindRun_command(const char** code)
 {
         while(**code)
         {
@@ -265,33 +265,33 @@ TRANS_TO_LOAD:
         return 1;
 }
 
-void WindRun_code(WindStream* ws, const char* code)
+void WindRun_code(const char* code)
 {
         while(*code)
         {
-                if(ws->hasErr)
+                if(WindState_has_err())
                 {
-                        WindStream_print_err(ws);
+                        WindState_print_err();
                         return;
                 }
-                switch(ws->state)
+                switch(WindState_get_cmd())
                 {
-                case StreamState_command:
+                case WindMode_command:
                         WindRun_command(ws, &code);
                         break;
-                case StreamState_load:
+                case WindMode_load:
                         WindRun_load(ws, &code);
                         break;
-                case StreamState_exec:
+                case WindMode_exec:
                         WindRun_exec(ws, &code);
                         break;
                 }
         }
         // Executes any lasting commands, if null char is reached first.
-        if(ws->command != WindCommand_null) WindRun_exec(ws, &code);
-        if(ws->hasErr)
+        if(WindState_has_cmd()) WindRun_exec(ws, &code);
+        if(WindState_has_err())
         {
-                WindStream_print_err(ws);
+                WindState_print_err();
                 return;
         }
 }
