@@ -20,9 +20,8 @@ int WindRun_exec(const char** code)
                 WindExec_map(ws);
                 break;
         }
-        WindStream_RESET_LOAD(ws);
-        ws->command = WindCommand_null;
-        ws->state = StreamState_command;
+        WindState_set_cmd(WindCommand_out);
+        WindState_set_mode(WindMode_command);
         return 1;
 }
 
@@ -62,7 +61,7 @@ int WindRun_load(const char** code)
                         }
                         else
                         {
-                                WindStream_write_err(ws, "Expected separator ->, found '-%c'", (*code)[1]);
+                                WindState_write_err("Expected separator ->, found '-%c'", (*code)[1]);
                                 return 0;   // error
                         }
                         continue;
@@ -89,7 +88,7 @@ int WindRun_load(const char** code)
                         }
                         else
                         {
-                                WindStream_write_err(ws, "Expected argument or value, found 'T%c'", *code[1]);
+                                WindState_write_err("Expected argument or value, found 'T%c'", *code[1]);
                                 return 0;
                         }
                         break;
@@ -102,7 +101,7 @@ int WindRun_load(const char** code)
                         }
                         else
                         {
-                                WindStream_write_err(ws, "Expected argument or value, found 'F%c'", *code[1]);
+                                WindState_write_err("Expected argument or value, found 'F%c'", *code[1]);
                                 return 0;
                         }
                         break;
@@ -117,20 +116,20 @@ int WindRun_load(const char** code)
                                         {
                                         case 'e':
                                                 *code += 4;
-                                                WindStream_put(ws, BufKey_load, WindType_None);
+                                                //WindStream_put(ws, BufKey_load, WindType_None);
                                                 continue;
                                         default:
-                                                WindStream_write_err(ws, "Expected argument or value, found 'Non%c'", *code[3]);
+                                                WindState_write_err("Expected argument or value, found 'Non%c'", *code[3]);
                                                 return 0;
                                         }
                                         break;
                                 default:
-                                        WindStream_write_err(ws, "Expected argument or value, found 'No%c'", *code[2]);
+                                        WindState_write_err("Expected argument or value, found 'No%c'", *code[2]);
                                         return 0;
                                 }
                                 break;
                         default:
-                                WindStream_write_err(ws, "Expected argument or value, found 'N%c'", *code[1]);
+                                WindState_write_err( "Expected argument or value, found 'N%c'", *code[1]);
                                 return 0;
                         }
                         break;
@@ -138,7 +137,7 @@ int WindRun_load(const char** code)
                         // source code ends
                         goto TRANS_TO_EXEC;
                 default:
-                        WindStream_write_err(ws, "Expected argument or value, found '%c'", **code);
+                        WindState_write_err("Expected argument or value, found '%c'", **code);
                         return 0;
                 }
         }
@@ -169,15 +168,15 @@ int WindRun_command(const char** code)
                                 case 'r':
                                         // exec out
                                         *code += 3;
-                                        ws->command = WindCommand_clr;
+                                        WindState_set_cmd(WindCommand_clr);
                                         goto TRANS_TO_LOAD;
                                 default:
-                                        WindStream_write_err(ws, "Expected command symbol, found 'cl%c'", *code[2]);
+                                        WindState_write_err("Expected command symbol, found 'cl%c'", *code[2]);
                                         return 0;
                                 }
                                 break;
                         default:
-                                WindStream_write_err(ws, "Expected command symbol, found 'c%c'", *code[1]);
+                                WindState_write_err("Expected command symbol, found 'c%c'", *code[1]);
                                 return 0;
                         }
                         break;
@@ -190,15 +189,15 @@ int WindRun_command(const char** code)
                                 case 'p':
                                         // exec out
                                         *code += 3;
-                                        ws->command = WindCommand_map;
+                                        WindState_set_cmd(WindCommand_map);
                                         goto TRANS_TO_LOAD;
                                 default:
-                                        WindStream_write_err(ws, "Expected command symbol, found 'ma%c'", *code[2]);
+                                        WindState_write_err("Expected command symbol, found 'ma%c'", *code[2]);
                                         return 0;
                                 }
                                 break;
                         default:
-                                WindStream_write_err(ws, "Expected command symbol, found 'm%c'", *code[1]);
+                                WindState_write_err("Expected command symbol, found 'm%c'", *code[1]);
                                 return 0;
                         }
                         break;
@@ -211,15 +210,15 @@ int WindRun_command(const char** code)
                                 case 't':
                                         // exec out
                                         *code += 3;
-                                        ws->command = WindCommand_out;
+                                        WindState_set_cmd(WindCommand_out);
                                         goto TRANS_TO_LOAD;
                                 default:
-                                        WindStream_write_err(ws, "Expected command symbol, found 'ou%c'", *code[2]);
+                                        WindState_write_err("Expected command symbol, found 'ou%c'", *code[2]);
                                         return 0;
                                 }
                                 break;
                         default:
-                                WindStream_write_err(ws, "Expected command symbol, found 'o%c'", *code[1]);
+                                WindState_write_err("Expected command symbol, found 'o%c'", *code[1]);
                                 return 0;
                         }
                         break;
@@ -234,20 +233,20 @@ int WindRun_command(const char** code)
                                         {
                                         case 'h':
                                                 *code += 4;
-                                                ws->command = WindCommand_push;
+                                                WindState_set_cmd(WindCommand_push);
                                                 goto TRANS_TO_LOAD;
                                         default:
-                                                WindStream_write_err(ws, "Expected command symbol, found 'pus%c'", *code[3]);
+                                                WindState_write_err("Expected command symbol, found 'pus%c'", *code[3]);
                                                 return 0;
                                         }
                                         break;
                                 default:
-                                        WindStream_write_err(ws, "Expected command symbol, found 'pu%c'", *code[2]);
+                                        WindState_write_err("Expected command symbol, found 'pu%c'", *code[2]);
                                         return 0;
                                 }
                                 break;
                         default:
-                                WindStream_write_err(ws, "Expected command symbol, found 'p%c'", *code[1]);
+                                WindState_write_err("Expected command symbol, found 'p%c'", *code[1]);
                                 return 0;
                         }
                         break;
@@ -255,13 +254,13 @@ int WindRun_command(const char** code)
                 case '\0':
                         goto TRANS_TO_LOAD;
                 default:
-                        WindStream_write_err(ws, "Expected command symbol, found '%c'", **code);
+                        WindState_write_err("Expected command symbol, found '%c'", **code);
                         return 0;
                 }
         }
         goto TRANS_TO_LOAD;
 TRANS_TO_LOAD:
-        ws->state = StreamState_load;
+        WindState_set_mode(WindMode_load);
         return 1;
 }
 
