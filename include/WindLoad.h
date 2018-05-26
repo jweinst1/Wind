@@ -11,6 +11,12 @@ void WindLoad_false(void);
 // Writes true bool to load buffer.
 void WindLoad_true(void);
 
+void WindLoad_none(void);
+
+void WindLoad_sep(void);
+void WindLoad_not(void);
+void WindLoad_assign(void);
+
 // Loads number onto load buffer.
 void WindLoad_number(const char** code);
 

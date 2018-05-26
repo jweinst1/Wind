@@ -17,10 +17,9 @@ int WindExec_push(WindStream* ws)
         return 1;
 }
 
-int WindExec_clr(WindStream* ws)
+void WindExec_clr(void)
 {
-        WindStream_reset(ws, BufKey_active);
-        return 1;
+        WindData_active_reset();
 }
 
 int WindExec_map(WindStream* ws)

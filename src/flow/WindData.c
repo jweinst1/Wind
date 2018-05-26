@@ -60,6 +60,11 @@ size_t WindData_active_space(void)
         return WindData_ACTIVE_B ? WindData_B1_END - WindData_B1_PTR : WindData_B0_END - WindData_B0_PTR;
 }
 
+size_t WindData_active_len(void)
+{
+        return WindData_ACTIVE_B ? WindData_B1_PTR - WindData_B1_BEGIN : WindData_B0_PTR - WindData_B0_BEGIN;
+}
+
 int WindData_active_is_full(void)
 {
         return WindData_ACTIVE_B ? WindData_B1_END == WindData_B1_PTR : WindData_B0_END == WindData_B0_PTR;
@@ -137,6 +142,11 @@ unsigned char* WindData_inactive_start(void)
 size_t WindData_inactive_space(void)
 {
         return !WindData_ACTIVE_B ? WindData_B1_END - WindData_B1_PTR : WindData_B0_END - WindData_B0_PTR;
+}
+
+size_t WindData_inactive_len(void)
+{
+        return !WindData_ACTIVE_B ? WindData_B1_PTR - WindData_B1_BEGIN : WindData_B0_PTR - WindData_B0_BEGIN;
 }
 
 int WindData_inactive_is_full(void)
@@ -223,6 +233,11 @@ WindData_load_ptr(void)
 size_t WindData_load_space(void)
 {
         return WindData_LOAD_END - WindData_LOAD_PTR;
+}
+
+size_t WindData_load_len(void)
+{
+        return WindData_LOAD_PTR - WindData_LOAD_BEGIN;
 }
 
 int WindData_load_is_full(void)

@@ -28,6 +28,7 @@ const unsigned char* WindData_active_end(void);
 unsigned char* WindData_active_ptr(void);
 unsigned char* WindData_active_start(void);
 size_t WindData_active_space(void);
+size_t WindData_active_len(void);
 int WindData_active_is_full(void);
 void WindData_active_reset(void);
 void WindData_active_adv_safe(size_t amount);
@@ -40,6 +41,7 @@ const unsigned char* WindData_inactive_end(void);
 unsigned char* WindData_inactive_ptr(void);
 unsigned char* WindData_inactive_start(void);
 size_t WindData_inactive_space(void);
+size_t WindData_inactive_len(void);
 int WindData_inactive_is_full(void);
 void WindData_inactive_reset(void);
 void WindData_inactive_adv_safe(size_t amount);
@@ -61,6 +63,7 @@ unsigned char*
 WindData_load_ptr(void);
 
 size_t WindData_load_space(void);
+size_t WindData_load_len(void);
 int WindData_load_is_full(void);
 void WindData_load_reset(void);
 

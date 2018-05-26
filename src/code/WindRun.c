@@ -14,12 +14,13 @@ int WindRun_exec(const char** code)
                 WindExec_push(ws);
                 break;
         case WindCommand_clr:
-                WindExec_clr(ws);
+                WindExec_clr();
                 break;
         case WindCommand_map:
                 WindExec_map(ws);
                 break;
         }
+        WindData_load_reset(); // Resets load buf.
         WindState_set_cmd(WindCommand_out);
         WindState_set_mode(WindMode_command);
         return 1;
@@ -47,7 +48,7 @@ int WindRun_load(const char** code)
                 case '7':
                 case '8':
                 case '9':
-                        WindLoad_number(ws->loadBuf, code);
+                        WindLoad_number(code);
                         continue;
                 case '-':
                         if((*code)[1] == '>')
@@ -57,7 +58,7 @@ int WindRun_load(const char** code)
                         }
                         else if(isdigit((*code)[1]))
                         {
-                                WindLoad_number(ws->loadBuf, code);
+                                WindLoad_number(code);
                         }
                         else
                         {
@@ -67,23 +68,23 @@ int WindRun_load(const char** code)
                         continue;
                 case '|':
                         *code += 1;
-                        WindStream_put(ws, BufKey_load, WindType_Sep);
+                        WindLoad_sep();
                         continue;
                 case '!':
                         // not :symbol
                         *code += 1;
-                        WindStream_put(ws, BufKey_load, WindType_Not);
+                        WindLoad_not();
                         continue;
                 case '=':
                         // assign :symbol
                         *code += 1;
-                        WindStream_put(ws, BufKey_load, WindType_Assign);
+                        WindLoad_assign();
                         continue;
                 case 'T':
                         if((*code)[1] == 'r' && (*code)[2] == 'u' && (*code)[3] == 'e')
                         {
                                 *code += 4;
-                                WindLoad_bool(ws, BufKey_load, 1);
+                                WindLoad_true();
                                 continue;
                         }
                         else
@@ -96,7 +97,7 @@ int WindRun_load(const char** code)
                         if((*code)[1] == 'a' && (*code)[2] == 'l' && (*code)[3] == 's' && (*code)[4] == 'e')
                         {
                                 *code += 5;
-                                WindLoad_bool(ws, BufKey_load, 0);
+                                WindLoad_false();
                                 continue;
                         }
                         else
@@ -116,7 +117,7 @@ int WindRun_load(const char** code)
                                         {
                                         case 'e':
                                                 *code += 4;
-                                                //WindStream_put(ws, BufKey_load, WindType_None);
+                                                WindLoad_none();
                                                 continue;
                                         default:
                                                 WindState_write_err("Expected argument or value, found 'Non%c'", *code[3]);

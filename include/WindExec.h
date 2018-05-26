@@ -3,14 +3,15 @@
 
 // header for executing commands on the stream.
 
-#include "WindStream.h"
+#include "WindType.h"
+#include "WindData.h"
 #include "WindVal.h"
 
 int WindExec_out(WindStream* ws, BufKey bkey);
 
 int WindExec_push(WindStream* ws);
 
-int WindExec_clr(WindStream* ws);
+void WindExec_clr(void);
 
 int WindExec_map(WindStream* ws);
 
