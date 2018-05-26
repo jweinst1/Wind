@@ -1,19 +1,10 @@
 #include <stdio.h>
 #include <string.h>
-#include "WindData.h"
+#include "WindRun.h"
 
 
 int main(int argc, char const *argv[]) {
-        WindData_active_adv(50);
-        unsigned char* writer = WindData_active_start();
-        while(writer != WindData_active_ptr()) *writer++ = 7;
-        unsigned char* reader = WindData_active_start();
-        while(reader != WindData_active_ptr()) printf("byte is %u\n", *reader++);
-        WindData_active_switch();
-        puts("sep----");
-        WindData_active_switch();
-        reader = WindData_active_start();
-        while(reader != WindData_active_ptr()) printf("byte is %u\n", *reader++);
+        WindRun_code("push 3 2 1 -> out");
 
         return 0;
 

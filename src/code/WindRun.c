@@ -3,21 +3,21 @@
 
 int WindRun_exec(const char** code)
 {
-        switch(ws->command)
+        switch(WindState_get_cmd())
         {
         case WindCommand_null:
                 break;
         case WindCommand_out:
-                WindExec_out(ws, BufKey_active);
+                WindExec_out();
                 break;
         case WindCommand_push:
-                WindExec_push(ws);
+                WindExec_push();
                 break;
         case WindCommand_clr:
                 WindExec_clr();
                 break;
         case WindCommand_map:
-                WindExec_map(ws);
+                //WindExec_map(ws);
                 break;
         }
         WindData_load_reset(); // Resets load buf.
@@ -144,7 +144,7 @@ int WindRun_load(const char** code)
         }
         goto TRANS_TO_EXEC;
 TRANS_TO_EXEC:
-        ws->state = StreamState_exec;
+        WindState_set_mode(WindMode_exec);
         return 1;
 }
 
@@ -274,21 +274,21 @@ void WindRun_code(const char* code)
                         WindState_print_err();
                         return;
                 }
-                switch(WindState_get_cmd())
+                switch(WindState_get_mode())
                 {
                 case WindMode_command:
-                        WindRun_command(ws, &code);
+                        WindRun_command(&code);
                         break;
                 case WindMode_load:
-                        WindRun_load(ws, &code);
+                        WindRun_load(&code);
                         break;
                 case WindMode_exec:
-                        WindRun_exec(ws, &code);
+                        WindRun_exec(&code);
                         break;
                 }
         }
         // Executes any lasting commands, if null char is reached first.
-        if(WindState_has_cmd()) WindRun_exec(ws, &code);
+        if(WindState_has_cmd()) WindRun_exec(&code);
         if(WindState_has_err())
         {
                 WindState_print_err();

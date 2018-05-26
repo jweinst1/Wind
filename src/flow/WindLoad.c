@@ -1,5 +1,4 @@
 #include "WindLoad.h"
-#include "WindBuf.h"
 
 /*static arrays for pre-init values to be written to buffer*/
 // Used for fast loading of booleans

@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include "WindData.h"
+#include "WindState.h"
 #include "WindExec.h"
 #include "WindLoad.h"
 
