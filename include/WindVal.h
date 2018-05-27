@@ -11,8 +11,14 @@
 // Also provides utilities for moving WindType pointers
 // Uses mostly pure unsigned char* buffers
 
-//Prints all the values from start to end.
-int WindVal_print(unsigned char* start, unsigned char* end);
+// Tool function to check if double is whole integer
+static inline int
+WindVal_fl_is_int(unsigned char* number)
+{
+        double numFloat = *(double*)number;
+        return numFloat == floor(numFloat);
+}
+
 
 // Copies <amnt> wind values from src to destination.
 // Assumes sufficient space.

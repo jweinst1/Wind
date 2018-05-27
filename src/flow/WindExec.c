@@ -20,7 +20,8 @@ int WindExec_out(void)
                         break;
                 case WindType_Number:
                         start++;
-                        printf("%.3f ", *(double*)start);
+                        if(WindVal_fl_is_int(start)) printf("%ld ", (long)(*(double*)start));
+                        else printf("%.3f ", *(double*)start);
                         start += sizeof(double);
                         break;
                 case WindType_Assign:

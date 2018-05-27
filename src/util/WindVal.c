@@ -1,51 +1,5 @@
 #include "WindVal.h"
 
-// Tool function to check if double is whole integer
-static inline int
-WindVal_fl_is_int(unsigned char* number)
-{
-        double numFloat = *(double*)number;
-        return numFloat == floor(numFloat);
-}
-
-int WindVal_print(unsigned char* start, unsigned char* end)
-{
-        while(start != end)
-        {
-                switch(*start)
-                {
-                case WindType_None:
-                        start++;
-                        printf("None ");
-                        break;
-                case WindType_Bool:
-                        start++;
-                        printf(*start++ ? "True " : "False ");
-                        break;
-                case WindType_Number:
-                        start++;
-                        if (WindVal_fl_is_int(start)) printf("%ld ", (long)(*(double*)start));
-                        else printf("%.3f ", *(double*)start);
-                        start += sizeof(double);
-                        break;
-                case WindType_Assign:
-                        start++;
-                        printf("= ");
-                        break;
-                case WindType_Not:
-                        start++;
-                        printf("! ");
-                        break;
-                case WindType_Sep:
-                        start++;
-                        printf("| ");
-                        break;
-                default:
-                        return 0; // error case.
-                }
-        }
-        return 1;
-}
 
 int WindVal_copy(unsigned char** dest, unsigned char** src, int amnt)
 {
