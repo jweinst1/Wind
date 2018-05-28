@@ -12,16 +12,10 @@
 // Uses mostly pure unsigned char* buffers
 
 // Tool function to check if double is whole integer
-static inline int
-WindVal_fl_is_int(unsigned char* number)
-{
-        double numFloat = *(double*)number;
-        return numFloat == floor(numFloat);
-}
 
 
-// Copies <amnt> wind values from src to destination.
-// Assumes sufficient space.
+
+// Copies binary wind values from src to dest, and moves pointers.
 int WindVal_copy(unsigned char** dest, unsigned char** src, int amnt);
 
 // Applies not operation to binary item.

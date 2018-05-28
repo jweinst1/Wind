@@ -1,6 +1,13 @@
 #include "WindExec.h"
 
 
+static inline int
+_fl_is_int(unsigned char* number)
+{
+        double numFloat = *(double*)number;
+        return numFloat == floor(numFloat);
+}
+
 int WindExec_out(void)
 {
         unsigned char* start = WindData_active_start();
@@ -20,7 +27,7 @@ int WindExec_out(void)
                         break;
                 case WindType_Number:
                         start++;
-                        if(WindVal_fl_is_int(start)) printf("%ld ", (long)(*(double*)start));
+                        if(_fl_is_int(start)) printf("%ld ", (long)(*(double*)start));
                         else printf("%.3f ", *(double*)start);
                         start += sizeof(double);
                         break;
@@ -58,55 +65,48 @@ void WindExec_clr(void)
 
 int WindExec_map(void)
 {
-        /* This allows for copying between buffers to be done without size checks
-           WindBuf_equalize(ws->activeBuf, &(ws->altBuf));
-           // allows for writing of larger values from load buf.
-           WindBuf_equalize_cap(ws->loadBuf, &(ws->altBuf));
 
-           // Traversing Pointers
-           unsigned char* loadPtr;
-           unsigned char* loadEnd;
+        // Traversing Pointers
+        unsigned char* loadCurrent;
+        unsigned char* loadEnd;
 
-           unsigned char* activePtr = ws->activeBuf->data;
-           unsigned char* activeEnd = activePtr + ws->activeBuf->len;
+        unsigned char* activeCurrent = WindData_active_start();
+        unsigned char* activeEnd = WindData_active_ptr();
 
-           WindBuf* target = ws->altBuf;
-           unsigned char* copyAlt = target->data;
-           WindBuf_HEAD_RE(target);
-           while(activePtr != activeEnd)
-           {
+
+        unsigned char* altCurrent = WindData_inactive_start();
+        while(activeCurrent != activeEnd)
+        {
                 // needs movable head.
-                WindVal_copy(&copyAlt, &activePtr, 1);
+                WindVal_copy(&altCurrent, &activeCurrent, 1);
                 // These are restarted each loop since entire map seq
                 // is applied to one value at a time.
-                loadPtr = ws->loadBuf->data;
-                loadEnd = loadPtr + ws->loadBuf->len;
-                while(loadPtr != loadEnd)
+                loadCurrent = WindData_load_start();
+                loadEnd = WindData_load_ptr();
+                while(loadCurrent != loadEnd)
                 {
-                        switch(*loadPtr)
+                        switch(*loadCurrent)
                         {
                         case WindType_Not:
-                                loadPtr++;
-                                WindVal_apply_not(target->head);
+                                loadCurrent++;
+                                //WindVal_apply_not(target->head);
                                 break;
                         case WindType_Assign:
-                                loadPtr++;
-                                WindVal_apply_assign(target->head, loadPtr);
-                                WindVal_move(&loadPtr, 1);
+                                loadCurrent++;
+                                //WindVal_apply_assign(target->head, loadCurrent);
+                                WindVal_move(&loadCurrent, 1);
                                 break;
                         case WindType_Sep:
-                                loadPtr++;
+                                loadCurrent++;
                                 break;
                         default:
-                                WindStream_write_err(ws, "Unrecognized map argument %u", *loadPtr);
+                                WindState_write_err("Unrecognized map argument %u", *loadCurrent);
                                 return 0;
                         }
                 }
-                WindVal_move(&(target->head), 1);
-           }
-           // If mapping resulted in shrink operation, levels head with len.
-           WindBuf_HEAD_LEN(target);
-           WindStream_swap_buf(ws);*/
+                //WindVal_move(&(target->head), 1);
+        }
+        WindData_active_switch();
 
         return 1;
 }

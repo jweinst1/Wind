@@ -5,7 +5,9 @@
 
 #include "WindType.h"
 #include "WindData.h"
-#include "WindVal.h"
+#include "WindState.h"
+
+
 
 int WindExec_out(void);
 
