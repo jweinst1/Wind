@@ -1,4 +1,5 @@
 #include "WindExec.h"
+#include <Math.h>
 
 
 static inline int
@@ -63,8 +64,8 @@ void WindExec_clr(void)
         WindData_active_reset();
 }
 
-int WindExec_map(void)
-{
+/*int WindExec_map(void)
+   {
 
         // Traversing Pointers
         unsigned char* loadCurrent;
@@ -109,4 +110,4 @@ int WindExec_map(void)
         WindData_active_switch();
 
         return 1;
-}
+   }*/
