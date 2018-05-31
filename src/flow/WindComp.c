@@ -31,6 +31,12 @@ unsigned char WindComp_get_head(void)
         return WindComp_BUF[0];
 }
 
+void WindComp_clear(void)
+{
+        WindComp_ITEM_LEN = 0;
+        WindComp_BUF[0] = 0;
+}
+
 void WindComp_write(void* item, unsigned length)
 {
         if(length > WindComp_BUF_SIZE)
@@ -43,6 +49,38 @@ void WindComp_write(void* item, unsigned length)
                 WindComp_ITEM_LEN = length;
                 memcpy(WindComp_BUF, item, length);
         }
+}
+
+int WindComp_write_typed(unsigned char* item)
+{
+        switch(*item)
+        {
+        case WindType_Not:
+        case WindType_Sep:
+        case WindType_Assign:
+        case WindType_None:
+                WindComp_BUF[0] = *item;
+                WindComp_ITEM_LEN = sizeof(unsigned char);
+                return 1;
+        case WindType_Bool:
+                WindComp_BUF[0] = item[0];
+                WindComp_BUF[1] = item[1];
+                WindComp_ITEM_LEN = sizeof(unsigned char) * 2;
+                return 1;
+        case WindType_Number:
+                WindComp_BUF[0] = *item++;
+                for(size_t ds = 1; ds < sizeof(double) + 1; ds++)
+                        WindComp_BUF[ds] = *item++;
+                WindComp_ITEM_LEN = sizeof(unsigned char) + sizeof(double);
+                return 1;
+        default:
+                return 0;
+        }
+}
+
+void WindComp_read(void* dest)
+{
+        memcpy(dest, WindComp_BUF, WindComp_ITEM_LEN);
 }
 
 void WindComp_apply_not(void)
@@ -58,4 +96,24 @@ void WindComp_apply_not(void)
                 WindComp_BUF[1] = 0;
                 return;
         }
+}
+
+int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
+{
+        while(ins != insEnd)
+        {
+                switch(*ins)
+                {
+                case WindType_Not:
+                        ins++;
+                        WindComp_apply_not();
+                        break;
+                case WindType_Assign:
+                        ins++;
+                        break;
+                default:
+                        return 0;
+                }
+        }
+        return 1;
 }

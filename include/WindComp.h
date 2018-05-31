@@ -9,7 +9,7 @@
 #include "WindState.h"
 
 #ifndef WindComp_BUF_SIZE
-#define WindComp_BUF_SIZE 5000
+#define WindComp_BUF_SIZE 500
 #endif
 
 unsigned char* WindComp_begin(void);
@@ -21,9 +21,23 @@ void WindComp_set_len(unsigned length);
 // Returns head byte marker of comp buffer.
 unsigned char WindComp_get_head(void);
 
+void WindComp_clear(void);
+// Writes amount of length bytes from item
 void WindComp_write(void* item, unsigned length);
+
+// Writes a typed WindValue from item to the comp buffer.
+// Returns 1 if successful, returns 0 if unknown type for item.
+int WindComp_write_typed(unsigned char* item);
+
+// Copies the entire item length to dest.
+// Does not check for size of dest.
+void WindComp_read(void* dest);
 
 /*Operation Methods*/
 void WindComp_apply_not(void);
+
+// Maps an array of instructions onto the item in the comp buffer.
+// Returns zero if error.
+int WindComp_map(unsigned char* ins, const unsigned char* insEnd);
 
 #endif
