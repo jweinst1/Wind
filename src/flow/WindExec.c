@@ -64,50 +64,28 @@ void WindExec_clr(void)
         WindData_active_reset();
 }
 
-/*int WindExec_map(void)
-   {
+int WindExec_map(void)
+{
+        unsigned char* loadStart;
+        const unsigned char* loadStop;
 
-        // Traversing Pointers
-        unsigned char* loadCurrent;
-        unsigned char* loadEnd;
+        unsigned char* activeStart = WindData_active_start();
+        const unsigned char* activeStop = WindData_active_ptr();
 
-        unsigned char* activeCurrent = WindData_active_start();
-        unsigned char* activeEnd = WindData_active_ptr();
-
-
-        unsigned char* altCurrent = WindData_inactive_start();
-        while(activeCurrent != activeEnd)
+        WindData_inactive_reset(); // resets inactive for writing new data.
+        while(activeStart != activeStop)
         {
-                // needs movable head.
-                WindVal_copy(&altCurrent, &activeCurrent, 1);
-                // These are restarted each loop since entire map seq
-                // is applied to one value at a time.
-                loadCurrent = WindData_load_start();
-                loadEnd = WindData_load_ptr();
-                while(loadCurrent != loadEnd)
-                {
-                        switch(*loadCurrent)
-                        {
-                        case WindType_Not:
-                                loadCurrent++;
-                                //WindVal_apply_not(target->head);
-                                break;
-                        case WindType_Assign:
-                                loadCurrent++;
-                                //WindVal_apply_assign(target->head, loadCurrent);
-                                WindVal_move(&loadCurrent, 1);
-                                break;
-                        case WindType_Sep:
-                                loadCurrent++;
-                                break;
-                        default:
-                                WindState_write_err("Unrecognized map argument %u", *loadCurrent);
-                                return 0;
-                        }
-                }
-                //WindVal_move(&(target->head), 1);
+                loadStart = WindData_load_start();
+                loadStop = WindData_load_ptr();
+                // loads into the comp buf.
+                activeStart += WindComp_write_typed(activeStart);
+                // map proceeds.
+                if(!WindComp_map(loadStart, loadStop)) return 0;
+                // If inactive buffer is full, this will exit program.
+                // Only happens in map if using size increasing ops.
+                WindData_inactive_write(WindComp_begin(), WindComp_get_len());
         }
-        WindData_active_switch();
 
+        WindData_active_switch();
         return 1;
-   }*/
+}

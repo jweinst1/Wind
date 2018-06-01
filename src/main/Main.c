@@ -4,8 +4,7 @@
 
 
 int main(int argc, char const *argv[]) {
-        WindRun_code("push 3 2 1 -> out");
-
+        WindRun_code("push False -> map ! -> out");
         return 0;
 
 }
