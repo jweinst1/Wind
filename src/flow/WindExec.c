@@ -1,53 +1,11 @@
 #include "WindExec.h"
-#include <Math.h>
-
-
-static inline int
-_fl_is_int(unsigned char* number)
-{
-        double numFloat = *(double*)number;
-        return numFloat == floor(numFloat);
-}
 
 int WindExec_out(void)
 {
         unsigned char* start = WindData_active_start();
         unsigned char* end = WindData_active_ptr();
         printf("[ ");
-        while(start != end)
-        {
-                switch(*start)
-                {
-                case WindType_None:
-                        start++;
-                        printf("None ");
-                        break;
-                case WindType_Bool:
-                        start++;
-                        printf(*start++ ? "True " : "False ");
-                        break;
-                case WindType_Number:
-                        start++;
-                        if(_fl_is_int(start)) printf("%ld ", (long)(*(double*)start));
-                        else printf("%.3f ", *(double*)start);
-                        start += sizeof(double);
-                        break;
-                case WindType_Assign:
-                        start++;
-                        printf("= ");
-                        break;
-                case WindType_Not:
-                        start++;
-                        printf("! ");
-                        break;
-                case WindType_Sep:
-                        start++;
-                        printf("| ");
-                        break;
-                default:
-                        return 0;         // error case.
-                }
-        }
+        IOUtil_print(start, end);
         puts("]");
         return 1;
 }
