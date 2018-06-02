@@ -1,9 +1,19 @@
+# Wind Make File
+
 CC = gcc
+# Header Directory
 INC_DIR = include
 
+# Determines the static memory size used for the data buffers.
+# This value should be higher than WIND_MEM_LOAD
 WIND_MEM_BUF = 50000
+# Determines the static memory size used for the load buffer.
+# This value should be less than WIND_MEM_BUF
 WIND_MEM_LOAD = 10000
-WIND_MEM_COMP = 5000
+# Determines the static memory size used for the computation buffer.
+# This value should always be less than WIND_MEM_LOAD and WIND_MEM_BUF
+# If large WindValues to not need to be handled, this can be left at a very low number.
+WIND_MEM_COMP = 2000
 
 C_FILES := $(wildcard src/*/*.c)
 OBJ_FILES := $(patsubst src/%,lib/%,$(C_FILES:.c=.o))
