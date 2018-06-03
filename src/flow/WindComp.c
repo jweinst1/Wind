@@ -104,7 +104,7 @@ unsigned WindComp_apply_plus(unsigned char* args, const unsigned char* argsEnd)
 {
         if(WindComp_BUF[0] != WindType_Number)
         {
-                WindState_write_err("Attempted to use + operator on type that is not number.");
+                WindState_write_err("Attempted to use + operator on type: '%s'", WindType_get_str(WindComp_BUF[0]));
                 return 0;
         }
         unsigned char* mover = args;
@@ -125,7 +125,7 @@ unsigned WindComp_apply_plus(unsigned char* args, const unsigned char* argsEnd)
                 case WindType_Sep:
                         return mover - args;
                 default:
-                        WindState_write_err("Attempted to use + operator on arg with non-number type: %u", *mover);
+                        WindState_write_err("Attempted to use + operator on arg with type: '%s'", WindType_get_str(*mover));
                         return 0;
                 }
         }

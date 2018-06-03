@@ -25,8 +25,6 @@ typedef enum
         WindCommand_map
 } WindCommand;
 
-/*Literal String represenations for windtype*/
-extern const char* WindType_STR_NONE;
-extern const char* WindType_STR_BOOL;
+const char* WindType_get_str(WindType type);
 
 #endif
