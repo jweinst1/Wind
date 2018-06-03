@@ -6,8 +6,6 @@ static const unsigned char* WindComp_END = WindComp_BUF + WindComp_BUF_SIZE;
 
 static unsigned WindComp_ITEM_LEN = 0;
 
-/*Assists in value coercion*/
-static unsigned char WindComp_NUMBER_ZERO[sizeof(unsigned char) + sizeof(double)] = {WindType_Number};
 
 unsigned char* WindComp_begin(void)
 {
@@ -101,13 +99,34 @@ void WindComp_apply_not(void)
         }
 }
 
-unsigned WindComp_apply_plus(unsigned char* args)
+unsigned WindComp_apply_plus(unsigned char* args, const unsigned char* argsEnd)
 {
-        if(WindComp_BUF[0] != WindType_Number) WindComp_write_typed(WindComp_NUMBER_ZERO);
-        unsigned char* mover = args;
-        while(*mover != WindType_Sep)
+        if(WindComp_BUF[0] != WindType_Number)
         {
-
+                WindState_write_err("Attempted to use + operator on type that is not number.");
+                return 0;
+        }
+        unsigned char* mover = args;
+        while(mover != argsEnd)
+        {
+                switch(*mover)
+                {
+                case WindType_Number:
+                        mover++;
+                        WindComp_PLUS_NUM(WindComp_BUF + 1, mover);
+                        mover += sizeof(double);
+                        break;
+                case WindType_Bool:
+                        // Adds 1 for true, 0 for False.
+                        mover++;
+                        *(double*)(WindComp_BUF + 1) += *mover++;
+                        break;
+                case WindType_Sep:
+                        return mover - args;
+                default:
+                        WindState_write_err("Attempted to use + operator on arg with non-number type: %u", *mover);
+                        return 0;
+                }
         }
         return mover - args;
 }
@@ -115,7 +134,7 @@ unsigned WindComp_apply_plus(unsigned char* args)
 /*Applies series of operations to item in comp*/
 int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
 {
-        unsigned assignMove = 0;
+        unsigned moveChecker = 0;
         while(ins != insEnd)
         {
                 switch(*ins)
@@ -126,12 +145,15 @@ int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
                         break;
                 case WindType_Assign:
                         ins++;
-                        assignMove = WindComp_write_typed(ins);
-                        if(assignMove) ins += assignMove;
+                        moveChecker = WindComp_write_typed(ins);
+                        if(moveChecker) ins += moveChecker;
                         else return 0;
                         break;
                 case WindType_Plus:
                         ins++;
+                        moveChecker = WindComp_apply_plus(ins, insEnd);
+                        if(moveChecker) ins += moveChecker;
+                        else return 0;
                         break;
                 case WindType_Sep:
                         ins++;
