@@ -3,6 +3,7 @@
 
 // Header defines wind type enum and related utilities
 
+// Type Marker for Wind Values
 typedef enum
 {
         WindType_None,
@@ -23,5 +24,9 @@ typedef enum
         WindCommand_clr,
         WindCommand_map
 } WindCommand;
+
+/*Literal String represenations for windtype*/
+extern const char* WindType_STR_NONE;
+extern const char* WindType_STR_BOOL;
 
 #endif

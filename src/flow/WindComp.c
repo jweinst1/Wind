@@ -2,6 +2,7 @@
 
 static unsigned char WindComp_BUF[WindComp_BUF_SIZE];
 
+static unsigned char* WindComp_BODY = WindComp_BUF + 1;
 static const unsigned char* WindComp_END = WindComp_BUF + WindComp_BUF_SIZE;
 
 static unsigned WindComp_ITEM_LEN = 0;
@@ -113,13 +114,13 @@ unsigned WindComp_apply_plus(unsigned char* args, const unsigned char* argsEnd)
                 {
                 case WindType_Number:
                         mover++;
-                        WindComp_PLUS_NUM(WindComp_BUF + 1, mover);
+                        WindComp_PLUS_NUM(WindComp_BODY, mover);
                         mover += sizeof(double);
                         break;
                 case WindType_Bool:
                         // Adds 1 for true, 0 for False.
                         mover++;
-                        *(double*)(WindComp_BUF + 1) += *mover++;
+                        *(double*)(WindComp_BODY) += *mover++;
                         break;
                 case WindType_Sep:
                         return mover - args;
