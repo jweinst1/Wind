@@ -6,6 +6,8 @@ static const unsigned char* WindComp_END = WindComp_BUF + WindComp_BUF_SIZE;
 
 static unsigned WindComp_ITEM_LEN = 0;
 
+/*Assists in value coercion*/
+static unsigned char WindComp_NUMBER_ZERO[sizeof(unsigned char) + sizeof(double)] = {WindType_Number};
 
 unsigned char* WindComp_begin(void)
 {
@@ -51,7 +53,7 @@ void WindComp_write(void* item, unsigned length)
         }
 }
 
-unsigned WindComp_write_typed(unsigned char* item)
+unsigned WindComp_write_typed(const unsigned char* item)
 {
         switch(*item)
         {
@@ -98,6 +100,18 @@ void WindComp_apply_not(void)
                 return;
         }
 }
+
+unsigned WindComp_apply_plus(unsigned char* args)
+{
+        if(WindComp_BUF[0] != WindType_Number) WindComp_write_typed(WindComp_NUMBER_ZERO);
+        unsigned char* mover = args;
+        while(*mover != WindType_Sep)
+        {
+
+        }
+        return mover - args;
+}
+
 /*Applies series of operations to item in comp*/
 int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
 {
@@ -115,6 +129,9 @@ int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
                         assignMove = WindComp_write_typed(ins);
                         if(assignMove) ins += assignMove;
                         else return 0;
+                        break;
+                case WindType_Plus:
+                        ins++;
                         break;
                 case WindType_Sep:
                         ins++;

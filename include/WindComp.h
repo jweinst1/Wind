@@ -28,7 +28,7 @@ void WindComp_write(void* item, unsigned length);
 // Writes a typed WindValue from item to the comp buffer.
 // Returns amount of data written to comp.
 // Returns 0 if an error.
-unsigned WindComp_write_typed(unsigned char* item);
+unsigned WindComp_write_typed(const unsigned char* item);
 
 // Copies the entire item length to dest.
 // Does not check for size of dest.
@@ -37,6 +37,8 @@ unsigned WindComp_read(void* dest);
 
 /*Operation Methods*/
 void WindComp_apply_not(void);
+
+unsigned WindComp_apply_plus(unsigned char* args);
 
 // Maps an array of instructions onto the item in the comp buffer.
 // Returns zero if error.

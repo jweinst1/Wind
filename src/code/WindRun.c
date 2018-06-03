@@ -21,7 +21,7 @@ int WindRun_exec(const char** code)
                 break;
         }
         WindData_load_reset(); // Resets load buf.
-        WindState_set_cmd(WindCommand_out);
+        WindState_set_cmd(WindCommand_null);
         WindState_set_mode(WindMode_command);
         return 1;
 }
@@ -74,6 +74,10 @@ int WindRun_load(const char** code)
                         // not :symbol
                         *code += 1;
                         WindLoad_not();
+                        continue;
+                case '+':
+                        *code += 1;
+                        WindLoad_plus();
                         continue;
                 case '=':
                         // assign :symbol
