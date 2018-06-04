@@ -31,7 +31,7 @@ static inline
 const char*
 _move_ptr_end_cmnt(const char* code)
 {
-        while(*code++ != ';' && *code) ;
+        while(*code++ != WindRun_COMMENT_SYM && *code) ;
         return code;
 }
 
@@ -47,7 +47,7 @@ int WindRun_load(const char** code)
                 case '\v':
                         *code += 1; //white space
                         break;
-                case ';':
+                case WindRun_COMMENT_SYM:
                         *code += 1;
                         *code = _move_ptr_end_cmnt(*code);
                         break;
@@ -177,7 +177,7 @@ int WindRun_command(const char** code)
                 case '\v':
                         *code += 1; //white space
                         break;
-                case ';':
+                case WindRun_COMMENT_SYM:
                         *code += 1;
                         *code = _move_ptr_end_cmnt(*code);
                         break;
