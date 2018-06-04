@@ -26,6 +26,15 @@ int WindRun_exec(const char** code)
         return 1;
 }
 
+// Private Helper function that moves a pointer through commented section
+static inline
+const char*
+_move_ptr_end_cmnt(const char* code)
+{
+        while(*code++ != ';' && *code) ;
+        return code;
+}
+
 int WindRun_load(const char** code)
 {
         while(**code)
@@ -37,6 +46,10 @@ int WindRun_load(const char** code)
                 case '\t':
                 case '\v':
                         *code += 1; //white space
+                        break;
+                case ';':
+                        *code += 1;
+                        *code = _move_ptr_end_cmnt(*code);
                         break;
                 case '0':
                 case '1':
@@ -163,6 +176,10 @@ int WindRun_command(const char** code)
                 case '\t':
                 case '\v':
                         *code += 1; //white space
+                        break;
+                case ';':
+                        *code += 1;
+                        *code = _move_ptr_end_cmnt(*code);
                         break;
                 case 'c':
                         switch((*code)[1])

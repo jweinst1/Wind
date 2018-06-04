@@ -9,6 +9,8 @@
 
 // central header that handles running of code
 
+#define WindRun_COMMENT_SYM ';'
+
 
 int WindRun_exec(const char** code);
 
