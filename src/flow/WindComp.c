@@ -194,6 +194,10 @@ int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
                         if(moveChecker) ins += moveChecker;
                         else return 0;
                         break;
+                case WindType_Del:
+                        ins++;
+                        WindComp_clear();
+                        return 1;
                 case WindType_Sep:
                         ins++;
                         break;

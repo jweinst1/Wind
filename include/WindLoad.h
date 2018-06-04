@@ -18,6 +18,7 @@ void WindLoad_not(void);
 void WindLoad_assign(void);
 void WindLoad_plus(void);
 void WindLoad_minus(void);
+void WindLoad_del(void);
 
 // Loads number onto load buffer.
 void WindLoad_number(const char** code);

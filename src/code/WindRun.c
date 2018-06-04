@@ -97,6 +97,19 @@ int WindRun_load(const char** code)
                         *code += 1;
                         WindLoad_assign();
                         continue;
+                case 'D':
+                        if((*code)[1] == 'e' && (*code)[2] == 'l' )
+                        {
+                                *code += 3;
+                                WindLoad_del();
+                                continue;
+                        }
+                        else
+                        {
+                                WindState_write_err("Expected argument or value, found 'D%c'", *code[1]);
+                                return 0;
+                        }
+                        break;
                 case 'T':
                         if((*code)[1] == 'r' && (*code)[2] == 'u' && (*code)[3] == 'e')
                         {
