@@ -15,6 +15,8 @@
 // Macro that adds two binary fmt numbers together.
 #define WindComp_PLUS_NUM(val1, val2) *(double*)(val1) += *(double*)(val2)
 
+#define WindComp_MINUS_NUM(val1, val2) *(double*)(val1) -= *(double*)(val2)
+
 unsigned char* WindComp_begin(void);
 const unsigned char* WindComp_end(void);
 
@@ -42,6 +44,8 @@ unsigned WindComp_read(void* dest);
 void WindComp_apply_not(void);
 
 unsigned WindComp_apply_plus(unsigned char* args, const unsigned char* argsEnd);
+
+unsigned WindComp_apply_minus(unsigned char* args, const unsigned char* argsEnd);
 
 // Maps an array of instructions onto the item in the comp buffer.
 // Returns zero if error.

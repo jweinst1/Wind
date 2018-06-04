@@ -13,6 +13,7 @@ static unsigned char WIND_NOT[] = {WindType_Not};
 static unsigned char WIND_ASSIGN[] = {WindType_Assign};
 static unsigned char WIND_SEP[] = {WindType_Sep};
 static unsigned char WIND_PLUS[] = {WindType_Plus};
+static unsigned char WIND_MINUS[] = {WindType_Minus};
 
 // Used as default initalizer for moved C-string result.
 static char* NUM_RESULT_INIT = "";
@@ -51,6 +52,11 @@ void WindLoad_assign(void)
 void WindLoad_plus(void)
 {
         WindData_load_write(WIND_PLUS, sizeof(WIND_PLUS));
+}
+
+void WindLoad_minus(void)
+{
+        WindData_load_write(WIND_MINUS, sizeof(WIND_MINUS));
 }
 
 void WindLoad_number(const char** code)

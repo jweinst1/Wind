@@ -40,6 +40,10 @@ int IOUtil_print(const unsigned char* start, const unsigned char* end)
                         start++;
                         printf("+ ");
                         break;
+                case WindType_Minus:
+                        start++;
+                        printf("- ");
+                        break;
                 case WindType_Sep:
                         start++;
                         printf("| ");

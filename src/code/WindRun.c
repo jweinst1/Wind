@@ -75,8 +75,8 @@ int WindRun_load(const char** code)
                         }
                         else
                         {
-                                WindState_write_err("Expected separator ->, found '-%c'", (*code)[1]);
-                                return 0;   // error
+                                *code += 1;
+                                WindLoad_minus();
                         }
                         continue;
                 case '|':
