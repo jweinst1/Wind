@@ -3,12 +3,17 @@
 
 // Header defines wind type enum and related utilities
 
+// Type Marker for Wind Values
 typedef enum
 {
         WindType_None,
         WindType_Bool,
+        WindType_Number,
         WindType_Not,
         WindType_Assign,
+        WindType_Plus,
+        WindType_Minus,
+        WindType_Del,
         WindType_Sep
 } WindType;
 
@@ -21,5 +26,7 @@ typedef enum
         WindCommand_clr,
         WindCommand_map
 } WindCommand;
+
+const char* WindType_get_str(WindType type);
 
 #endif

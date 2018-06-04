@@ -1,30 +1,5 @@
 #include "WindVal.h"
 
-int WindVal_print(unsigned char* item)
-{
-        switch(*item)
-        {
-        case WindType_None:
-                printf("None ");
-                break;
-        case WindType_Bool:
-                item++;
-                printf(*item ? "True " : "False ");
-                break;
-        case WindType_Assign:
-                printf("= ");
-                break;
-        case WindType_Not:
-                printf("! ");
-                break;
-        case WindType_Sep:
-                printf("| ");
-                break;
-        default:
-                return 0; // error case.
-        }
-        return 1;
-}
 
 int WindVal_copy(unsigned char** dest, unsigned char** src, int amnt)
 {
@@ -38,9 +13,13 @@ int WindVal_copy(unsigned char** dest, unsigned char** src, int amnt)
                         *writer++ = *reader++;
                         *writer++ = *reader++;
                         break;
+                case WindType_Number:
+                        for(int i = 0; i < (sizeof(double) + 1); i++) *writer++ = *reader++;
+                        break;
                 // single byte wind values
                 case WindType_None:
                 case WindType_Sep:
+                case WindType_Assign:
                 case WindType_Not:
                         *writer++ = *reader++;
                         break;
@@ -105,6 +84,9 @@ int WindVal_move(unsigned char** item, int amnt)
                         return 1;
                 case WindType_Bool:
                         *item += 2;
+                        return 1;
+                case WindType_Number:
+                        *item += 1 + sizeof(double);
                         return 1;
                 default:
                         // error

@@ -1,14 +1,26 @@
 #ifndef WIND_LOAD_H
 #define WIND_LOAD_H
 
-// Header that handles loading functions
+#include "WindType.h"
+#include "WindData.h"
 
-#include "WindStream.h"
 
-// Used for fast loading of booleans
-static unsigned char WIND_BOOL_T[] = {WindType_Bool, 1};
-static unsigned char WIND_BOOL_F[] = {WindType_Bool, 0};
+// Writes false bool to load buffer.
+void WindLoad_false(void);
 
-void WindLoad_bool(WindStream* ws, BufKey bkey, int b);
+// Writes true bool to load buffer.
+void WindLoad_true(void);
+
+void WindLoad_none(void);
+
+void WindLoad_sep(void);
+void WindLoad_not(void);
+void WindLoad_assign(void);
+void WindLoad_plus(void);
+void WindLoad_minus(void);
+void WindLoad_del(void);
+
+// Loads number onto load buffer.
+void WindLoad_number(const char** code);
 
 #endif

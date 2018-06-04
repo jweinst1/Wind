@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "WindType.h"
 
 // Header that handles transformation of binary objects for mapping,
@@ -10,11 +11,11 @@
 // Also provides utilities for moving WindType pointers
 // Uses mostly pure unsigned char* buffers
 
-//prints a single wind value from bytes
-int WindVal_print(unsigned char* item);
+// Tool function to check if double is whole integer
 
-// Copies <amnt> wind values from src to destination.
-// Assumes sufficient space.
+
+
+// Copies binary wind values from src to dest, and moves pointers.
 int WindVal_copy(unsigned char** dest, unsigned char** src, int amnt);
 
 // Applies not operation to binary item.

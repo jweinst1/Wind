@@ -22,6 +22,11 @@ void Debug_buf(WindBuf* wb)
                 case WindType_Sep:
                         puts("|");
                         break;
+                case WindType_Number:
+                        i++;
+                        printf("%.3f\n", *(double*)(wb->data + i));
+                        i += sizeof(double) - 1;
+                        break;
                 case WindType_Bool:
                         i++;
                         printf("%s\n", (wb->data[i] ? "True" : "False"));
