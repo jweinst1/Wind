@@ -207,3 +207,8 @@ int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
         }
         return 1;
 }
+
+int WindComp_filter(unsigned char* ins, const unsigned char* insEnd)
+{
+        return 1;
+}

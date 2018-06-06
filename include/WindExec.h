@@ -19,4 +19,6 @@ void WindExec_clr(void);
 
 int WindExec_map(void);
 
+int WindExec_filter(void);
+
 #endif

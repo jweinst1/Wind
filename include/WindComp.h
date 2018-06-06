@@ -51,4 +51,8 @@ unsigned WindComp_apply_minus(unsigned char* args, const unsigned char* argsEnd)
 // Returns zero if error.
 int WindComp_map(unsigned char* ins, const unsigned char* insEnd);
 
+// Filters the current active buffer values against a series of boolean conditions
+// in the load buffer. The value is cleared from comp buffer if it fails filter test.
+int WindComp_filter(unsigned char* ins, const unsigned char* insEnd);
+
 #endif

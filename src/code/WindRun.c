@@ -8,7 +8,7 @@ int WindRun_exec(const char** code)
         case WindCommand_null:
                 break;
         case WindCommand_out:
-                WindExec_out();
+                (void) WindExec_out();
                 break;
         case WindCommand_push:
                 WindExec_push();
