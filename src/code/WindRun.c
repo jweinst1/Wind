@@ -19,6 +19,9 @@ int WindRun_exec(const char** code)
         case WindCommand_map:
                 WindExec_map();
                 break;
+        case WindCommand_filter:
+                //handle filter
+                break;
         }
         WindData_load_reset(); // Resets load buf.
         WindState_set_cmd(WindCommand_null);
@@ -212,6 +215,20 @@ int WindRun_command(const char** code)
                                 break;
                         default:
                                 WindState_write_err("Expected command symbol, found 'c%c'", *code[1]);
+                                return 0;
+                        }
+                        break;
+                case 'f':
+                        // Due to only one command that starts with f, this does not use static trie
+                        if((*code)[1] == 'i' && (*code)[2] == 'l' && (*code)[3] == 't' && (*code)[4] == 'e' && (*code)[5] == 'r')
+                        {
+                                *code += 6;
+                                WindState_set_cmd(WindCommand_filter);
+                                goto TRANS_TO_LOAD;
+                        }
+                        else
+                        {
+                                WindState_write_err("Expected command symbol, found 'f%c%c%c'", *code[1], *code[2], *code[3]);
                                 return 0;
                         }
                         break;
