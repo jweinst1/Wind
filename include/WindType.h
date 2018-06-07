@@ -13,6 +13,7 @@ typedef enum
         WindType_Assign,
         WindType_Plus,
         WindType_Minus,
+        WindType_Lt, // < op
         WindType_Del,
         WindType_Sep
 } WindType;

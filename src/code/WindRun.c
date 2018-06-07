@@ -100,6 +100,10 @@ int WindRun_load(const char** code)
                         *code += 1;
                         WindLoad_assign();
                         continue;
+                case '<':
+                        *code += 1;
+                        WindLoad_lt();
+                        continue;
                 case 'D':
                         if((*code)[1] == 'e' && (*code)[2] == 'l' )
                         {
