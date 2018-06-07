@@ -63,7 +63,7 @@ int WindExec_filter(void)
                 loadStop = WindData_load_ptr();
                 // loads into the comp buf.
                 activeStart += WindComp_write_typed(activeStart);
-                //if(!WindComp_map(loadStart, loadStop)) return 0;
+                if(!WindComp_filter(loadStart, loadStop)) return 0;
 
                 WindData_inactive_write(WindComp_begin(), WindComp_get_len());
         }

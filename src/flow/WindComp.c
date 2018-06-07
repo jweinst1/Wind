@@ -170,8 +170,14 @@ int WindComp_check_not(void)
 {
         switch(WindComp_BUF[0])
         {
-        case WindBool:
-                return *WindComp_BODY;
+        case WindType_Bool:
+                return !(*WindComp_BODY);
+        case WindType_None:
+                return 1;
+        case WindType_Number:
+                return !(*(double*)(WindComp_BODY));
+        default:
+                return 0;
         }
         return 0;
 }
@@ -222,17 +228,21 @@ int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
 
 int WindComp_filter(unsigned char* ins, const unsigned char* insEnd)
 {
-        unsigned moveChecker = 0;
+        //unsigned moveChecker = 0;
         // Active while object has still not failed a filter.
-        while(WindComp_get_len() && ins != insEnd)
+        while(ins != insEnd)
         {
                 switch(*ins)
                 {
                 case WindType_Not:
                         ins++;
+                        if(!WindComp_check_not()) goto FILTER_FAILURE;
                         break;
                 default: return 0;
                 }
         }
+        return 1;
+FILTER_FAILURE:
+        WindComp_clear();
         return 1;
 }
