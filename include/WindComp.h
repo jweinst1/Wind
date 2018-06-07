@@ -47,6 +47,11 @@ unsigned WindComp_apply_plus(unsigned char* args, const unsigned char* argsEnd);
 
 unsigned WindComp_apply_minus(unsigned char* args, const unsigned char* argsEnd);
 
+/*/ filtering functions /*/
+
+// Checks if item in comp buffer is true or false after NOT
+int WindComp_check_not(void);
+
 // Maps an array of instructions onto the item in the comp buffer.
 // Returns zero if error.
 int WindComp_map(unsigned char* ins, const unsigned char* insEnd);

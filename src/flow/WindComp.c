@@ -2,7 +2,9 @@
 
 static unsigned char WindComp_BUF[WindComp_BUF_SIZE];
 
+// Access to body chunk of comp item.
 static unsigned char* WindComp_BODY = WindComp_BUF + 1;
+// End of comp item.
 static const unsigned char* WindComp_END = WindComp_BUF + WindComp_BUF_SIZE;
 
 static unsigned WindComp_ITEM_LEN = 0;
@@ -164,6 +166,16 @@ unsigned WindComp_apply_minus(unsigned char* args, const unsigned char* argsEnd)
         return mover - args;
 }
 
+int WindComp_check_not(void)
+{
+        switch(WindComp_BUF[0])
+        {
+        case WindBool:
+                return *WindComp_BODY;
+        }
+        return 0;
+}
+
 /*Applies series of operations to item in comp*/
 int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
 {
@@ -210,5 +222,17 @@ int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
 
 int WindComp_filter(unsigned char* ins, const unsigned char* insEnd)
 {
+        unsigned moveChecker = 0;
+        // Active while object has still not failed a filter.
+        while(WindComp_get_len() && ins != insEnd)
+        {
+                switch(*ins)
+                {
+                case WindType_Not:
+                        ins++;
+                        break;
+                default: return 0;
+                }
+        }
         return 1;
 }
