@@ -52,6 +52,10 @@ unsigned WindComp_apply_minus(unsigned char* args, const unsigned char* argsEnd)
 // Checks if item in comp buffer is true or false after NOT
 int WindComp_check_not(void);
 
+// Checks if item in comp buffer is less than arg.
+// Unlike apply functions, this only supports a single argument.
+int WindComp_check_lt(unsigned char* arg);
+
 // Maps an array of instructions onto the item in the comp buffer.
 // Returns zero if error.
 int WindComp_map(unsigned char* ins, const unsigned char* insEnd);

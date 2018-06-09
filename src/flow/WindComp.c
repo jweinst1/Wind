@@ -179,6 +179,10 @@ int WindComp_check_not(void)
         default:
                 return 0;
         }
+}
+
+int WindComp_check_lt(unsigned char* arg)
+{
         return 0;
 }
 
@@ -237,6 +241,9 @@ int WindComp_filter(unsigned char* ins, const unsigned char* insEnd)
                 case WindType_Not:
                         ins++;
                         if(!WindComp_check_not()) goto FILTER_FAILURE;
+                        break;
+                case WindType_Lt:
+                        ins++;
                         break;
                 default: return 0;
                 }
