@@ -181,9 +181,33 @@ int WindComp_check_not(void)
         }
 }
 
-int WindComp_check_lt(unsigned char* arg)
+int WindComp_check_lt(unsigned char** arg)
 {
-        return 0;
+        int result = 0;
+        switch(WindComp_BUF[0])
+        {
+        case WindType_Number:
+                switch(**arg)
+                {
+                case WindType_Number:
+                        *arg += 1;
+                        result = WindComp_LT_NUM(WindComp_BODY, *arg);
+                        *arg += sizeof(double);
+                        return result;
+                default:
+                        return 0;
+                }
+        case WindType_Bool:
+                switch(**arg)
+                {
+                case WindType_Bool:
+                        result = WindComp_BUF[1] < (*arg)[1];
+                        *arg += 2;
+                        return result;
+                }
+        default:
+                return 0;
+        }
 }
 
 /*Applies series of operations to item in comp*/
@@ -243,6 +267,10 @@ int WindComp_filter(unsigned char* ins, const unsigned char* insEnd)
                         if(!WindComp_check_not()) goto FILTER_FAILURE;
                         break;
                 case WindType_Lt:
+                        ins++;
+                        if(!WindComp_check_lt(&ins)) goto FILTER_FAILURE;
+                        break;
+                case WindType_Sep:
                         ins++;
                         break;
                 default: return 0;

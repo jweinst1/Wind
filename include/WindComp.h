@@ -17,6 +17,8 @@
 
 #define WindComp_MINUS_NUM(val1, val2) *(double*)(val1) -= *(double*)(val2)
 
+#define WindComp_LT_NUM(val1, val2) *(double*)(val1) < *(double*)(val2)
+
 unsigned char* WindComp_begin(void);
 const unsigned char* WindComp_end(void);
 
@@ -54,7 +56,7 @@ int WindComp_check_not(void);
 
 // Checks if item in comp buffer is less than arg.
 // Unlike apply functions, this only supports a single argument.
-int WindComp_check_lt(unsigned char* arg);
+int WindComp_check_lt(unsigned char** arg);
 
 // Maps an array of instructions onto the item in the comp buffer.
 // Returns zero if error.
