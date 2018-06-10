@@ -62,6 +62,12 @@ unsigned WindComp_write_typed(const unsigned char* item)
         case WindType_Sep:
         case WindType_Assign:
         case WindType_None:
+        case WindType_Del:
+        case WindType_Lt:
+        case WindType_Gt:
+        case WindType_Plus:
+        case WindType_Minus:
+        case WindType_Multiply:
                 WindComp_BUF[0] = *item;
                 WindComp_ITEM_LEN = sizeof(unsigned char);
                 return WindComp_ITEM_LEN;
@@ -89,6 +95,7 @@ unsigned WindComp_read(void* dest)
 
 void WindComp_apply_not(void)
 {
+        WindComp_ITEM_LEN = sizeof(unsigned char) + sizeof(unsigned char);
         switch(WindComp_BUF[0])
         {
         case WindType_Bool:
