@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
+
 #include "IOUtil.h"
 #include "WindRun.h"
 
@@ -13,6 +15,15 @@ int main(int argc, char const *argv[]) {
         else if(!strcmp(argv[1], "-c"))
         {
                 WindRun_code(argv[2]);
+        }
+        // Timed option
+        else if(!strcmp(argv[1], "-t"))
+        {
+                clock_t start, end;
+                start = clock();
+                WindRun_code(argv[2]);
+                end = clock();
+                printf("Time: %f\n", (end-start)/(double)CLOCKS_PER_SEC);
         }
         // debug option
         else if(!strcmp(argv[1], "-d"))
