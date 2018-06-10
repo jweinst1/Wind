@@ -78,8 +78,14 @@ void IOUtil_debug(void)
         printf("Command: ");
         WindState_print_cmd();
         puts("\n..........Data.........");
-        printf("Load Buffer: -> [");
+        printf("Load Buffer: -> [ ");
         IOUtil_print(WindData_load_begin(), WindData_load_ptr());
+        printf("]\n");
+        printf("Active Buffer: -> [ ");
+        IOUtil_print(WindData_active_begin(), WindData_active_ptr());
+        printf("]\n");
+        printf("Inactive Buffer: -> [ ");
+        IOUtil_print(WindData_inactive_begin(), WindData_inactive_ptr());
         printf("]\n");
         puts("________________________");
 }

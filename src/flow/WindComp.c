@@ -303,7 +303,7 @@ int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
         return 1;
 }
 
-// todo: throw or not?
+
 int WindComp_filter(unsigned char* ins, const unsigned char* insEnd)
 {
         //unsigned moveChecker = 0;
@@ -323,7 +323,9 @@ int WindComp_filter(unsigned char* ins, const unsigned char* insEnd)
                 case WindType_Sep:
                         ins++;
                         break;
-                default: return 0;
+                default:
+                        WindState_write_err("Cannot run filter operation with type: '%s'", WindType_get_str(*ins));
+                        return 0;
                 }
         }
         return 1;

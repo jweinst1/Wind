@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "IOUtil.h"
 #include "WindRun.h"
 
 
@@ -17,6 +18,7 @@ int main(int argc, char const *argv[]) {
         else if(!strcmp(argv[1], "-d"))
         {
                 WindRun_code(argv[2]);
+                IOUtil_debug();
         }
         else
         {
