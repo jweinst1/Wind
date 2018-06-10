@@ -93,5 +93,8 @@ void WindState_print_cmd(void)
         case WindCommand_map:
                 printf("map");
                 break;
+        case WindCommand_filter:
+                printf("filter");
+                break;
         }
 }

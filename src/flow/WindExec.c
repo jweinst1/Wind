@@ -24,6 +24,7 @@ void WindExec_clr(void)
 
 int WindExec_map(void)
 {
+        if(!WindData_load_len()) return 1;
         unsigned char* loadStart;
         const unsigned char* loadStop;
 
@@ -41,6 +42,31 @@ int WindExec_map(void)
                 if(!WindComp_map(loadStart, loadStop)) return 0;
                 // If inactive buffer is full, this will exit program.
                 // Only happens in map if using size increasing ops.
+                WindData_inactive_write(WindComp_begin(), WindComp_get_len());
+        }
+
+        WindData_active_switch();
+        return 1;
+}
+
+int WindExec_filter(void)
+{
+        if(!WindData_load_len()) return 1;
+        unsigned char* loadStart;
+        const unsigned char* loadStop;
+
+        unsigned char* activeStart = WindData_active_start();
+        const unsigned char* activeStop = WindData_active_ptr();
+
+        WindData_inactive_reset(); // resets inactive for writing new data.
+        while(activeStart != activeStop)
+        {
+                loadStart = WindData_load_start();
+                loadStop = WindData_load_ptr();
+                // loads into the comp buf.
+                activeStart += WindComp_write_typed(activeStart);
+                if(!WindComp_filter(loadStart, loadStop)) return 0;
+
                 WindData_inactive_write(WindComp_begin(), WindComp_get_len());
         }
 

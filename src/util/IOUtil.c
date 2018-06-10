@@ -44,6 +44,18 @@ int IOUtil_print(const unsigned char* start, const unsigned char* end)
                         start++;
                         printf("- ");
                         break;
+                case WindType_Multiply:
+                        start++;
+                        printf("* ");
+                        break;
+                case WindType_Lt:
+                        start++;
+                        printf("< ");
+                        break;
+                case WindType_Gt:
+                        start++;
+                        printf("> ");
+                        break;
                 case WindType_Del:
                         start++;
                         printf("Del ");
@@ -67,11 +79,17 @@ void IOUtil_debug(void)
         WindState_print_err(); //other func
         printf("Mode: ");
         WindState_print_mode();
-        printf("Command: ");
+        printf("\nCommand: ");
         WindState_print_cmd();
         puts("\n..........Data.........");
-        printf("Load Buffer: -> [");
+        printf("Load Buffer: -> [ ");
         IOUtil_print(WindData_load_begin(), WindData_load_ptr());
+        printf("]\n");
+        printf("Active Buffer: -> [ ");
+        IOUtil_print(WindData_active_begin(), WindData_active_ptr());
+        printf("]\n");
+        printf("Inactive Buffer: -> [ ");
+        IOUtil_print(WindData_inactive_begin(), WindData_inactive_ptr());
         printf("]\n");
         puts("________________________");
 }

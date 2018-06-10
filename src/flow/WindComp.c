@@ -2,7 +2,9 @@
 
 static unsigned char WindComp_BUF[WindComp_BUF_SIZE];
 
+// Access to body chunk of comp item.
 static unsigned char* WindComp_BODY = WindComp_BUF + 1;
+// End of comp item.
 static const unsigned char* WindComp_END = WindComp_BUF + WindComp_BUF_SIZE;
 
 static unsigned WindComp_ITEM_LEN = 0;
@@ -164,10 +166,117 @@ unsigned WindComp_apply_minus(unsigned char* args, const unsigned char* argsEnd)
         return mover - args;
 }
 
+unsigned WindComp_apply_multiply(unsigned char* args, const unsigned char* argsEnd)
+{
+        if(WindComp_BUF[0] != WindType_Number)
+        {
+                WindState_write_err("Attempted to use * operator on type: '%s'", WindType_get_str(WindComp_BUF[0]));
+                return 0;
+        }
+        unsigned char* mover = args;
+        while(mover != argsEnd)
+        {
+                switch(*mover)
+                {
+                case WindType_Number:
+                        mover++;
+                        WindComp_MULTIPLY_NUM(WindComp_BODY, mover);
+                        mover += sizeof(double);
+                        break;
+                case WindType_Bool:
+                        // Adds 1 for true, 0 for False.
+                        mover++;
+                        *(double*)(WindComp_BODY) *= *mover++;
+                        break;
+                case WindType_Sep:
+                        return mover - args;
+                default:
+                        WindState_write_err("Attempted to use * operator on arg with type: '%s'", WindType_get_str(*mover));
+                        return 0;
+                }
+        }
+        return mover - args;
+}
+
+int WindComp_check_not(void)
+{
+        switch(WindComp_BUF[0])
+        {
+        case WindType_Bool:
+                return !(*WindComp_BODY);
+        case WindType_None:
+                return 1;
+        case WindType_Number:
+                return !(*(double*)(WindComp_BODY));
+        default:
+                return 0;
+        }
+}
+
+int WindComp_check_lt(unsigned char** arg)
+{
+        int result = 0;
+        switch(WindComp_BUF[0])
+        {
+        case WindType_Number:
+                switch(**arg)
+                {
+                case WindType_Number:
+                        *arg += 1;
+                        result = WindComp_LT_NUM(WindComp_BODY, *arg);
+                        *arg += sizeof(double);
+                        return result;
+                default:
+                        return 0;
+                }
+        case WindType_Bool:
+                switch(**arg)
+                {
+                case WindType_Bool:
+                        result = WindComp_BUF[1] < (*arg)[1];
+                        *arg += 2;
+                        return result;
+                }
+        default:
+                return 0;
+        }
+}
+
+int WindComp_check_gt(unsigned char** arg)
+{
+        int result = 0;
+        switch(WindComp_BUF[0])
+        {
+        case WindType_Number:
+                switch(**arg)
+                {
+                case WindType_Number:
+                        *arg += 1;
+                        result = WindComp_GT_NUM(WindComp_BODY, *arg);
+                        *arg += sizeof(double);
+                        return result;
+                default:
+                        return 0;
+                }
+        case WindType_Bool:
+                switch(**arg)
+                {
+                case WindType_Bool:
+                        result = WindComp_BUF[1] > (*arg)[1];
+                        *arg += 2;
+                        return result;
+                }
+        default:
+                return 0;
+        }
+}
+
 /*Applies series of operations to item in comp*/
+// THROWS with return of 0
 int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
 {
         unsigned moveChecker = 0;
+        //int boolResult = 0;
         while(ins != insEnd)
         {
                 switch(*ins)
@@ -194,6 +303,12 @@ int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
                         if(moveChecker) ins += moveChecker;
                         else return 0;
                         break;
+                case WindType_Multiply:
+                        ins++;
+                        moveChecker = WindComp_apply_multiply(ins, insEnd);
+                        if(moveChecker) ins += moveChecker;
+                        else return 0;
+                        break;
                 case WindType_Del:
                         ins++;
                         WindComp_clear();
@@ -202,8 +317,44 @@ int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
                         ins++;
                         break;
                 default:
+                        WindState_write_err("Cannot map argument of type: '%s'", WindType_get_str(*ins));
                         return 0;
                 }
         }
+        return 1;
+}
+
+
+int WindComp_filter(unsigned char* ins, const unsigned char* insEnd)
+{
+        //unsigned moveChecker = 0;
+        // Active while object has still not failed a filter.
+        while(ins != insEnd)
+        {
+                switch(*ins)
+                {
+                case WindType_Not:
+                        ins++;
+                        if(!WindComp_check_not()) goto FILTER_FAILURE;
+                        break;
+                case WindType_Lt:
+                        ins++;
+                        if(!WindComp_check_lt(&ins)) goto FILTER_FAILURE;
+                        break;
+                case WindType_Gt:
+                        ins++;
+                        if(!WindComp_check_gt(&ins)) goto FILTER_FAILURE;
+                        break;
+                case WindType_Sep:
+                        ins++;
+                        break;
+                default:
+                        WindState_write_err("Cannot run filter operation with type: '%s'", WindType_get_str(*ins));
+                        return 0;
+                }
+        }
+        return 1;
+FILTER_FAILURE:
+        WindComp_clear();
         return 1;
 }
