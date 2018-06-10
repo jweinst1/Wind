@@ -17,6 +17,8 @@
 
 #define WindComp_MINUS_NUM(val1, val2) *(double*)(val1) -= *(double*)(val2)
 
+#define WindComp_MULTIPLY_NUM(val1, val2) *(double*)(val1) *= *(double*)(val2)
+
 #define WindComp_LT_NUM(val1, val2) *(double*)(val1) < *(double*)(val2)
 
 unsigned char* WindComp_begin(void);
@@ -48,6 +50,8 @@ void WindComp_apply_not(void);
 unsigned WindComp_apply_plus(unsigned char* args, const unsigned char* argsEnd);
 
 unsigned WindComp_apply_minus(unsigned char* args, const unsigned char* argsEnd);
+
+unsigned WindComp_apply_multiply(unsigned char* args, const unsigned char* argsEnd);
 
 /*/ filtering functions /*/
 
