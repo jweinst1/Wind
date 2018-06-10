@@ -14,7 +14,8 @@ typedef enum
         WindType_Plus,
         WindType_Minus,
         WindType_Multiply,
-        WindType_Lt, // < op
+        WindType_Lt,
+        WindType_Gt,
         WindType_Del,
         WindType_Sep
 } WindType;
