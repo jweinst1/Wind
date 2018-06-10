@@ -211,9 +211,11 @@ int WindComp_check_lt(unsigned char** arg)
 }
 
 /*Applies series of operations to item in comp*/
+// THROWS with return of 0
 int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
 {
         unsigned moveChecker = 0;
+        int boolResult = 0;
         while(ins != insEnd)
         {
                 switch(*ins)
@@ -244,6 +246,14 @@ int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
                         ins++;
                         WindComp_clear();
                         return 1;
+                case WindType_Lt:
+                        ins++;
+                        // todo: refactor
+                        boolResult = WindComp_check_lt(&ins);
+                        WindComp_BUF[0] = WindType_Bool;
+                        WindComp_BUF[1] = boolResult;
+                        WindComp_ITEM_LEN = sizeof(unsigned char) + sizeof(unsigned char);
+                        break;
                 case WindType_Sep:
                         ins++;
                         break;
@@ -254,6 +264,7 @@ int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
         return 1;
 }
 
+// todo: throw or not?
 int WindComp_filter(unsigned char* ins, const unsigned char* insEnd)
 {
         //unsigned moveChecker = 0;
