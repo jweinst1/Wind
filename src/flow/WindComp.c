@@ -242,12 +242,41 @@ int WindComp_check_lt(unsigned char** arg)
         }
 }
 
+int WindComp_check_gt(unsigned char** arg)
+{
+        int result = 0;
+        switch(WindComp_BUF[0])
+        {
+        case WindType_Number:
+                switch(**arg)
+                {
+                case WindType_Number:
+                        *arg += 1;
+                        result = WindComp_GT_NUM(WindComp_BODY, *arg);
+                        *arg += sizeof(double);
+                        return result;
+                default:
+                        return 0;
+                }
+        case WindType_Bool:
+                switch(**arg)
+                {
+                case WindType_Bool:
+                        result = WindComp_BUF[1] > (*arg)[1];
+                        *arg += 2;
+                        return result;
+                }
+        default:
+                return 0;
+        }
+}
+
 /*Applies series of operations to item in comp*/
 // THROWS with return of 0
 int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
 {
         unsigned moveChecker = 0;
-        int boolResult = 0;
+        //int boolResult = 0;
         while(ins != insEnd)
         {
                 switch(*ins)
@@ -284,14 +313,6 @@ int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
                         ins++;
                         WindComp_clear();
                         return 1;
-                case WindType_Lt:
-                        ins++;
-                        // todo: refactor
-                        boolResult = WindComp_check_lt(&ins);
-                        WindComp_BUF[0] = WindType_Bool;
-                        WindComp_BUF[1] = boolResult;
-                        WindComp_ITEM_LEN = sizeof(unsigned char) + sizeof(unsigned char);
-                        break;
                 case WindType_Sep:
                         ins++;
                         break;
@@ -319,6 +340,10 @@ int WindComp_filter(unsigned char* ins, const unsigned char* insEnd)
                 case WindType_Lt:
                         ins++;
                         if(!WindComp_check_lt(&ins)) goto FILTER_FAILURE;
+                        break;
+                case WindType_Gt:
+                        ins++;
+                        if(!WindComp_check_gt(&ins)) goto FILTER_FAILURE;
                         break;
                 case WindType_Sep:
                         ins++;

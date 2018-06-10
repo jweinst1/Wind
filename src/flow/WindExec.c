@@ -24,6 +24,7 @@ void WindExec_clr(void)
 
 int WindExec_map(void)
 {
+        if(!WindData_load_len()) return 1;
         unsigned char* loadStart;
         const unsigned char* loadStop;
 
@@ -50,6 +51,7 @@ int WindExec_map(void)
 
 int WindExec_filter(void)
 {
+        if(!WindData_load_len()) return 1;
         unsigned char* loadStart;
         const unsigned char* loadStop;
 

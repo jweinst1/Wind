@@ -79,7 +79,7 @@ void IOUtil_debug(void)
         WindState_print_err(); //other func
         printf("Mode: ");
         WindState_print_mode();
-        printf("Command: ");
+        printf("\nCommand: ");
         WindState_print_cmd();
         puts("\n..........Data.........");
         printf("Load Buffer: -> [ ");
