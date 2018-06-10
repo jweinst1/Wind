@@ -44,6 +44,10 @@ int IOUtil_print(const unsigned char* start, const unsigned char* end)
                         start++;
                         printf("- ");
                         break;
+                case WindType_Multiply:
+                        start++;
+                        printf("* ");
+                        break;
                 case WindType_Lt:
                         start++;
                         printf("< ");

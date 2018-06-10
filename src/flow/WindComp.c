@@ -258,6 +258,7 @@ int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
                         ins++;
                         break;
                 default:
+                        WindState_write_err("Cannot map argument of type: '%s'", WindType_get_str(*ins));
                         return 0;
                 }
         }

@@ -95,6 +95,10 @@ int WindRun_load(const char** code)
                         *code += 1;
                         WindLoad_plus();
                         continue;
+                case '*':
+                        *code += 1;
+                        WindLoad_multiply();
+                        continue;
                 case '=':
                         // assign :symbol
                         *code += 1;
