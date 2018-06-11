@@ -20,13 +20,9 @@ int WindRun_load(const char** code);
 // When found, does a goto to TRANS_TO_LOAD to switch state.
 int WindRun_command(const char** code);
 
-// Runs the code as a complete portion of source code.
+// Runs a string of code
 // Will execute any lasting commands and print any errors once
 // the end of the string is reached.
 void WindRun_code(const char* code);
-
-// Runs the code as continuous incoming stream of code chunks
-// Does not force lasting commands or print errors once a single code chunk is done.
-void WindRun_continuous(const char* code);
 
 #endif

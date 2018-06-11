@@ -1,4 +1,6 @@
 #include "IOUtil.h"
+#include "LangInfo.h"
+
 
 
 static inline int
@@ -98,6 +100,7 @@ void IOUtil_repl(void)
 {
         int running = 1;
         char replBuf[IOUtil_REPL_SIZE];
+        printf("%s - Version (%s)\n%s", LangInfo_NAME, LangInfo_VERSION, LangInfo_REPL_INS);
         while(running)
         {
                 printf(IOUtil_REPL_PROMPT);
@@ -109,7 +112,7 @@ void IOUtil_repl(void)
                         }
                         else
                         {
-                                WindRun_continuous(replBuf);
+                                WindRun_code(replBuf);
                         }
                 }
         }
