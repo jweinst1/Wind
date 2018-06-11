@@ -1,7 +1,12 @@
-## Intro
+## Issue
 
-### Description
+What is this issue about?
+--------------------------------------------------
 
-### Example
+- [ ] Language Suggestion
+- [ ] Question about Wind
+- [ ] Suggested Code Change
+- [ ] Bug
 
-### Solution
+Please state below a description of your issue:
+----------------------------------------------------

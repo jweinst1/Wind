@@ -214,6 +214,38 @@ unsigned WindComp_apply_multiply(unsigned char* args, const unsigned char* argsE
         return mover - args;
 }
 
+unsigned WindComp_apply_divide(unsigned char* args, const unsigned char* argsEnd)
+{
+        if(WindComp_BUF[0] != WindType_Number)
+        {
+                WindState_write_err("Attempted to use / operator on type: '%s'", WindType_get_str(WindComp_BUF[0]));
+                return 0;
+        }
+        unsigned char* mover = args;
+        while(mover != argsEnd)
+        {
+                switch(*mover)
+                {
+                case WindType_Number:
+                        mover++;
+                        *(double*)(WindComp_BODY) = _guard_div_zero(*(double*)WindComp_BODY, *(double*)mover);
+                        mover += sizeof(double);
+                        break;
+                case WindType_Bool:
+                        // Adds 1 for true, 0 for False.
+                        mover++;
+                        *(double*)(WindComp_BODY) = _guard_div_zero(*(double*)WindComp_BODY, *mover++);
+                        break;
+                case WindType_Sep:
+                        return mover - args;
+                default:
+                        WindState_write_err("Attempted to use * operator on arg with type: '%s'", WindType_get_str(*mover));
+                        return 0;
+                }
+        }
+        return mover - args;
+}
+
 int WindComp_check_not(void)
 {
         switch(WindComp_BUF[0])
@@ -322,6 +354,12 @@ int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
                 case WindType_Multiply:
                         ins++;
                         moveChecker = WindComp_apply_multiply(ins, insEnd);
+                        if(moveChecker) ins += moveChecker;
+                        else return 0;
+                        break;
+                case WindType_Divide:
+                        ins++;
+                        moveChecker = WindComp_apply_divide(ins, insEnd);
                         if(moveChecker) ins += moveChecker;
                         else return 0;
                         break;

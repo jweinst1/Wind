@@ -55,6 +55,8 @@ unsigned WindComp_apply_minus(unsigned char* args, const unsigned char* argsEnd)
 
 unsigned WindComp_apply_multiply(unsigned char* args, const unsigned char* argsEnd);
 
+unsigned WindComp_apply_divide(unsigned char* args, const unsigned char* argsEnd);
+
 /*/ filtering functions /*/
 
 // Checks if item in comp buffer is true or false after NOT
