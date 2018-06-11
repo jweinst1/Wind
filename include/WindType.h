@@ -14,6 +14,7 @@ typedef enum
         WindType_Plus,
         WindType_Minus,
         WindType_Multiply,
+        WindType_Divide,
         WindType_Lt,
         WindType_Gt,
         WindType_Del,

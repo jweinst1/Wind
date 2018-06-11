@@ -68,6 +68,7 @@ unsigned WindComp_write_typed(const unsigned char* item)
         case WindType_Plus:
         case WindType_Minus:
         case WindType_Multiply:
+        case WindType_Divide:
                 WindComp_BUF[0] = *item;
                 WindComp_ITEM_LEN = sizeof(unsigned char);
                 return WindComp_ITEM_LEN;
@@ -91,6 +92,14 @@ unsigned WindComp_read(void* dest)
 {
         memcpy(dest, WindComp_BUF, WindComp_ITEM_LEN);
         return WindComp_ITEM_LEN;
+}
+
+// Guards against dividing by zero, defaults to division by 1
+static inline
+double _guard_div_zero(double lfs, double rfs)
+{
+        if(rfs == 0) return lfs / 1;
+        else return lfs / rfs;
 }
 
 void WindComp_apply_not(void)

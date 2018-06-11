@@ -99,6 +99,10 @@ int WindRun_load(const char** code)
                         *code += 1;
                         WindLoad_multiply();
                         continue;
+                case '/':
+                        *code += 1;
+                        WindLoad_divide();
+                        continue;
                 case '=':
                         // assign :symbol
                         *code += 1;
@@ -324,7 +328,7 @@ int WindRun_command(const char** code)
         goto TRANS_TO_LOAD;
 TRANS_TO_LOAD:
         if(WindState_has_cmd()) WindState_set_mode(WindMode_load);
-        else return 1;
+        return 1;
 }
 
 void WindRun_code(const char* code)
