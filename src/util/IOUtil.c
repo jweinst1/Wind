@@ -93,3 +93,24 @@ void IOUtil_debug(void)
         printf("]\n");
         puts("________________________");
 }
+
+void IOUtil_repl(void)
+{
+        int running = 1;
+        char replBuf[IOUtil_REPL_SIZE];
+        while(running)
+        {
+                printf(IOUtil_REPL_PROMPT);
+                if(fgets(replBuf, IOUtil_REPL_SIZE, stdin) != NULL)
+                {
+                        if(replBuf[0] == 'e' && replBuf[1] == 'x' && replBuf[2] == 'i' && replBuf[3] == 't')
+                        {
+                                return;
+                        }
+                        else
+                        {
+                                WindRun_code(replBuf);
+                        }
+                }
+        }
+}

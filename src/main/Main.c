@@ -7,9 +7,14 @@
 
 
 int main(int argc, char const *argv[]) {
-        if(argc != 3)
+        if(argc == 1)
         {
-                fprintf(stderr, "Error, need exactly two command line arguments, got %d\n", argc - 1);
+                IOUtil_repl();
+                exit(0);
+        }
+        if(argc > 3)
+        {
+                fprintf(stderr, "Error, need two or no command line arguments, got %d\n", argc - 1);
                 exit(1);
         }
         else if(!strcmp(argv[1], "-c"))

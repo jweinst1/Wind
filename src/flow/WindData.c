@@ -104,7 +104,7 @@ void WindData_active_set(unsigned char* place)
 
 void WindData_active_write(void* data, size_t length)
 {
-        unsigned char* writer = WindData_ACTIVE_B ? WindData_B1 : WindData_B0_PTR;
+        unsigned char* writer = WindData_ACTIVE_B ? WindData_B1_PTR : WindData_B0_PTR;
         if(length > (WindData_ACTIVE_B ? WindData_B1_END : WindData_B0_END) - writer)
         {
                 fprintf(stderr, "%s\n", "Memory Error: Ran out of load buffer memory, exiting.");
@@ -191,7 +191,7 @@ void WindData_inactive_set(unsigned char* place)
 
 void WindData_inactive_write(void* data, size_t length)
 {
-        unsigned char* writer = !WindData_ACTIVE_B ? WindData_B1 : WindData_B0_PTR;
+        unsigned char* writer = !WindData_ACTIVE_B ? WindData_B1_PTR : WindData_B0_PTR;
         if(length > (!WindData_ACTIVE_B ? WindData_B1_END : WindData_B0_END) - writer)
         {
                 fprintf(stderr, "%s\n", "Memory Error: Ran out of load buffer memory, exiting.");
