@@ -109,7 +109,7 @@ void IOUtil_repl(void)
                         }
                         else
                         {
-                                WindRun_code(replBuf);
+                                WindRun_continuous(replBuf);
                         }
                 }
         }

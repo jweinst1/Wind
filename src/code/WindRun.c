@@ -180,8 +180,7 @@ int WindRun_load(const char** code)
                         }
                         break;
                 case '\0':
-                        // source code ends
-                        goto TRANS_TO_EXEC;
+                        return 1;
                 default:
                         WindState_write_err("Expected argument or value, found '%c'", **code);
                         return 0;
@@ -316,7 +315,8 @@ int WindRun_command(const char** code)
                         break;
 
                 case '\0':
-                        goto TRANS_TO_LOAD;
+                        if(WindState_has_cmd()) goto TRANS_TO_LOAD;
+                        else return 1;
                 default:
                         WindState_write_err("Expected command symbol, found '%c'", **code);
                         return 0;
@@ -356,5 +356,29 @@ void WindRun_code(const char* code)
         {
                 WindState_print_err();
                 return;
+        }
+}
+
+void WindRun_continuous(const char* code)
+{
+        while(*code)
+        {
+                if(WindState_has_err())
+                {
+                        WindState_print_err();
+                        return;
+                }
+                switch(WindState_get_mode())
+                {
+                case WindMode_command:
+                        WindRun_command(&code);
+                        break;
+                case WindMode_load:
+                        WindRun_load(&code);
+                        break;
+                case WindMode_exec:
+                        WindRun_exec(&code);
+                        break;
+                }
         }
 }
