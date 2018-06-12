@@ -6,6 +6,7 @@
 #include "WindState.h"
 #include "WindExec.h"
 #include "WindLoad.h"
+#include "WindReduce.h"
 
 // central header that handles running of code
 
