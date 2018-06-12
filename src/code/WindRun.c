@@ -22,6 +22,9 @@ int WindRun_exec(const char** code)
         case WindCommand_filter:
                 WindExec_filter();
                 break;
+        case WindCommand_reduce:
+                // handle reduce
+                break;
         }
         WindData_load_reset(); // Resets load buf.
         WindState_set_cmd(WindCommand_null);
@@ -318,6 +321,20 @@ int WindRun_command(const char** code)
                         }
                         break;
 
+                case 'r':
+                        // Due to only one command that starts with f, this does not use static trie
+                        if((*code)[1] == 'e' && (*code)[2] == 'd' && (*code)[3] == 'u' && (*code)[4] == 'c' && (*code)[5] == 'e')
+                        {
+                                *code += 6;
+                                WindState_set_cmd(WindCommand_reduce);
+                                goto TRANS_TO_LOAD;
+                        }
+                        else
+                        {
+                                WindState_write_err("Expected command symbol, found 'r%c%c%c'", *code[1], *code[2], *code[3]);
+                                return 0;
+                        }
+                        break;
                 case '\0':
                         goto TRANS_TO_LOAD;
                 default:

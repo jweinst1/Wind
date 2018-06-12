@@ -75,6 +75,41 @@ wind> exit
 ```
 At any time in the repl, typing `exit`, will close the program.
 
+#### `-c`:
+
+The `-c` flag allows you to run a string of `Wind` code, like this
+
+```
+$ Wind -c "push 5 -> out -> clr"
+[ ]
+```
+
+#### `-d`:
+
+The `-d` flag allows you to run a string of `Wind` code and also get debug information
+
+```
+$ Wind -d "push 5 6 77 44 -> out -> filter > 10 -> out -> filter < 76 -> out"
+[ 5 6 77 44 ]
+[ 77 44 ]
+[ 44 ]
+_____Wind___Debug_______
+..........State.........
+Has Error: false
+Mode: Command
+Command: null
+..........Data.........
+Load Buffer: -> [ ]
+Active Buffer: -> [ 44 ]
+Inactive Buffer: -> [ 77 44 ]
+________________________
+```
+
+#### `-t`:
+
+The `-t` flag allows for a string of `Wind` code to be run and timed.
+
+
 ## Stage
 
 `Wind` is currently in the alpha development stage, the first release version is still in progress.

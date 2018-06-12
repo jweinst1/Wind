@@ -31,6 +31,8 @@ void WindComp_set_len(unsigned length);
 
 // Returns head byte marker of comp buffer.
 unsigned char WindComp_get_head(void);
+// Returns the body portion of the comp buffer.
+unsigned char* WindComp_get_body(void);
 
 void WindComp_clear(void);
 // Writes amount of length bytes from item

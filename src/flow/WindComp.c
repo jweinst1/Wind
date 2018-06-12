@@ -34,6 +34,11 @@ unsigned char WindComp_get_head(void)
         return WindComp_BUF[0];
 }
 
+unsigned char* WindComp_get_body(void)
+{
+        return WindComp_BODY;
+}
+
 void WindComp_clear(void)
 {
         WindComp_ITEM_LEN = 0;
