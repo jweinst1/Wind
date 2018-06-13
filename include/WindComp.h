@@ -24,6 +24,7 @@
 #define WindComp_GT_NUM(val1, val2) *(double*)(val1) > *(double*)(val2)
 
 unsigned char* WindComp_begin(void);
+unsigned char* WindComp_ptr(void);
 const unsigned char* WindComp_end(void);
 
 unsigned WindComp_get_len(void);

@@ -15,6 +15,11 @@ unsigned char* WindComp_begin(void)
         return WindComp_BUF;
 }
 
+unsigned char* WindComp_ptr(void)
+{
+        return WindComp_BUF + WindComp_ITEM_LEN;
+}
+
 const unsigned char* WindComp_end(void)
 {
         return WindComp_END;
