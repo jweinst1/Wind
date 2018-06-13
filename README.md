@@ -107,7 +107,15 @@ ________________________
 
 #### `-t`:
 
-The `-t` flag allows for a string of `Wind` code to be run and timed.
+The `-t` flag allows for a string of `Wind` code to be run and timed:
+
+```
+Wind -t "push 5 3 4 -> reduce + -> out -> push 6 6 6 6 6 6 6 -> reduce + -> out -> push 6 5 -> map * 7 -> reduce + -> out"
+[ 12 ]
+[ 54 ]
+[ 455 ]
+Time: 0.000081
+```
 
 
 ## Stage

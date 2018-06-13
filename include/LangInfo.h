@@ -9,4 +9,8 @@
 
 #define LangInfo_REPL_INS "The Wind Programming Language REPL\nTo exit, simply enter 'exit'.\n"
 
+#define LangInfo_HELP "The Wind Programming Language Help Guide\n \
+          clr command: \n \
+                  The clr command resets the active data.\n"
+
 #endif

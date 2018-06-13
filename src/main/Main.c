@@ -4,6 +4,7 @@
 
 #include "IOUtil.h"
 #include "WindRun.h"
+#include "LangInfo.h"
 
 
 int main(int argc, char const *argv[]) {
@@ -14,7 +15,7 @@ int main(int argc, char const *argv[]) {
         }
         if(argc > 3)
         {
-                fprintf(stderr, "Error, need two or no command line arguments, got %d\n", argc - 1);
+                fprintf(stderr, "Error, need two or less arguments, got %d\n", argc - 1);
                 exit(1);
         }
         else if(!strcmp(argv[1], "-c"))
@@ -35,6 +36,10 @@ int main(int argc, char const *argv[]) {
         {
                 WindRun_code(argv[2]);
                 IOUtil_debug();
+        }
+        else if(!strcmp(argv[1], "-h"))
+        {
+                printf(LangInfo_HELP);
         }
         else
         {
