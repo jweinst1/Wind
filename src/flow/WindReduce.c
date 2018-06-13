@@ -12,15 +12,29 @@ int WindReduce_plus(void)
 
         // load first onto comp buffer
         activeStart += WindComp_write_typed(activeStart);
+        if(*comp != WindType_Number)
+        {
+                // todo: String will be added
+                WindState_write_err("Attempted to reduce + on type: '%s'", WindType_get_str(*comp));
+                return 0;
+        }
+        WindData_inactive_reset();
         while(activeStart != activeStop)
         {
                 switch(*activeStart)
                 {
+                case WindType_Number:
+                        activeStart++;
+                        // todo: macros of these need to be in separate head.
+                        *(double*)(compBody) += *(double*)(activeStart);
+                        activeStart += sizeof(double);
+                        break;
                 default:
                         WindState_write_err("Cannot perform reduce (+) with argument type: '%s'", WindType_get_str(*activeStart));
                         return 0;
                 }
         }
+        WindData_inactive_write(WindComp_begin(), WindComp_get_len());
         WindData_active_switch();
         return 1;
 }
@@ -31,8 +45,7 @@ int WindReduce_reduce(void)
         switch(*reduceInst)
         {
         case WindType_Plus:
-                // calls plus reducer
-                return 1;
+                return WindReduce_plus();
         default:
                 WindState_write_err("Cannot run reduce operation with instruction type: '%s'", WindType_get_str(*reduceInst));
                 return 0;

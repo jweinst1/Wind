@@ -23,7 +23,7 @@ int WindRun_exec(const char** code)
                 WindExec_filter();
                 break;
         case WindCommand_reduce:
-                // handle reduce
+                WindReduce_reduce();
                 break;
         }
         WindData_load_reset(); // Resets load buf.
