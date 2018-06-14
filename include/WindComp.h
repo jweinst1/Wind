@@ -24,6 +24,7 @@
 #define WindComp_GT_NUM(val1, val2) *(double*)(val1) > *(double*)(val2)
 
 unsigned char* WindComp_begin(void);
+unsigned char* WindComp_ptr(void);
 const unsigned char* WindComp_end(void);
 
 unsigned WindComp_get_len(void);
@@ -31,6 +32,8 @@ void WindComp_set_len(unsigned length);
 
 // Returns head byte marker of comp buffer.
 unsigned char WindComp_get_head(void);
+// Returns the body portion of the comp buffer.
+unsigned char* WindComp_get_body(void);
 
 void WindComp_clear(void);
 // Writes amount of length bytes from item
@@ -54,6 +57,8 @@ unsigned WindComp_apply_plus(unsigned char* args, const unsigned char* argsEnd);
 unsigned WindComp_apply_minus(unsigned char* args, const unsigned char* argsEnd);
 
 unsigned WindComp_apply_multiply(unsigned char* args, const unsigned char* argsEnd);
+
+unsigned WindComp_apply_divide(unsigned char* args, const unsigned char* argsEnd);
 
 /*/ filtering functions /*/
 

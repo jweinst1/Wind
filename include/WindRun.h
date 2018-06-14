@@ -6,6 +6,7 @@
 #include "WindState.h"
 #include "WindExec.h"
 #include "WindLoad.h"
+#include "WindReduce.h"
 
 // central header that handles running of code
 
@@ -20,7 +21,9 @@ int WindRun_load(const char** code);
 // When found, does a goto to TRANS_TO_LOAD to switch state.
 int WindRun_command(const char** code);
 
-// Top level function that takes a stream and runs textual source code on it.
+// Runs a string of code
+// Will execute any lasting commands and print any errors once
+// the end of the string is reached.
 void WindRun_code(const char* code);
 
 #endif

@@ -96,5 +96,8 @@ void WindState_print_cmd(void)
         case WindCommand_filter:
                 printf("filter");
                 break;
+        case WindCommand_reduce:
+                printf("reduce");
+                break;
         }
 }

@@ -14,6 +14,7 @@ typedef enum
         WindType_Plus,
         WindType_Minus,
         WindType_Multiply,
+        WindType_Divide,
         WindType_Lt,
         WindType_Gt,
         WindType_Del,
@@ -28,7 +29,8 @@ typedef enum
         WindCommand_push,
         WindCommand_clr,
         WindCommand_map,
-        WindCommand_filter
+        WindCommand_filter,
+        WindCommand_reduce
 } WindCommand;
 
 const char* WindType_get_str(WindType type);

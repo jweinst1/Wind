@@ -21,6 +21,11 @@ LD_FLAGS :=
 MEM_FLAGS := -DWindData_BUF_SIZE=$(WIND_MEM_BUF) -DWindData_LOAD_SIZE=$(WIND_MEM_LOAD) -DWindComp_BUF_SIZE=$(WIND_MEM_COMP)
 CC_FLAGS := -c -Wall -I$(INC_DIR) $(MEM_FLAGS)
 
+# Cleans old and rebuilds all object files
+build:
+	make clean
+	make all
+
 clean:
 	rm -rf bin
 	rm -rf lib

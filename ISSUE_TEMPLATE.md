@@ -1,7 +1,11 @@
-## Intro
+## Issue
 
-### Description
+### What is this issue about?
 
-### Example
 
-### Solution
+- [ ] Language Suggestion
+- [ ] Question about Wind
+- [ ] Suggested Code Change
+- [ ] Bug
+
+### Please state below a description of your issue:

@@ -15,6 +15,11 @@ unsigned char* WindComp_begin(void)
         return WindComp_BUF;
 }
 
+unsigned char* WindComp_ptr(void)
+{
+        return WindComp_BUF + WindComp_ITEM_LEN;
+}
+
 const unsigned char* WindComp_end(void)
 {
         return WindComp_END;
@@ -32,6 +37,11 @@ void WindComp_set_len(unsigned length)
 unsigned char WindComp_get_head(void)
 {
         return WindComp_BUF[0];
+}
+
+unsigned char* WindComp_get_body(void)
+{
+        return WindComp_BODY;
 }
 
 void WindComp_clear(void)
@@ -62,6 +72,13 @@ unsigned WindComp_write_typed(const unsigned char* item)
         case WindType_Sep:
         case WindType_Assign:
         case WindType_None:
+        case WindType_Del:
+        case WindType_Lt:
+        case WindType_Gt:
+        case WindType_Plus:
+        case WindType_Minus:
+        case WindType_Multiply:
+        case WindType_Divide:
                 WindComp_BUF[0] = *item;
                 WindComp_ITEM_LEN = sizeof(unsigned char);
                 return WindComp_ITEM_LEN;
@@ -87,8 +104,17 @@ unsigned WindComp_read(void* dest)
         return WindComp_ITEM_LEN;
 }
 
+// Guards against dividing by zero, defaults to division by 1
+static inline
+double _guard_div_zero(double lfs, double rfs)
+{
+        if(rfs == 0) return lfs / 1;
+        else return lfs / rfs;
+}
+
 void WindComp_apply_not(void)
 {
+        WindComp_ITEM_LEN = sizeof(unsigned char) + sizeof(unsigned char);
         switch(WindComp_BUF[0])
         {
         case WindType_Bool:
@@ -187,6 +213,38 @@ unsigned WindComp_apply_multiply(unsigned char* args, const unsigned char* argsE
                         // Adds 1 for true, 0 for False.
                         mover++;
                         *(double*)(WindComp_BODY) *= *mover++;
+                        break;
+                case WindType_Sep:
+                        return mover - args;
+                default:
+                        WindState_write_err("Attempted to use * operator on arg with type: '%s'", WindType_get_str(*mover));
+                        return 0;
+                }
+        }
+        return mover - args;
+}
+
+unsigned WindComp_apply_divide(unsigned char* args, const unsigned char* argsEnd)
+{
+        if(WindComp_BUF[0] != WindType_Number)
+        {
+                WindState_write_err("Attempted to use / operator on type: '%s'", WindType_get_str(WindComp_BUF[0]));
+                return 0;
+        }
+        unsigned char* mover = args;
+        while(mover != argsEnd)
+        {
+                switch(*mover)
+                {
+                case WindType_Number:
+                        mover++;
+                        *(double*)(WindComp_BODY) = _guard_div_zero(*(double*)WindComp_BODY, *(double*)mover);
+                        mover += sizeof(double);
+                        break;
+                case WindType_Bool:
+                        // Adds 1 for true, 0 for False.
+                        mover++;
+                        *(double*)(WindComp_BODY) = _guard_div_zero(*(double*)WindComp_BODY, *mover++);
                         break;
                 case WindType_Sep:
                         return mover - args;
@@ -306,6 +364,12 @@ int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
                 case WindType_Multiply:
                         ins++;
                         moveChecker = WindComp_apply_multiply(ins, insEnd);
+                        if(moveChecker) ins += moveChecker;
+                        else return 0;
+                        break;
+                case WindType_Divide:
+                        ins++;
+                        moveChecker = WindComp_apply_divide(ins, insEnd);
                         if(moveChecker) ins += moveChecker;
                         else return 0;
                         break;

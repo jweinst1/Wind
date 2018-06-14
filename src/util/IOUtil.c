@@ -1,4 +1,6 @@
 #include "IOUtil.h"
+#include "LangInfo.h"
+
 
 
 static inline int
@@ -48,6 +50,10 @@ int IOUtil_print(const unsigned char* start, const unsigned char* end)
                         start++;
                         printf("* ");
                         break;
+                case WindType_Divide:
+                        start++;
+                        printf("/ ");
+                        break;
                 case WindType_Lt:
                         start++;
                         printf("< ");
@@ -81,7 +87,7 @@ void IOUtil_debug(void)
         WindState_print_mode();
         printf("\nCommand: ");
         WindState_print_cmd();
-        puts("\n..........Data.........");
+        puts("\n\n..........Data.........");
         printf("Load Buffer: -> [ ");
         IOUtil_print(WindData_load_begin(), WindData_load_ptr());
         printf("]\n");
@@ -91,5 +97,44 @@ void IOUtil_debug(void)
         printf("Inactive Buffer: -> [ ");
         IOUtil_print(WindData_inactive_begin(), WindData_inactive_ptr());
         printf("]\n");
+        puts("\n..........Computation.........");
+        printf("Comp Buffer: -> [ ");
+        IOUtil_print(WindComp_begin(), WindComp_ptr());
+        printf("]\n");
         puts("________________________");
+}
+
+void IOUtil_repl(void)
+{
+        int running = 1;
+        char replBuf[IOUtil_REPL_SIZE];
+        printf("%s - Version (%s)\n%s", LangInfo_NAME, LangInfo_VERSION, LangInfo_REPL_INS);
+        while(running)
+        {
+                printf(IOUtil_REPL_PROMPT);
+                if(fgets(replBuf, IOUtil_REPL_SIZE, stdin) != NULL)
+                {
+                        if(replBuf[0] == 'e' && replBuf[1] == 'x' && replBuf[2] == 'i' && replBuf[3] == 't')
+                        {
+                                return;
+                        }
+                        else
+                        {
+                                WindRun_code(replBuf);
+                        }
+                }
+        }
+}
+
+// Will be used for saving output
+int IOUtil_save(const char* path)
+{
+        FILE* saveFile;
+        saveFile = fopen ("path", "wb");
+        if(saveFile == NULL)
+        {
+                return 0;
+        }
+        fclose(saveFile);
+        return 1;
 }
