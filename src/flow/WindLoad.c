@@ -7,6 +7,8 @@ static unsigned char WIND_BOOL_F[] = {WindType_Bool, 0};
 
 // Used for loading numbers onto a buffer.
 static unsigned char WIND_NUM[sizeof(double) + sizeof(unsigned char)] = {WindType_Number};
+// Assists in loading the header of string type.
+static unsigned char WIND_STRD[sizeof(unsigned char) + sizeof(unsigned)] = {WindType_String};
 
 static unsigned char WIND_NONE[] = {WindType_None};
 static unsigned char WIND_NOT[] = {WindType_Not};
@@ -22,6 +24,8 @@ static unsigned char WIND_GT[] = {WindType_Gt};
 
 // Used as default initalizer for moved C-string result.
 static char* NUM_RESULT_INIT = "";
+
+static char* WIND_NULL_C = "";
 
 
 void WindLoad_false(void)
@@ -96,4 +100,24 @@ void WindLoad_number(const char** code)
         WindData_load_write(WIND_NUM, sizeof(WIND_NUM));
         // Sets the code to new location after number ends.
         *code = *movedStr;
+}
+
+
+int WindLoad_string(const char** code)
+{
+        const char* mover = *code;
+        unsigned stringSize = 0;
+        while(*mover != '"')
+        {
+                // end quote not found, err
+                if(*mover == '\0') return 0;
+                else mover++;
+        }
+        stringSize = (++mover) - (*code);
+        *(unsigned*)(WIND_STRD + sizeof(unsigned char)) = stringSize;
+        WindData_load_write(WIND_STRD, sizeof(WIND_STRD));
+        WindData_load_write((char*)(*code), stringSize - 1);
+        WindData_load_write(WIND_NULL_C, sizeof(char));
+        *code += stringSize;
+        return 1;
 }

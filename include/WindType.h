@@ -9,6 +9,7 @@ typedef enum
         WindType_None,
         WindType_Bool,
         WindType_Number,
+        WindType_String,
         WindType_Not,
         WindType_Assign,
         WindType_Plus,

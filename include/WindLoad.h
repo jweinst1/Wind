@@ -27,4 +27,9 @@ void WindLoad_gt(void);
 // Loads number onto load buffer.
 void WindLoad_number(const char** code);
 
+// Loads string onto load buffer.
+// Can fail if the ending " is not found.
+// Moves code to char starting after end "
+int WindLoad_string(const char** code);
+
 #endif

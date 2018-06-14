@@ -1,7 +1,7 @@
 #include "IOUtil.h"
 #include "LangInfo.h"
 
-
+static char IOUtil_PATH_BUF[IOUtil_PATH_SIZE];
 
 static inline int
 _fl_is_int(const unsigned char* number)
@@ -29,6 +29,11 @@ int IOUtil_print(const unsigned char* start, const unsigned char* end)
                         if(_fl_is_int(start)) printf("%ld ", (long)(*(double*)start));
                         else printf("%.3f ", *(double*)start);
                         start += sizeof(double);
+                        break;
+                case WindType_String:
+                        start++;
+                        printf("\"%s\" ", (const char*)(start + sizeof(unsigned)));
+                        start += sizeof(unsigned) + (*(unsigned*)start);
                         break;
                 case WindType_Assign:
                         start++;
@@ -126,15 +131,19 @@ void IOUtil_repl(void)
         }
 }
 
-// Will be used for saving output
+// Saves active buffer binary representation.
 int IOUtil_save(const char* path)
 {
         FILE* saveFile;
-        saveFile = fopen ("path", "wb");
+        strncpy(IOUtil_PATH_BUF, path, IOUtil_PATH_SIZE - sizeof(IOUtil_BINARY_EXT));
+        strcat(IOUtil_PATH_BUF, IOUtil_BINARY_EXT);
+
+        saveFile = fopen(IOUtil_PATH_BUF, "wb");
         if(saveFile == NULL)
         {
                 return 0;
         }
+        fwrite(WindData_active_start(), sizeof(unsigned char), WindData_active_len(), saveFile);
         fclose(saveFile);
         return 1;
 }

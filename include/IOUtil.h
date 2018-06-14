@@ -1,6 +1,8 @@
 #ifndef IO_UTIL_H
 #define IO_UTIL_H
 
+#include <string.h>
+
 #include "WindData.h"
 #include "WindState.h"
 #include "WindComp.h"

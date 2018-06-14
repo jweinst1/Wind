@@ -85,6 +85,14 @@ int WindRun_load(const char** code)
                                 WindLoad_minus();
                         }
                         continue;
+                case '"':
+                        *code += 1;
+                        if(!WindLoad_string(code))
+                        {
+                                WindState_write_err("Got \" for string but no closing \".");
+                                return 0;
+                        }
+                        continue;
                 case '|':
                         *code += 1;
                         WindLoad_sep();
