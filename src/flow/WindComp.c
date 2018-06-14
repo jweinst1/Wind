@@ -93,6 +93,12 @@ unsigned WindComp_write_typed(const unsigned char* item)
                         WindComp_BUF[ds] = *item++;
                 WindComp_ITEM_LEN = sizeof(unsigned char) + sizeof(double);
                 return WindComp_ITEM_LEN;
+        case WindType_String:
+                WindComp_BUF[0] = *item++;
+                WindComp_ITEM_LEN = *(unsigned*)(item) + sizeof(unsigned) + sizeof(unsigned char);
+                memcpy(WindComp_BODY, (unsigned char*)item, WindComp_ITEM_LEN);
+                return WindComp_ITEM_LEN;
+
         default:
                 return 0;
         }
