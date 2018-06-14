@@ -7,9 +7,14 @@
 #include "WindRun.h"
 
 #define IOUtil_REPL_PROMPT "wind> "
+#define IOUtil_BINARY_EXT ".bwind"
 
 #ifndef IOUtil_REPL_SIZE
 #define IOUtil_REPL_SIZE 512
+#endif
+
+#ifndef IOUtil_PATH_SIZE
+#define IOUtil_PATH_SIZE 512
 #endif
 
 
@@ -22,6 +27,9 @@ void IOUtil_debug(void);
 
 // Starts a read eval print loop.
 void IOUtil_repl(void);
+
+// Saves the current active buffer as a binary file with extension .windb
+int IOUtil_save(const char* path);
 
 
 #endif

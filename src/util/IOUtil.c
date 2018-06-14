@@ -125,3 +125,16 @@ void IOUtil_repl(void)
                 }
         }
 }
+
+// Will be used for saving output
+int IOUtil_save(const char* path)
+{
+        FILE* saveFile;
+        saveFile = fopen ("path", "wb");
+        if(saveFile == NULL)
+        {
+                return 0;
+        }
+        fclose(saveFile);
+        return 1;
+}
