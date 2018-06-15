@@ -31,7 +31,8 @@ typedef enum
         WindCommand_clr,
         WindCommand_map,
         WindCommand_filter,
-        WindCommand_reduce
+        WindCommand_reduce,
+        WindCommand_save
 } WindCommand;
 
 const char* WindType_get_str(WindType type);

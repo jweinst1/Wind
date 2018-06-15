@@ -99,5 +99,8 @@ void WindState_print_cmd(void)
         case WindCommand_reduce:
                 printf("reduce");
                 break;
+        case WindCommand_save:
+                printf("save");
+                break;
         }
 }

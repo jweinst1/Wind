@@ -25,6 +25,9 @@ int WindRun_exec(const char** code)
         case WindCommand_reduce:
                 WindReduce_reduce();
                 break;
+        case WindCommand_save:
+                WindExec_save();
+                break;
         }
         WindData_load_reset(); // Resets load buf.
         WindState_set_cmd(WindCommand_null);
@@ -340,6 +343,34 @@ int WindRun_command(const char** code)
                         else
                         {
                                 WindState_write_err("Expected command symbol, found 'r%c%c%c'", *code[1], *code[2], *code[3]);
+                                return 0;
+                        }
+                        break;
+                case 's':
+                        switch((*code)[1])
+                        {
+                        case 'a':
+                                switch((*code)[2])
+                                {
+                                case 'v':
+                                        switch((*code)[3])
+                                        {
+                                        case 'e':
+                                                *code += 4;
+                                                WindState_set_cmd(WindCommand_save);
+                                                goto TRANS_TO_LOAD;
+                                        default:
+                                                WindState_write_err("Expected command symbol, found 'sav%c'", *code[3]);
+                                                return 0;
+                                        }
+                                        break;
+                                default:
+                                        WindState_write_err("Expected command symbol, found 'sa%c'", *code[2]);
+                                        return 0;
+                                }
+                                break;
+                        default:
+                                WindState_write_err("Expected command symbol, found 's%c'", *code[1]);
                                 return 0;
                         }
                         break;

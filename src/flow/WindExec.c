@@ -73,3 +73,20 @@ int WindExec_filter(void)
         WindData_active_switch();
         return 1;
 }
+
+int WindExec_save(void)
+{
+        unsigned char* loadBuf = WindData_load_start();
+        if(*loadBuf != WindType_String)
+        {
+                WindState_write_err("Expected type 'string' for save command, got type '%s'", WindType_get_str(*loadBuf));
+                return 0;
+        }
+        const char* savePath = (const char*)(loadBuf + sizeof(unsigned char) + sizeof(unsigned));
+        if(!IOUtil_save(savePath))
+        {
+                WindState_write_err("File path '%s' cannot be written to.", savePath);
+                return 0;
+        }
+        return 1;
+}
