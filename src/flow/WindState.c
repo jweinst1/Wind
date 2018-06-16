@@ -102,5 +102,8 @@ void WindState_print_cmd(void)
         case WindCommand_save:
                 printf("save");
                 break;
+        case WindCommand_load:
+                printf("load");
+                break;
         }
 }

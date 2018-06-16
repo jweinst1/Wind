@@ -28,6 +28,9 @@ int WindRun_exec(const char** code)
         case WindCommand_save:
                 WindExec_save();
                 break;
+        case WindCommand_load:
+                (void) WindExec_load();
+                break;
         }
         WindData_load_reset(); // Resets load buf.
         WindState_set_cmd(WindCommand_null);
@@ -258,6 +261,34 @@ int WindRun_command(const char** code)
                         else
                         {
                                 WindState_write_err("Expected command symbol, found 'f%c%c%c'", *code[1], *code[2], *code[3]);
+                                return 0;
+                        }
+                        break;
+                case 'l':
+                        switch((*code)[1])
+                        {
+                        case 'o':
+                                switch((*code)[2])
+                                {
+                                case 'a':
+                                        switch((*code)[3])
+                                        {
+                                        case 'd':
+                                                *code += 4;
+                                                WindState_set_cmd(WindCommand_load);
+                                                goto TRANS_TO_LOAD;
+                                        default:
+                                                WindState_write_err("Expected command symbol, found 'loa%c'", *code[3]);
+                                                return 0;
+                                        }
+                                        break;
+                                default:
+                                        WindState_write_err("Expected command symbol, found 'lo%c'", *code[2]);
+                                        return 0;
+                                }
+                                break;
+                        default:
+                                WindState_write_err("Expected command symbol, found 'l%c'", *code[1]);
                                 return 0;
                         }
                         break;

@@ -91,3 +91,21 @@ int WindExec_save(void)
         printf("saved @ %s\n", savePath);
         return 1;
 }
+
+int WindExec_load(void)
+{
+        unsigned char* loadBuf = WindData_load_start();
+        if(*loadBuf != WindType_String)
+        {
+                WindState_write_err("Expected type 'string' for load command, got type '%s'", WindType_get_str(*loadBuf));
+                return 0;
+        }
+        const char* loadPath = (const char*)(loadBuf + sizeof(unsigned char) + sizeof(unsigned));
+        if(!IOUtil_load(loadPath))
+        {
+                WindState_write_err("File path '%s' cannot be read from.", loadPath);
+                return 0;
+        }
+        printf("Loaded data from: %s\n", loadPath);
+        return 1;
+}
