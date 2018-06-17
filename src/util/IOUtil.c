@@ -64,6 +64,10 @@ int IOUtil_print(const unsigned char* start, const unsigned char* end)
                         start++;
                         printf("* ");
                         break;
+                case WindType_Pow:
+                        start++;
+                        printf("** ");
+                        break;
                 case WindType_Divide:
                         start++;
                         printf("/ ");
@@ -174,7 +178,7 @@ int IOUtil_load(const char* path)
                 fclose(loadFile);
                 exit(1);
         }
-        fread(WindData_active_start(), sizeof(unsigned char), WindData_active_len(), loadFile);
+        fread(WindData_active_start(), sizeof(unsigned char), fSize, loadFile);
         WindData_active_adv(fSize);
         if(!DataUtil_validate(WindData_active_start(), WindData_active_ptr()))
         {

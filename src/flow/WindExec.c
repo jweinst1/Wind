@@ -88,7 +88,7 @@ int WindExec_save(void)
                 WindState_write_err("File path '%s' cannot be written to.", savePath);
                 return 0;
         }
-        printf("saved @ %s\n", savePath);
+        printf("Saved at: %s\n", savePath);
         return 1;
 }
 

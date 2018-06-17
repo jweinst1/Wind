@@ -21,6 +21,7 @@ unsigned long DataUtil_copy(unsigned char* dest,
                 case WindType_Plus:
                 case WindType_Minus:
                 case WindType_Multiply:
+                case WindType_Pow:
                 case WindType_Divide:
                         *dest++ = *src++;
                         break;
@@ -64,6 +65,7 @@ int DataUtil_validate(const unsigned char* start, const unsigned char* end)
                 case WindType_Plus:
                 case WindType_Minus:
                 case WindType_Multiply:
+                case WindType_Pow:
                 case WindType_Divide:
                         start++;
                         break;

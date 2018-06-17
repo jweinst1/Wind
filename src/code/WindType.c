@@ -11,6 +11,7 @@ static const char* WindType_STR_NOT = "Not";
 static const char* WindType_STR_PLUS = "Plus";
 static const char* WindType_STR_MINUS = "Minus";
 static const char* WindType_STR_MULTIPLY = "Multiply";
+static const char* WindType_STR_POW = "Power";
 static const char* WindType_STR_DIVIDE = "Divide";
 static const char* WindType_STR_SEP = "Separator";
 static const char* WindType_STR_DEL = "Delete";
@@ -30,6 +31,7 @@ const char* WindType_get_str(WindType type)
         case WindType_Plus: return WindType_STR_PLUS;
         case WindType_Minus: return WindType_STR_MINUS;
         case WindType_Multiply: return WindType_STR_MULTIPLY;
+        case WindType_Pow: return WindType_STR_POW;
         case WindType_Divide: return WindType_STR_DIVIDE;
         case WindType_Del: return WindType_STR_DEL;
         case WindType_Sep: return WindType_STR_SEP;

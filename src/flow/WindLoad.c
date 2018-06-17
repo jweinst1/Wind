@@ -17,6 +17,7 @@ static unsigned char WIND_SEP[] = {WindType_Sep};
 static unsigned char WIND_PLUS[] = {WindType_Plus};
 static unsigned char WIND_MINUS[] = {WindType_Minus};
 static unsigned char WIND_MULTIPLY[] = {WindType_Multiply};
+static unsigned char WIND_POW[] = {WindType_Pow};
 static unsigned char WIND_DIVIDE[] = {WindType_Divide};
 static unsigned char WIND_DEL[] = {WindType_Del};
 static unsigned char WIND_LT[] = {WindType_Lt};
@@ -71,6 +72,11 @@ void WindLoad_minus(void)
 void WindLoad_multiply(void)
 {
         WindData_load_write(WIND_MULTIPLY, sizeof(WIND_MULTIPLY));
+}
+
+void WindLoad_pow(void)
+{
+        WindData_load_write(WIND_POW, sizeof(WIND_POW));
 }
 
 void WindLoad_divide(void)

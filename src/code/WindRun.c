@@ -113,9 +113,18 @@ int WindRun_load(const char** code)
                         WindLoad_plus();
                         continue;
                 case '*':
-                        *code += 1;
-                        WindLoad_multiply();
-                        continue;
+                        if((*code)[1] == '*')
+                        {
+                                *code += 2;
+                                WindLoad_pow();
+                                continue;
+                        }
+                        else
+                        {
+                                *code += 1;
+                                WindLoad_multiply();
+                                continue;
+                        }
                 case '/':
                         *code += 1;
                         WindLoad_divide();
