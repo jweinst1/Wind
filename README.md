@@ -1,5 +1,7 @@
 # Wind
 
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/jweinst1/Wind/blob/master/LICENSE.md)
+
 The Flow-based Programming Language
 
 ## Intro
@@ -15,6 +17,16 @@ wind> push 5 6 77 44 -> out -> filter > 10 -> out -> filter -> out
 [ 77 44 ]
 wind> out
 [ 77 44 ]
+```
+
+It can also seamlessly reduce and transform data
+
+```
+wind> push 5 5 5 -> out
+[ 5 5 5 ]
+wind> map ** 4 | - 1 -> reduce +
+wind> out
+[ 1872 ]
 ```
 
 To optimize both speed and memory usage, `Wind` does not use dynamic memory allocation. It relies on static memory. The advantages of this is to allow the amount of memory Wind uses to be highly customizable at compile time, and to make `Wind` a truly scalable language, one that fits in embedded systems, or much larger, heavy systems.
@@ -117,7 +129,11 @@ Wind -t "push 5 3 4 -> reduce + -> out -> push 6 6 6 6 6 6 6 -> reduce + -> out 
 Time: 0.000081
 ```
 
+#### `-h`:
+
+The `-h` flag prints the `Wind` help manual to stdout. You can find more detailed guides in the wiki for this repo. A website in the near future will have a full fledged documentation.
+
 
 ## Stage
 
-`Wind` is currently in the alpha development stage, the first release version is still in progress.
+`Wind` is currently in the alpha development stage, the first production release version is still in progress. The language format and overall scheme will not change, but many components and values will be added to it in the near future. When an initial release is made, a specification for the language will also be published.

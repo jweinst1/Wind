@@ -7,7 +7,7 @@
 
 #define LangInfo_NAME "Wind"
 
-#define LangInfo_REPL_INS "The Wind Programming Language REPL\nTo exit, simply enter 'exit'.\n"
+#define LangInfo_REPL_INS "The Wind Programming Language REPL\nTo exit, simply enter 'exit'. For help, run with '-h' flag.\n"
 
 #define LangInfo_HELP "The Wind Programming Language Help Guide\n \
          save command: \n \
