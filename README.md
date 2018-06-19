@@ -7,6 +7,9 @@ The Flow-based Programming Language
 # Table of Contents
 
 - [Intro](#intro)
+- [Installation] (#installation)
+- [Guide] (#guide)
+  - [Syntax] (#syntax)
 
 ## Intro
 
@@ -136,6 +139,28 @@ Time: 0.000081
 #### `-h`:
 
 The `-h` flag prints the `Wind` help manual to stdout. You can find more detailed guides in the wiki for this repo. A website in the near future will have a full fledged documentation.
+
+## Guide
+
+The following details the language components, features, and syntax.
+
+### Syntax
+
+The `Wind` language uses a continuous, stream-like syntax. It is meant to be read in a linear, straight fashion that emphasizes fixed units of commands and computation. 
+
+The general format of `Wind` is the following:
+
+```
+(command) (arguments ...) -> (command) (arguments ...)
+```
+
+Comments are denoted by bounded semicolons, between `;`, such as
+
+```
+push 5 -> ;this is a comment; out
+```
+where anything between the semicolons is ignored.
+
 
 
 ## Stage
