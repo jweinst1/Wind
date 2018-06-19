@@ -4,6 +4,10 @@
 
 The Flow-based Programming Language
 
+# Table of Contents
+
+- [Intro](#intro)
+
 ## Intro
 
 `Wind` is a fast, portable programming language based on the concept of flows, or specifically Flow-based programming . `Wind` is designed to make it easy to filter, map, reduce, through large amounts of dynamic data. Wind is built in a highly unique way that allows data to flow from one container to another. `Wind` views code as a continuous flow of information, not singular programs. `Wind` uses no virtual machine, but a method of transporting and transforming data from one place to another.
