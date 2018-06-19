@@ -8,8 +8,14 @@ The Flow-based Programming Language
 
 - [Intro](#intro)
 - [Installation](#installation)
+  - [Memory Customization](#memory-customization)
+     - [wind mem buf](#wind_mem_buf)
+     - [wind mem load](#wind_mem_load)
+     - [wind mem comp](#wind_mem_comp)
 - [Guide](#guide)
   - [Syntax](#syntax)
+     - [Syntax Errors](#syntax-errors)
+  - [Commands](#commands)
 
 ## Intro
 
@@ -161,6 +167,25 @@ push 5 -> ;this is a comment; out
 ```
 where anything between the semicolons is ignored.
 
+The `->` symbol indicates the end of one command-argument sequence and the transition of `Wind` to execute that command with the read arguments. More information about the low level architecture of `Wind` will be available in the wiki.
+
+#### Syntax Errors
+
+Commands and arguments to commands, (values), share separate namespaces. Any incorrect command or value picked up by `Wind` will result in a syntax error. Here is an example:
+
+```
+wind> push l -> out
+Error: Expected argument or value, found 'l'
+```
+`l` does not correspond to any recognizable value.
+
+### Commands
+
+The `Wind` language uses an effecient set of commands to manipualte and process a flow of data. Commands are named words that appear before an arbitrary sequence of arguments. 
+
+#### out
+
+The
 
 
 ## Stage
