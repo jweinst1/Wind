@@ -7,9 +7,9 @@ The Flow-based Programming Language
 # Table of Contents
 
 - [Intro](#intro)
-- [Installation] (#installation)
-- [Guide] (#guide)
-  - [Syntax] (#syntax)
+- [Installation](#installation)
+- [Guide](#guide)
+  - [Syntax](#syntax)
 
 ## Intro
 
