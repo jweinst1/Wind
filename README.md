@@ -4,6 +4,8 @@
 
 The Flow-based Programming Language
 
+![Main Md Gif](images/intro_wind.gif)
+
 # Table of Contents
 
 - [Intro](#intro)
@@ -16,6 +18,7 @@ The Flow-based Programming Language
   - [Syntax](#syntax)
      - [Syntax Errors](#syntax-errors)
   - [Commands](#commands)
+     - [out](#out)
 
 ## Intro
 
@@ -152,7 +155,7 @@ The following details the language components, features, and syntax.
 
 ### Syntax
 
-The `Wind` language uses a continuous, stream-like syntax. It is meant to be read in a linear, straight fashion that emphasizes fixed units of commands and computation. 
+The `Wind` language uses a continuous, stream-like syntax. It is meant to be read in a linear, straight fashion that emphasizes fixed units of commands and computation.
 
 The general format of `Wind` is the following:
 
@@ -181,11 +184,20 @@ Error: Expected argument or value, found 'l'
 
 ### Commands
 
-The `Wind` language uses an effecient set of commands to manipualte and process a flow of data. Commands are named words that appear before an arbitrary sequence of arguments. 
+The `Wind` language uses an effecient set of commands to manipualte and process a flow of data. Commands are named words that appear before an arbitrary sequence of arguments.
 
 #### out
 
-The
+The `out` command prints the currently active data into stdout.
+
+*Example*
+
+```
+wind> push 5 -> out
+[ 5 ]
+wind> clr -> out
+[ ]
+```
 
 
 ## Stage
