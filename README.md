@@ -210,6 +210,24 @@ wind> map ! -> out
 [ False False False ]
 ``` 
 
+#### Bools
+
+The `Bool` type in `Wind` consists of two possible values, `True` and `False`. This type is used to represent logical false and true results and data. Depending on the operation, bools can also be represented as `Number` values. In the case of filtering, the situation of not being a `Number` causes them to fail the greater than filter.
+
+```
+wind> push 5 True False -> out
+[ 5 True False ]
+wind> filter > 0 -> out
+[ 5 ]
+```
+
+However, with mapping, True corresponds to `1` while False corresponds to `0`.
+
+```
+wind> push 5 -> map + True False | * True -> out
+[ 6 ]
+```
+
 ### Commands
 
 The `Wind` language uses an effecient set of commands to manipualte and process a flow of data. Commands are named words that appear before an arbitrary sequence of arguments.
