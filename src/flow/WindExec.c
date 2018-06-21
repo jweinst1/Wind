@@ -88,7 +88,7 @@ int WindExec_save(void)
                 WindState_write_err("File path '%s' cannot be written to.", savePath);
                 return 0;
         }
-        printf("Saved at: %s\n", savePath);
+        printf("Saved at: %s\n", IOUtil_path_buf());
         return 1;
 }
 
@@ -106,6 +106,6 @@ int WindExec_load(void)
                 WindState_write_err("File path '%s' cannot be read from.", loadPath);
                 return 0;
         }
-        printf("Loaded data from: %s\n", loadPath);
+        printf("Loaded data from: %s\n", IOUtil_path_buf());
         return 1;
 }

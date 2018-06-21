@@ -144,6 +144,11 @@ void IOUtil_repl(void)
         }
 }
 
+const char* IOUtil_path_buf(void)
+{
+        return IOUtil_PATH_BUF;
+}
+
 // Saves active buffer binary representation.
 int IOUtil_save(const char* path)
 {
