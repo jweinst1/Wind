@@ -21,4 +21,8 @@ int WindExec_map(void);
 
 int WindExec_filter(void);
 
+int WindExec_save(void);
+
+int WindExec_load(void);
+
 #endif

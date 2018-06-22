@@ -25,6 +25,12 @@ int WindRun_exec(const char** code)
         case WindCommand_reduce:
                 WindReduce_reduce();
                 break;
+        case WindCommand_save:
+                WindExec_save();
+                break;
+        case WindCommand_load:
+                (void) WindExec_load();
+                break;
         }
         WindData_load_reset(); // Resets load buf.
         WindState_set_cmd(WindCommand_null);
@@ -85,6 +91,14 @@ int WindRun_load(const char** code)
                                 WindLoad_minus();
                         }
                         continue;
+                case '"':
+                        *code += 1;
+                        if(!WindLoad_string(code))
+                        {
+                                WindState_write_err("Got \" for string but no closing \".");
+                                return 0;
+                        }
+                        continue;
                 case '|':
                         *code += 1;
                         WindLoad_sep();
@@ -99,9 +113,18 @@ int WindRun_load(const char** code)
                         WindLoad_plus();
                         continue;
                 case '*':
-                        *code += 1;
-                        WindLoad_multiply();
-                        continue;
+                        if((*code)[1] == '*')
+                        {
+                                *code += 2;
+                                WindLoad_pow();
+                                continue;
+                        }
+                        else
+                        {
+                                *code += 1;
+                                WindLoad_multiply();
+                                continue;
+                        }
                 case '/':
                         *code += 1;
                         WindLoad_divide();
@@ -250,6 +273,34 @@ int WindRun_command(const char** code)
                                 return 0;
                         }
                         break;
+                case 'l':
+                        switch((*code)[1])
+                        {
+                        case 'o':
+                                switch((*code)[2])
+                                {
+                                case 'a':
+                                        switch((*code)[3])
+                                        {
+                                        case 'd':
+                                                *code += 4;
+                                                WindState_set_cmd(WindCommand_load);
+                                                goto TRANS_TO_LOAD;
+                                        default:
+                                                WindState_write_err("Expected command symbol, found 'loa%c'", *code[3]);
+                                                return 0;
+                                        }
+                                        break;
+                                default:
+                                        WindState_write_err("Expected command symbol, found 'lo%c'", *code[2]);
+                                        return 0;
+                                }
+                                break;
+                        default:
+                                WindState_write_err("Expected command symbol, found 'l%c'", *code[1]);
+                                return 0;
+                        }
+                        break;
                 case 'm':
                         switch((*code)[1])
                         {
@@ -332,6 +383,34 @@ int WindRun_command(const char** code)
                         else
                         {
                                 WindState_write_err("Expected command symbol, found 'r%c%c%c'", *code[1], *code[2], *code[3]);
+                                return 0;
+                        }
+                        break;
+                case 's':
+                        switch((*code)[1])
+                        {
+                        case 'a':
+                                switch((*code)[2])
+                                {
+                                case 'v':
+                                        switch((*code)[3])
+                                        {
+                                        case 'e':
+                                                *code += 4;
+                                                WindState_set_cmd(WindCommand_save);
+                                                goto TRANS_TO_LOAD;
+                                        default:
+                                                WindState_write_err("Expected command symbol, found 'sav%c'", *code[3]);
+                                                return 0;
+                                        }
+                                        break;
+                                default:
+                                        WindState_write_err("Expected command symbol, found 'sa%c'", *code[2]);
+                                        return 0;
+                                }
+                                break;
+                        default:
+                                WindState_write_err("Expected command symbol, found 's%c'", *code[1]);
                                 return 0;
                         }
                         break;

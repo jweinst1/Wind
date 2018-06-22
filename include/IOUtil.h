@@ -1,6 +1,8 @@
 #ifndef IO_UTIL_H
 #define IO_UTIL_H
 
+#include <string.h>
+
 #include "WindData.h"
 #include "WindState.h"
 #include "WindComp.h"
@@ -28,8 +30,14 @@ void IOUtil_debug(void);
 // Starts a read eval print loop.
 void IOUtil_repl(void);
 
+// Gets current contents of path buffer.
+const char* IOUtil_path_buf(void);
+
 // Saves the current active buffer as a binary file with extension .windb
 int IOUtil_save(const char* path);
+
+// Loads a .bwind file into the active buffer.
+int IOUtil_load(const char* path);
 
 
 #endif

@@ -78,6 +78,7 @@ unsigned WindComp_write_typed(const unsigned char* item)
         case WindType_Plus:
         case WindType_Minus:
         case WindType_Multiply:
+        case WindType_Pow:
         case WindType_Divide:
                 WindComp_BUF[0] = *item;
                 WindComp_ITEM_LEN = sizeof(unsigned char);
@@ -93,6 +94,12 @@ unsigned WindComp_write_typed(const unsigned char* item)
                         WindComp_BUF[ds] = *item++;
                 WindComp_ITEM_LEN = sizeof(unsigned char) + sizeof(double);
                 return WindComp_ITEM_LEN;
+        case WindType_String:
+                WindComp_BUF[0] = *item++;
+                WindComp_ITEM_LEN = *(unsigned*)(item) + sizeof(unsigned) + sizeof(unsigned char);
+                memcpy(WindComp_BODY, (unsigned char*)item, WindComp_ITEM_LEN);
+                return WindComp_ITEM_LEN;
+
         default:
                 return 0;
         }
@@ -192,7 +199,7 @@ unsigned WindComp_apply_minus(unsigned char* args, const unsigned char* argsEnd)
         return mover - args;
 }
 
-unsigned WindComp_apply_multiply(unsigned char* args, const unsigned char* argsEnd)
+unsigned WindComp_apply_multiply(unsigned char* args, const unsigned char* argsEnd, int powOp)
 {
         if(WindComp_BUF[0] != WindType_Number)
         {
@@ -206,7 +213,8 @@ unsigned WindComp_apply_multiply(unsigned char* args, const unsigned char* argsE
                 {
                 case WindType_Number:
                         mover++;
-                        WindComp_MULTIPLY_NUM(WindComp_BODY, mover);
+                        if(powOp) WindComp_POW_NUM(WindComp_BODY, mover);
+                        else WindComp_MULTIPLY_NUM(WindComp_BODY, mover);
                         mover += sizeof(double);
                         break;
                 case WindType_Bool:
@@ -363,7 +371,13 @@ int WindComp_map(unsigned char* ins, const unsigned char* insEnd)
                         break;
                 case WindType_Multiply:
                         ins++;
-                        moveChecker = WindComp_apply_multiply(ins, insEnd);
+                        moveChecker = WindComp_apply_multiply(ins, insEnd, 0);
+                        if(moveChecker) ins += moveChecker;
+                        else return 0;
+                        break;
+                case WindType_Pow:
+                        ins++;
+                        moveChecker = WindComp_apply_multiply(ins, insEnd, 1);
                         if(moveChecker) ins += moveChecker;
                         else return 0;
                         break;
