@@ -20,6 +20,8 @@ The Flow-based Programming Language
      - [Syntax Errors](#syntax-errors)
   - [Types](#types)
      - [None](#none)
+     - [Bools](#bools)
+     - [Numbers](#numbers)
   - [Commands](#commands)
      - [out](#out)
      - [push](#push)
@@ -227,6 +229,31 @@ However, with mapping, True corresponds to `1` while False corresponds to `0`.
 wind> push 5 -> map + True False | * True -> out
 [ 6 ]
 ```
+
+#### Numbers
+
+In `Wind`, numbers represent numerical data. They are implemented as 64-bit, double precision floating point numbers. Yet, in printed representation, they are represented as either integers, or floats, depeneding on their value.
+
+```
+wind> push 5 5 5 -> out
+[ 5 5 5 ]
+```
+Yet if numbers aren't convertible to integers, they will be printed differently:
+
+```
+wind> push 5 5 5 -> out
+[ 5 5 5 ]
+wind>  map / 60 -> out
+[ 0.083 0.083 0.083 ]
+wind>  map ** 0.3 -> out
+[ 0.475 0.475 0.475 ]
+```
+
+#### Strings
+
+Strings in `Wind` don't have too much functionality right now, but a lot more is planned for the future. Mentioned elsewhere in this guide is using strings as paths to load and save `.bwind` files.
+
+Strings are always bounded by `"` double quotes.
 
 ### Commands
 
