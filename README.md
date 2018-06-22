@@ -2,6 +2,8 @@
 
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/jweinst1/Wind/blob/master/LICENSE.md)
 
+![Logo](images/windlogo.png)
+
 The Flow-based Programming Language
 
 ![Main Md Gif](images/intro_wind.gif)`
